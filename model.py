@@ -21,7 +21,12 @@ class User(db.Model):
     fav_trend = db.Column(db.String(5))
 
     diary_entries = db.relationship("DiaryEntry", back_populates="user")
-    med_entries = db.relationship("MedEntry", back_populates="med_entries")
+    med_entries = db.relationship("MedEntry", back_populates="user")
+
+    def __repr__(self):
+        """String representation for User object."""
+
+        return f"<User email={self.email}>"
 
 
 class DiaryEntry(db.Model):
@@ -31,7 +36,7 @@ class DiaryEntry(db.Model):
 
     entry_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-    datetime = db.Column(db.Datetime, nullable=False)
+    dt = db.Column(db.DateTime, nullable=False)
     sad_score = db.Column(db.Integer, nullable=False)
     angry_score = db.Column(db.Integer, nullable=False)
     fear_score = db.Column(db.Integer, nullable=False)
@@ -46,6 +51,11 @@ class DiaryEntry(db.Model):
 
     user = db.relationship("User", back_populates="diary_entries")
 
+    def __repr__(self):
+        """String representation for DiaryEntry object."""
+
+        return f"<DiaryEntry entry_id={self.entry_id} user_id={self.user_id}>"
+
 
 class MedEntry(db.Model):
     """Model for a med entry."""
@@ -54,17 +64,22 @@ class MedEntry(db.Model):
 
     entry_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-    datetime = db.Column(db.Datetime, nullable=False)
+    dt = db.Column(db.DateTime, nullable=False)
 
     user = db.relationship("User", back_populates="med_entries")
 
+    def __repr__(self):
+        """String representation for MedEntry object."""
+
+        return f"<MedEntry entry_id={self.entry_id} user_id={self.user_id}>"
 
 
-def connect_to_db(app, db_name):
-    """Connect app to database."""
+def connect_to_db(flask_app, db_uri="postgresql:///diary-card-app", echo=True):
+    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+    flask_app.config["SQLALCHEMY_ECHO"] = echo
+    flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql:///{db_name}"
-    app.config["SQLALCHEMY_ECHO"] = True
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    db.app = app
-    db.init_app(app)
+    db.app = flask_app
+    db.init_app(flask_app)
+
+    print("Connected to the db!")
