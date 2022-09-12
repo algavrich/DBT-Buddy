@@ -35,7 +35,8 @@ class DiaryEntry(db.Model):
     __tablename__ = "diary_entries"
 
     entry_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), 
+                        nullable=False)
     dt = db.Column(db.DateTime, nullable=False)
     sad_score = db.Column(db.Integer, nullable=False)
     angry_score = db.Column(db.Integer, nullable=False)
@@ -63,7 +64,8 @@ class MedEntry(db.Model):
     __tablename__ = "med_entries"
 
     entry_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), 
+                        nullable=False)
     dt = db.Column(db.DateTime, nullable=False)
 
     user = db.relationship("User", back_populates="med_entries")
@@ -74,7 +76,8 @@ class MedEntry(db.Model):
         return f"<MedEntry entry_id={self.entry_id} user_id={self.user_id}>"
 
 
-def connect_to_db(flask_app, db_uri="postgresql:///diary-card-app", echo=True):
+def connect_to_db(flask_app, db_uri="postgresql:///diary-card-app", 
+                  echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
