@@ -73,7 +73,7 @@ def create_account():
                             med_tracking, med_reminders)
             db.session.add(new_user)
             db.session.commit()
-            
+
             flash("Successfully created account")
             return redirect("/dashboard")
 
