@@ -1,6 +1,7 @@
 """CRUD functions."""
 
-from model import db, User, DiaryEntry, MedEntry, connect_to_db
+from model import (db, connect_to_db, User, DiaryEntry, MedEntry, UrgeEntry,
+                   ActionEntry, Urge, Action)
 from datetime import date, datetime
 
 
@@ -35,11 +36,6 @@ def create_diary_entry(user_id, dt, sad_score, angry_score, fear_score,
         fear_score=fear_score, 
         happy_score=happy_score, 
         shame_score=shame_score, 
-        urge_1=urge_1, 
-        urge_2=urge_2, 
-        urge_3=urge_3, 
-        action_1=action_1, 
-        action_2=action_2, 
         skills_used=skills_used
         )
 
@@ -49,30 +45,92 @@ def create_diary_entry(user_id, dt, sad_score, angry_score, fear_score,
 def create_med_entry(user_id, dt):
     """Create and return a new med entry."""
 
-    m_entry = MedEntry(user_id=user_id, dt=dt)
+    m_entry = MedEntry(
+        user_id=user_id, 
+        dt=dt
+        )
 
     return m_entry
+
+
+def create_urge_entry(urge_id, d_entry_id, user_id, dt):
+    """Create and return a new urge entry."""
+
+    u_entry = UrgeEntry(
+        urge_id=urge_id, 
+        d_entry_id=d_entry_id,
+        user_id=user_id, 
+        dt=dt
+        )
+
+    return u_entry
+
+
+def create_action_entry(action_id, d_entry_id, user_id, dt):
+    """Create and return a new action entry."""
+
+    a_entry = ActionEntry(
+        action_id=action_id, 
+        d_entry_id=d_entry_id, 
+        user_id=user_id, 
+        dt=dt
+        )
+
+    return a_entry
+
+
+def create_urge(user_id, description):
+    """Create and return a new urge."""
+
+    urge = Urge(
+        user_id=user_id, 
+        description=description
+        )
+
+    return urge
+
+
+def create_action(user_id, description):
+    """Create and return a new action."""
+
+    action = Action(
+        user_id=user_id, 
+        description=description
+        )
+
+    return action
 
 
 def example_data():
     """Create test data."""
 
-    new_users = []
-    new_d_entries = []
-    new_m_entries = []
-    for i in range(1, 11):
-        new_users.append(create_user(f"user{i}@test.com", f"password{i}",
+    stuff_to_add = []
+    for i in range(10):
+        # Create ten test users
+        stuff_to_add.append(create_user(f"user{i}@test.com", f"password{i}",
                                      f"{i}{i}{i}{i}{i}{i}{i}{i}{i}{i}", True,
                                      True, True, f"6666666666", "a_1"))
-        for j in range(10):
-            new_d_entries.append(create_diary_entry(i, datetime.now(), 5, 5,
+        for j in range(3):
+            # For each test user, create three test urges
+            stuff_to_add.append(create_urge((i + 1), "Urge Description"))
+        for k in range(2):
+            # For each test user, create two test actions
+            stuff_to_add.append(create_action((i + 1), "Action Description"))
+        for l in range(10):
+            # For each test user, create ten test diary entries
+            stuff_to_add.append(create_diary_entry((i + 1), datetime.now(), 5, 5,
                                                     5, 5, 5, 5, 5, 5, True,
                                                     True, 8))
-            new_m_entries.append(create_med_entry(i, datetime.now()))
+            for m in range(3):
+                # For each test diary entry, create three test urge entries
+                stuff_to_add.append(create_urge_entry((m + 1), (l + 1), (i + 1), datetime.now()))
+            for n in range(2):
+                # For each test diary entry, create two test action entries
+                stuff_to_add.append(create_action_entry((n + 1), (l + 1), (i + 1), datetime.now()))
+            # For each test user, create ten test med entries
+            stuff_to_add.append(create_med_entry((i + 1), datetime.now()))
 
-    db.session.add_all(new_users)
-    db.session.add_all(new_d_entries)
-    db.session.add_all(new_m_entries)
+    db.session.add_all(stuff_to_add)
     db.session.commit()
     
 
