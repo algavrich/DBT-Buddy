@@ -1,6 +1,7 @@
 """CRUD functions."""
 
 from model import db, User, DiaryEntry, MedEntry, connect_to_db
+from datetime import date, datetime
 
 
 def create_user(email, password, phone_number, entry_reminders, med_tracking,
@@ -26,7 +27,6 @@ def create_diary_entry(user_id, dt, sad_score, angry_score, fear_score,
                  action_2, skills_used):
     """Create and return a new diary entry."""
 
-    # is this ok? or should i do the indentation like in the def line
     d_entry = DiaryEntry(
         user_id=user_id, 
         dt=dt, 
@@ -53,6 +53,30 @@ def create_med_entry(user_id, dt):
 
     return m_entry
 
+
+def example_data():
+    """Create test data."""
+
+    new_users = []
+    new_d_entries = []
+    new_m_entries = []
+    for i in range(1, 11):
+        new_users.append(create_user(f"user{i}@test.com", f"password{i}",
+                                     f"{i}{i}{i}{i}{i}{i}{i}{i}{i}{i}", True,
+                                     True, True, f"6666666666", "a_1"))
+        for j in range(10):
+            new_d_entries.append(create_diary_entry(i, datetime.now(), 5, 5,
+                                                    5, 5, 5, 5, 5, 5, True,
+                                                    True, 8))
+            new_m_entries.append(create_med_entry(i, datetime.now()))
+
+    db.session.add_all(new_users)
+    db.session.add_all(new_d_entries)
+    db.session.add_all(new_m_entries)
+    db.session.commit()
+    
+
+
 if __name__ == '__main__':
     from server import app
-    connect_to_db(app)
+    connect_to_db(app, db_uri="postgresql:///test-db")

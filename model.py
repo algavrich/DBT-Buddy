@@ -46,8 +46,8 @@ class DiaryEntry(db.Model):
     urge_1 = db.Column(db.Integer, nullable=False)
     urge_2 = db.Column(db.Integer, nullable=False)
     urge_3 = db.Column(db.Integer, nullable=False)
-    action_1 = db.Column(db.Integer, nullable=False)
-    action_2 = db.Column(db.Integer, nullable=False)
+    action_1 = db.Column(db.Boolean, nullable=False)
+    action_2 = db.Column(db.Boolean, nullable=False)
     skills_used = db.Column(db.Integer, nullable=False)
 
     user = db.relationship("User", back_populates="diary_entries")
@@ -84,5 +84,6 @@ def connect_to_db(flask_app, db_uri="postgresql:///diary-card-app",
 
     db.app = flask_app
     db.init_app(flask_app)
+    db.create_all()
 
     print("Connected to the db!")

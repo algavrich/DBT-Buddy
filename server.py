@@ -14,7 +14,20 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """View function for homepage."""
 
-    return "Hello, World!"
+    return render_template("login.html")
+
+
+@app.route('/login')
+def login():
+    """Log user in."""
+
+    email = request.args.get("email")
+    password = request.args.get("password")
+
+    print(email)
+    print(password)
+
+    return redirect("/")
 
 
 if __name__ == "__main__":
