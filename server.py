@@ -37,7 +37,7 @@ def login():
         return redirect("/dashboard")
 
     else:
-        flash("Incorrect email or pasword")
+        flash("Incorrect email or password")
         return redirect("/")
 
 
