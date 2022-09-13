@@ -3,6 +3,7 @@
 from model import (db, connect_to_db, User, DiaryEntry, MedEntry, UrgeEntry,
                    ActionEntry, Urge, Action)
 from datetime import date, datetime
+from sqlalchemy import cast, DATE
 
 
 def create_user(email, password, phone_number, entry_reminders, med_tracking,
@@ -164,6 +165,14 @@ def get_actions_by_user_id(user_id):
 
     return user.actions
 
+
+def get_diary_entries_by_user_date(user_id, q_date):
+    """Returns a list of user's diary entries when given user ID and date."""
+
+    return DiaryEntry.query.filter(
+        DiaryEntry.user_id == user_id,
+        cast(DiaryEntry.dt, DATE) == q_date
+        ).all()
 
 def example_data():
     """Create test data."""
