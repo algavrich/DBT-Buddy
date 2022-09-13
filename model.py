@@ -17,8 +17,6 @@ class User(db.Model):
     entry_reminders = db.Column(db.Boolean, nullable=False)
     med_tracking = db.Column(db.Boolean, nullable=False)
     med_reminders = db.Column(db.Boolean, nullable=False)
-    emgcy_contact = db.Column(db.String(20))
-    fav_trend = db.Column(db.String(5))
 
     diary_entries = db.relationship("DiaryEntry", back_populates="user")
     med_entries = db.relationship("MedEntry", back_populates="user")
@@ -85,6 +83,7 @@ class UrgeEntry(db.Model):
     d_entry_id = db.Column(db.Integer, db.ForeignKey("diary_entries.entry_id"), nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
     dt = db.Column(db.DateTime, nullable=False)
+    score = db.Column(db.Integer, nullable=False)
 
     diary_entry = db.relationship("DiaryEntry", back_populates="urge_entries")
     urge = db.relationship("Urge", back_populates="urge_entries")
@@ -105,6 +104,7 @@ class ActionEntry(db.Model):
     d_entry_id = db.Column(db.Integer, db.ForeignKey("diary_entries.entry_id"), nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
     dt = db.Column(db.DateTime, nullable=False)
+    score = db.Column(db.Integer, nullable=False)
 
     diary_entry = db.relationship("DiaryEntry", back_populates="action_entries")
     action = db.relationship("Action", back_populates="action_entries")
