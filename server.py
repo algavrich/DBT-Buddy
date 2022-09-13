@@ -53,10 +53,11 @@ def create_account_form():
 def create_account():
     """Create new account."""
 
-    # TODO add email validation
+    # TODO add input validation
 
     email = request.form.get("email")
     password = request.form.get("password")
+    password2 = request.form.get("password-2")
     phone_number = request.form.get("phone-number")
     entry_reminders = request.form.get("entry-reminders")
     med_tracking = request.form.get("med-tracking")
@@ -67,12 +68,17 @@ def create_account():
     med_reminders = convert_radio_to_bool(med_reminders)
 
     if not crud.get_user_by_email(email):
-        new_user = crud.create_user(email, password, phone_number, entry_reminders,
-                         med_tracking, med_reminders)
-        db.session.add(new_user)
-        db.session.commit()
-        flash("Successfully created account")
-        return redirect("/dashboard")
+        if password == password2:
+            new_user = crud.create_user(email, password, phone_number, entry_reminders,
+                            med_tracking, med_reminders)
+            db.session.add(new_user)
+            db.session.commit()
+            
+            flash("Successfully created account")
+            return redirect("/dashboard")
+
+        flash("Passwords do not match")
+        return redirect("/")
 
     flash("That email is already associated with an account")
     return redirect("/")
