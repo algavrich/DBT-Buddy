@@ -28,8 +28,6 @@ def login():
     password = request.args.get("password")
 
     user = crud.get_user_by_email(email)
-    print(user)
-    print(email)
 
     if user and user.password == password:
         session["user_id"] = user.user_id
@@ -45,6 +43,9 @@ def login():
 def create_account_form():
     """Render create account page."""
     
+    if session.get('user_id'):
+        return redirect("/dashboard")
+    
     return render_template("create-account.html")
 
 
@@ -52,14 +53,50 @@ def create_account_form():
 def create_account():
     """Create new account."""
 
-    return "Info received"
+    # TODO add email validation
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+    phone_number = request.form.get("phone-number")
+    entry_reminders = request.form.get("entry-reminders")
+    med_tracking = request.form.get("med-tracking")
+    med_reminders = request.form.get("med-reminders")
+
+    entry_reminders = convert_radio_to_bool(entry_reminders)
+    med_tracking = convert_radio_to_bool(med_tracking)
+    med_reminders = convert_radio_to_bool(med_reminders)
+
+    if not crud.get_user_by_email(email):
+        new_user = crud.create_user(email, password, phone_number, entry_reminders,
+                         med_tracking, med_reminders)
+        db.session.add(new_user)
+        db.session.commit()
+        flash("Successfully created account")
+        return redirect("/dashboard")
+
+    flash("That email is already associated with an account")
+    return redirect("/")
 
 
 @app.route("/dashboard")
 def dashboard():
-    """Render dashboard."""
+    """Render the dashboard page."""
 
-    return "This is a dashboard"
+    if not session.get("user_id"):
+        return redirect("/")
+
+    return render_template("dashboard.html")
+
+
+def convert_radio_to_bool(var):
+    """Convert a radio value to boolean."""
+
+    if var == "yes":
+        var = True
+    else:
+        var = False
+
+    return var
 
 
 if __name__ == "__main__":
