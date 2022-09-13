@@ -12,7 +12,10 @@ app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
 def index():
-    """View function for homepage."""
+    """Render homepage."""
+
+    if session.get('user_id'):
+        return redirect("/dashboard")
 
     return render_template("login.html")
 
@@ -24,12 +27,41 @@ def login():
     email = request.args.get("email")
     password = request.args.get("password")
 
+    user = crud.get_user_by_email(email)
+    print(user)
     print(email)
-    print(password)
 
-    return redirect("/")
+    if user and user.password == password:
+        session["user_id"] = user.user_id
+        flash("Successfully logged in")
+        return redirect("/dashboard")
+
+    else:
+        flash("Incorrect email or pasword")
+        return redirect("/")
+
+
+@app.route("/create-account")
+def create_account_form():
+    """Render create account page."""
+    
+    return render_template("create-account.html")
+
+
+@app.route("/create-account", methods=["POST"])
+def create_account():
+    """Create new account."""
+
+    return "Info received"
+
+
+@app.route("/dashboard")
+def dashboard():
+    """Render dashboard."""
+
+    return "This is a dashboard"
 
 
 if __name__ == "__main__":
-    connect_to_db(app)
+    connect_to_db(app, db_uri="postgresql:///test-db")
     app.run(host="0.0.0.0", debug=True)

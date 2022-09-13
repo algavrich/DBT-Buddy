@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Create an Account</title>
+</head>
+
+<body>
+  <h1>Welcome to DBT Buddy</h1>
+
+  <div id="create-account">
+    <h3>Create Account</h3>
+
+    <form action="/create-account" method="POST" id="create-account-form">
+
+      <fieldset>
+        <legend>Your Info</legend>
+        <div>
+          Email <input type="text" name="email">
+        </div>
+
+        <div>
+          Password <input type="password" name="password">
+        </div>
+
+        <div>
+          Phone Number <input type="tel" name="phone-number">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Preferences</legend>
+
+        <label for="e-rem">
+          Would you like to receive entry reminders?
+        </label>
+        <div id="e-rem">
+          <input type="radio" name="entry-reminders" value="yes" id="e-rem-yes">
+          <label for="e-rem-yes">Yes</label>
+          <input type="radio" name="entry-reminders" value="no" id="e-rem-no">
+          <label for="e-rem-no">No</label>
+        </div>
+
+        <label for="med-track">
+          Would you like to track your daily medications?
+        </label>
+        <div id="med-track">
+          <input type="radio" name="med-reminders" value="yes" id="m-rem-yes">
+          <label for="m-rem-yes">Yes</label>
+          <input type="radio" name="med-reminders" value="no" id="m-rem-no">
+          <label for="m-rem-no">No</label>
+        </div>
+
+        <label for="med-track">
+          If so, would you like to receive reminders to take your medication?
+        </label>
+        <div id="med-track">
+          <input type="radio" name="med-reminders" value="yes" id="m-rem-yes">
+          <label for="m-rem-yes">Yes</label>
+          <input type="radio" name="med-reminders" value="no" id="m-rem-no">
+          <label for="m-rem-no">No</label>
+        </div>
+      </fieldset>
+
+      <div>
+        Submit <input type="submit">
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>
