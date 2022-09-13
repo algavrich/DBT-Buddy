@@ -101,6 +101,70 @@ def create_action(user_id, description):
     return action
 
 
+def get_user_by_id(user_id):
+    """Returns user with given ID."""
+
+    return User.query.get(user_id)
+
+
+def get_user_by_email(email):
+    """Returns user with given email."""
+
+    return User.query.filter(User.email == email).first()
+
+
+def get_users_entry_reminders():
+    """Returns all users who opted in to entry reminders."""
+
+    return User.query.filter(User.entry_reminders == True).all()
+
+
+def get_users_med_reminders():
+    """Returns all users who opted in to med reminders."""
+
+    return User.query.filter(User.med_reminders == True).all()
+
+
+def get_fav_trend_by_user_id(user_id):
+    """Returns user's favorite trend when given their ID."""
+
+    user = get_user_by_id(user_id)
+
+    return user.fav_trend
+
+
+def get_diary_entries_by_user_id(user_id):
+    """Returns list of user's diary entries when given their ID."""
+
+    user = get_user_by_id(user_id)
+    
+    return user.diary_entries
+
+
+def get_med_entries_by_user_id(user_id):
+    """Returns list of user's med entries when given their ID."""
+
+    user = get_user_by_id(user_id)
+    
+    return user.med_entries
+
+
+def get_urges_by_user_id(user_id):
+    """Returns a list of user's urges when given their ID."""
+
+    user = get_user_by_id(user_id)
+
+    return user.urges
+
+
+def get_actions_by_user_id(user_id):
+    """Returns a list of user's actions when given their ID."""
+
+    user = get_user_by_id(user_id)
+
+    return user.actions
+
+
 def example_data():
     """Create test data."""
 
