@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}New Diary Entry{% endblock %}
+
+{% block body %}
+<h1>New Diary Entry</h1>
+<form action="/new-diary-entry" method="POST">
+  <fieldset>
+    <legend>Rank how intensely you felt the following emotions today</legend>
+    <p>Rank each emotion from 0 (least intense) to 5 (most intense)</p>
+    <!-- TODO make dryer with JS array/DOM manipulation -->
+    <label for="sad">Sadness</label>
+    <input type="number" name="sad" id="sad" min="0" max="5">
+    <label for="angry">Anger</label>
+    <input type="number" name="angry" id="angry" min="0" max="5">
+    <label for="fear">Fear</label>
+    <input type="number" name="fear" id="fear" min="0" max="5">
+    <label for="happy">Happiness</label>
+    <input type="number" name="happy" id="happy" min="0" max="5">
+    <label for="shame">Shame</label>
+    <input type="number" name="shame" id="shame" min="0" max="5">
+  </fieldset>
+  <fieldset>
+    <legend>Rank how intensely you felt the following urges today</legend>
+    <p>Rank each urge from 0 (least intense) to 5 (most intense)</p>
+    <label for="urge-1">{{ user_urges[0] }}</label>
+    <input type="number" name="urge-1" id="urge-1" min="0" max="5">
+    <label for="urge-2">{{ user_urges[1] }}</label>
+    <input type="number" name="urge-2" id="urge-2" min="0" max="5">
+    <label for="urge-3">{{ user_urges[2] }}</label>
+    <input type="number" name="urge-3" id="urge-3" min="0" max="5">
+  </fieldset>
+  <fieldset>
+    <legend>Indicate if you did each of the following actions today</legend>
+    <label for="action-1">{{ user_actions[0] }}</label>
+    <div id="action-1">
+        <input type="radio" name="action-1" value="yes" id="action-1-yes">
+        <label for="action-1-yes">Yes</label>
+        <input type="radio" name="action-1" value="no" id="action-1-no">
+        <label for="action-1-no">No</label>
+    </div>
+    <label for="urge-2">{{ user_actions[1] }}</label>
+    <div id="action-2">
+        <input type="radio" name="action-2" value="yes" id="action-2-yes">
+        <label for="action-2-yes">Yes</label>
+        <input type="radio" name="action-2" value="no" id="action-2-no">
+        <label for="action-2-no">No</label>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Rank if you used skills today and if they helped</legend>
+    <div id="used-skills-guide">
+        <span>0 = Not thought about or used</span>
+        <span>1 = Thought about, not used, didn't want to</span>
+        <span>2 = Thought about, not used, wanted to</span>
+        <span>3 = Tried but couldn't use them</span><br>
+        <span>4 = Tried, could use them but they didn't help</span>
+        <span>5 = Tried, could use them, helped</span>
+        <span>6 = Didn't try, used them, didn't help</span>
+        <span>7 = Didn't try, used them, helped</span>
+    </div>
+    <label for="used-skills">Used Skills</label>
+    <input type="number" name="used-skills" id="used-skills" min="0" max="7">
+  </fieldset>
+  <div>
+    <input type="submit">
+  </div>
+</form>
+{% endblock %}
