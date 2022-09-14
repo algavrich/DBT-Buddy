@@ -6,11 +6,12 @@ from datetime import date, datetime
 from sqlalchemy import cast, DATE
 
 
-def create_user(email, password, phone_number, entry_reminders, med_tracking,
+def create_user(fname, email, password, phone_number, entry_reminders, med_tracking,
                 med_reminders):
     """Create and return a new user."""
 
     user = User(
+        fname=fname,
         email=email, 
         password=password, 
         phone_number=phone_number, 
@@ -179,9 +180,10 @@ def example_data():
     stuff_to_add = []
     for i in range(10):
         # Create ten test users
-        stuff_to_add.append(create_user(f"user{i}@test.com", f"password{i}",
-                                     f"{i}{i}{i}{i}{i}{i}{i}{i}{i}{i}", True,
-                                     True, True))
+        stuff_to_add.append(create_user("User{i}", f"user{i}@test.com",
+                                        f"password{i}",
+                                        f"{i}{i}{i}{i}{i}{i}{i}{i}{i}{i}",
+                                        True, True, True))
         for j in range(3):
             # For each test user, create three test urges
             stuff_to_add.append(create_urge((i + 1), "Urge Description"))

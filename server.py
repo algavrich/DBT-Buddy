@@ -31,7 +31,9 @@ def login():
 
     if user and user.password == password:
         session["user_id"] = user.user_id
-        flash("Successfully logged in")
+        session["fname"] = user.fname
+        print(session["fname"])
+        flash(f"Successfully logged in as {user.fname}")
         return redirect("/dashboard")
 
     else:
@@ -55,6 +57,7 @@ def create_account():
 
     # TODO add input validation
 
+    fname = request.form.get("fname")
     email = request.form.get("email")
     password = request.form.get("password")
     password2 = request.form.get("password-2")
@@ -69,7 +72,7 @@ def create_account():
 
     if not crud.get_user_by_email(email):
         if password == password2:
-            new_user = crud.create_user(email, password, phone_number, entry_reminders,
+            new_user = crud.create_user(fname, email, password, phone_number, entry_reminders,
                             med_tracking, med_reminders)
             db.session.add(new_user)
             db.session.commit()
