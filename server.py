@@ -32,7 +32,6 @@ def login():
     if user and user.password == password:
         session["user_id"] = user.user_id
         session["fname"] = user.fname
-        print(session["fname"])
         flash(f"Successfully logged in as {user.fname}")
         return redirect("/dashboard")
 
@@ -95,6 +94,16 @@ def dashboard():
         return redirect("/")
 
     return render_template("dashboard.html")
+
+
+@app.route("/logout")
+def logout():
+    """Log user out."""
+
+    session.pop("user_id")
+    session.pop("fname")
+
+    return redirect("/")
 
 
 def convert_radio_to_bool(var):
