@@ -22,19 +22,23 @@
     <fieldset>
       <legend>Your Info</legend>
       <div>
-        First Name <input type="text" name="fname">
+        <label for="fname">First Name</label>
+        <input type="text" name="fname" id="fname">
       </div>
 
       <div>
-        Email <input type="text" name="email">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email">
       </div>
 
       <div>
-        Password <input type="password" name="password">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password">
       </div>
 
       <div>
-        Retype Password <input type="password" name="password-2">
+        <label for="password-2">Retype Password</label>
+        <input type="password" name="password-2" id="password-2">
       </div>
 
       <!-- Fix this after regular expressions -->
@@ -45,6 +49,35 @@
 
     <fieldset>
       <legend>Preferences</legend>
+      <fieldset>
+        <legend>Pick three urges to track</legend>
+        <p>Please provide a concise name for each urge</p>
+        <div>
+          <label for="urge-1">Urge 1</label>
+          <input type="text" name="urge-1" id="urge-1">
+        </div>
+        <div>
+          <label for="urge-2">Urge 2</label>
+          <input type="text" name="urge-2" id="urge-2">
+        </div>
+        <div>
+          <label for="urge-3">Urge 3</label>
+          <input type="text" name="urge-3" id="urge-3">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Pick two actions to track</legend>
+        <p>Please provide a concise name for each action</p>
+        <div>
+          <label for="action-1">Action 1</label>
+          <input type="text" name="action-1" id="action-1">
+        </div>
+        <div>
+          <label for="action-2">Action 2</label>
+          <input type="text" name="action-2" id="action-2">
+        </div>
+      </fieldset>
 
       <label for="e-rem">
         Would you like to receive entry reminders?
@@ -80,7 +113,7 @@
     </fieldset>
 
     <div>
-      Submit <input type="submit">
+      <input type="submit">
     </div>
   </form>
   <script src="/static/js/createAccount.js"></script>
