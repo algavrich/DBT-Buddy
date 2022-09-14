@@ -2,7 +2,7 @@
 
 from model import (db, connect_to_db, User, DiaryEntry, MedEntry, UrgeEntry,
                    ActionEntry, Urge, Action)
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from sqlalchemy import cast, DATE
 
 
@@ -166,13 +166,29 @@ def get_actions_by_user_id(user_id):
     return user.actions
 
 
-def get_diary_entries_by_user_date(user_id, q_date):
+def get_diary_entry_by_user_date(user_id, q_date):
     """Returns a list of user's diary entries when given user ID and date."""
 
     return DiaryEntry.query.filter(
         DiaryEntry.user_id == user_id,
         cast(DiaryEntry.dt, DATE) == q_date
-        ).all()
+        ).first()
+
+
+def get_this_week_for_user(user_id):
+    """Returns a list of DiaryEntry objects for the current week when given a user ID."""
+    
+    today = date.today()
+
+    entries = []
+
+    for i in range(7):
+        date_get = today - timedelta(days = i)
+        entries.append(get_diary_entry_by_user_date(user_id, date_get))
+
+    return entries
+
+
 
 def example_data():
     """Create test data."""

@@ -5,6 +5,7 @@ from model import connect_to_db, db
 import crud
 from jinja2 import StrictUndefined
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "")
@@ -93,7 +94,23 @@ def dashboard():
     if not session.get("user_id"):
         return redirect("/")
 
-    return render_template("dashboard.html")
+    this_week = crud.get_this_week_for_user(session.get("user_id"))
+    entries = []
+    for entry in this_week:
+        if entry is not None:
+            entry_contents = {
+                "date": datetime.strftime(entry.dt, "%A %d"),
+                "sad score": entry.sad_score,
+                "angry score": entry.angry_score,
+                "fear score": entry.fear_score,
+                "shame score": entry.shame_score,
+                "skills used": entry.skills_used
+            }
+        else:
+            entry_contents = None
+        entries.append(entry_contents)
+
+    return render_template("dashboard.html", entries=entries)
 
 
 @app.route("/logout")

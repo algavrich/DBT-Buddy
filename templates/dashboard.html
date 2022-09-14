@@ -4,4 +4,20 @@
 
 {% block body %}
 <h1>Hi {{ session.get("fname") }}</h1>
+<div class="diary-card">
+  {% for entry in entries %}
+  <div class="diary-day"></div>
+  {% if entry == None %}
+  <p>No Entry</p>
+  {% else %}
+  <h4>{{ entry["date"] }}</h4>
+  <p>Sadness: {{ entry["sad score"] }}</p>
+  <p>Anger: {{ entry["angry score"] }}</p>
+  <p>Fear: {{ entry["fear score"] }}</p>
+  <p>Shame: {{ entry["shame score"] }}</p>
+  <p>Used Skills: {{ entry["skills used"] }}</p>
+  {% endif %}
+</div>
+{% endfor %}
+</div>
 {% endblock %}
