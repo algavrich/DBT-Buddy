@@ -65,26 +65,44 @@ def create_account():
     entry_reminders = request.form.get("entry-reminders")
     med_tracking = request.form.get("med-tracking")
     med_reminders = request.form.get("med-reminders")
+    urge_1 = request.form.get("urge-1")
+    urge_2 = request.form.get("urge-2")
+    urge_3 = request.form.get("urge-3")
+    action_1 = request.form.get("action-1")
+    action_2 = request.form.get("action-2")
+
 
     entry_reminders = convert_radio_to_bool(entry_reminders)
     med_tracking = convert_radio_to_bool(med_tracking)
     med_reminders = convert_radio_to_bool(med_reminders)
 
+    
     if not crud.get_user_by_email(email):
         if password == password2:
+            # TODO move this somewhere else (crud.py? helper func here?)
             new_user = crud.create_user(fname, email, password, phone_number, entry_reminders,
                             med_tracking, med_reminders)
             db.session.add(new_user)
+            db.session.commit()
+            new_user = crud.get_user_by_email(email)
+            new_urges = []
+            new_actions = []
+            for urge in [urge_1, urge_2, urge_3]:
+                new_urges.append(crud.create_urge(new_user.user_id, urge))
+            for action in [action_1, action_2]:
+                new_urges.append(crud.create_action(new_user.user_id, action))
+            db.session.add_all(new_urges)
+            db.session.add_all(new_actions)
             db.session.commit()
 
             flash("Successfully created account")
             return redirect("/dashboard")
 
         flash("Passwords do not match")
-        return redirect("/")
+        return redirect("/create-account")
 
     flash("That email is already associated with an account")
-    return redirect("/")
+    return redirect("/create-account")
 
 
 @app.route("/dashboard")
@@ -113,6 +131,26 @@ def dashboard():
     return render_template("dashboard.html", entries=entries)
 
 
+@app.route("/new-diary-entry")
+def new_diary_entry():
+    """Render the new diary entry form."""
+    
+    user_urges = crud.get_urges_by_user_id(session.get("user_id"))
+    user_actions = crud.get_actions_by_user_id(session.get("user_id"))
+    user_urges_descs = get_descs_from_object_list(user_urges)
+    user_actions_descs = get_descs_from_object_list(user_actions)
+
+    return render_template("diary-entry.html", user_actions=user_actions_descs,
+                           user_urges=user_urges_descs)
+
+
+@app.route("/new-diary-entry", methods=["POST"])
+def create_new_diary_entry():
+    """Creates new DiaryEntry and pushes to DB given user input."""
+
+    pass
+
+
 @app.route("/logout")
 def logout():
     """Log user out."""
@@ -125,13 +163,19 @@ def logout():
 
 def convert_radio_to_bool(var):
     """Convert a radio value to boolean."""
+    
+    return var == "yes"
 
-    if var == "yes":
-        var = True
-    else:
-        var = False
 
-    return var
+def get_descs_from_object_list(objects):
+    """Get descriptions from list of user's custom Urge or Action object."""
+    
+    descriptions = []
+
+    for object in objects:
+        descriptions.append(object.description)
+
+    return descriptions
 
 
 if __name__ == "__main__":
