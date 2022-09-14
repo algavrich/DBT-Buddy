@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Create an Account</title>
+  <link rel="stylesheet" href="/static/css/main.css">
 </head>
 
 <body>
@@ -16,7 +17,7 @@
     <form action="/create-account" method="POST" id="create-account-form">
 
       <fieldset>
-        <legend>Your Info</legend>
+        <legend>Your Info</legend>11`
         <div>
           First Name <input type="text" name="fname">
         </div>
@@ -62,14 +63,16 @@
           <label for="m-track-no">No</label>
         </div>
 
-        <label for="med-rem">
-          If so, would you like to receive reminders to take your medication?
-        </label>
-        <div id="med-rem">
-          <input type="radio" name="med-reminders" value="yes" id="m-rem-yes">
-          <label for="m-rem-yes">Yes</label>
-          <input type="radio" name="med-reminders" value="no" id="m-rem-no">
-          <label for="m-rem-no">No</label>
+        <div id="show-med-rem">
+          <label for="med-rem">
+            If so, would you like to receive reminders to take your medication?
+          </label>
+          <div id="med-rem">
+            <input type="radio" name="med-reminders" value="yes" id="m-rem-yes">
+            <label for="m-rem-yes">Yes</label>
+            <input type="radio" name="med-reminders" value="no" id="m-rem-no">
+            <label for="m-rem-no">No</label>
+          </div>
         </div>
       </fieldset>
 
@@ -78,6 +81,7 @@
       </div>
     </form>
   </div>
+  <script src="/static/js/createAccount.js"></script>
 </body>
 
 </html>
