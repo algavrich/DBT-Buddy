@@ -2,25 +2,34 @@
 <html lang="en-us">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>
-        {% block title %}{% endblock %}
-    </title>
-
-    {% block head %}{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>
+    {% block title %}{% endblock %}
+  </title>
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous"> -->
+  {% block head %}{% endblock %}
 </head>
 
 <body>
+  <div class="container-fluid">
     {% for msg in get_flashed_messages() %}
     <p class="flash-msg">
-        {{ msg }}
+      {{ msg }}
     </p>
     {% endfor %}
+    <!-- <nav class="navbar">
+      <div class="container-fluid">
+        <a href="/">DBT Buddy</a>
+      </div>
+    </nav> -->
+    <p>This will eventually be a navbar <a href="/logout">Log Out</a></p>
+
 
     {% block body %}{% endblock %}
-
-    {% block after_body %}{% endblock %}
+  </div>
+  {% block after_body %}{% endblock %}
 </body>
 
 </html>
