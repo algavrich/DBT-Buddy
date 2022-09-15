@@ -12,7 +12,8 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "")
 app.jinja_env.undefined = StrictUndefined
 
-@app.route('/')
+
+@app.route("/")
 def index():
     """Render homepage."""
 
@@ -22,7 +23,7 @@ def index():
     return render_template("login.html")
 
 
-@app.route('/login')
+@app.route("/login")
 def login():
     """Log user in."""
 
@@ -102,24 +103,39 @@ def dashboard():
 
     if not session.get("user_id"):
         return redirect("/")
+    
+    current_user_id = session.get("user_id")
+    urges = crud.get_urges_by_user_id(current_user_id)
+    actions = crud.get_actions_by_user_id(current_user_id)
 
     this_week = crud.get_this_week_for_user(session.get("user_id"))
+
+    # TODO possibly move this to helper func
     entries = []
-    for entry in this_week:
+    for entry in this_week.values():
         if entry is not None:
             entry_contents = {
-                "date": datetime.strftime(entry.dt, "%A %d"),
-                "sad score": entry.sad_score,
-                "angry score": entry.angry_score,
-                "fear score": entry.fear_score,
-                "shame score": entry.shame_score,
-                "skills used": entry.skills_used
+                "date": datetime.strftime(entry["diary"].dt, "%A %d"),
+                "sad score": entry["diary"].sad_score,
+                "angry score": entry["diary"].angry_score,
+                "fear score": entry["diary"].fear_score,
+                "happy score": entry["diary"].happy_score,
+                "shame score": entry["diary"].shame_score,
+                "urge1 score": entry["urges"][0].score,
+                "urge2 score": entry["urges"][1].score,
+                "urge3 score": entry["urges"][2].score,
+                "action1 score": convert_bool_to_y_n(
+                    entry["actions"][0].score),
+                "action2 score": convert_bool_to_y_n(
+                    entry["actions"][1].score),
+                "skills used": entry["diary"].skills_used
             }
         else:
             entry_contents = None
         entries.append(entry_contents)
 
-    return render_template("dashboard.html", entries=entries)
+    return render_template(
+        "dashboard.html", urges=urges, actions=actions, entries=entries)
 
 
 @app.route("/new-diary-entry")
@@ -131,9 +147,9 @@ def new_diary_entry():
     user_urges_descs = get_descs_from_object_list(user_urges)
     user_actions_descs = get_descs_from_object_list(user_actions)
 
-    return render_template("diary-entry.html", 
-                           user_actions=user_actions_descs,
-                           user_urges=user_urges_descs)
+    return render_template(
+        "diary-entry.html", user_actions=user_actions_descs,
+        user_urges=user_urges_descs)
 
 
 @app.route("/new-diary-entry", methods=["POST"])
@@ -178,6 +194,15 @@ def convert_radio_to_bool(var):
     """Convert a radio value to boolean."""
     
     return var == "yes"
+
+
+def convert_bool_to_y_n(value):
+    """Convert a boolean value to yes or no."""
+    
+    if value:
+        return "yes"
+
+    return "no"
 
 
 def get_descs_from_object_list(objects):
