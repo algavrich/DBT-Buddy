@@ -81,21 +81,26 @@ def create_account():
     if not crud.get_user_by_email(email):
         if password == password2:
             # TODO move this somewhere else (crud.py? helper func here?)
-            new_user = crud.create_user(fname, email, password, phone_number,
-                                        entry_reminders, med_tracking, 
-                                        med_reminders)
-            db.session.add(new_user)
-            db.session.commit()
-            new_user = crud.get_user_by_email(email)
-            new_urges = []
-            new_actions = []
-            for urge in [urge_1, urge_2, urge_3]:
-                new_urges.append(crud.create_urge(new_user.user_id, urge))
-            for action in [action_1, action_2]:
-                new_urges.append(crud.create_action(new_user.user_id, action))
-            db.session.add_all(new_urges)
-            db.session.add_all(new_actions)
-            db.session.commit()
+            # new_user = crud.create_user(fname, email, password, phone_number,
+            #                             entry_reminders, med_tracking, 
+            #                             med_reminders)
+            # db.session.add(new_user)
+            # db.session.commit()
+            # new_user = crud.get_user_by_email(email)
+            # new_urges = []
+            # new_actions = []
+            # for urge in [urge_1, urge_2, urge_3]:
+            #     new_urges.append(crud.create_urge(new_user.user_id, urge))
+            # for action in [action_1, action_2]:
+            #     new_urges.append(crud.create_action(new_user.user_id, action))
+            # db.session.add_all(new_urges)
+            # db.session.add_all(new_actions)
+            # db.session.commit()
+
+            crud.create_account_helper(
+                fname, email, password, phone_number, entry_reminders,
+                med_tracking, med_reminders, urge_1, urge_2, urge_3, 
+                action_1, action_2)
 
             flash("Successfully created account")
             return redirect("/dashboard")

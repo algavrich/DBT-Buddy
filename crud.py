@@ -5,6 +5,7 @@ from model import (db, connect_to_db, User, DiaryEntry, MedEntry,
 from datetime import date, datetime, timedelta
 from sqlalchemy import cast, DATE
 
+# CREATE
 
 def create_user(
     fname, email, password, phone_number,
@@ -104,6 +105,34 @@ def create_action(user_id, description):
     return action
 
 
+def create_account_helper(
+        fname, email, password, phone_number, entry_reminders, med_tracking, 
+        med_reminders, urge_1, urge_2, urge_3, action_1, action_2):
+    """Creates new User, Urge, and Action objects and commits to DB."""
+
+    new_user = create_user(fname, email, password, phone_number,
+                                        entry_reminders, med_tracking, 
+                                        med_reminders)
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    new_user = get_user_by_email(email)
+    new_urges = []
+    new_actions = []
+
+    for urge in [urge_1, urge_2, urge_3]:
+        new_urges.append(create_urge(new_user.user_id, urge))
+
+    for action in [action_1, action_2]:
+        new_urges.append(create_action(new_user.user_id, action))
+        
+    db.session.add_all(new_urges)
+    db.session.add_all(new_actions)
+    db.session.commit()
+
+# READ
+
 def get_user_by_id(user_id):
     """Returns user with given ID."""
 
@@ -190,6 +219,7 @@ def get_this_week_for_user(user_id):
 
     return entries
 
+# POPULATE TEST DATABASE
 
 def example_data():
     """Create test data."""
