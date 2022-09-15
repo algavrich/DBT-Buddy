@@ -108,7 +108,7 @@ def create_action(user_id, description):
 def create_account_helper(
         fname, email, password, phone_number, entry_reminders, med_tracking, 
         med_reminders, urge_1, urge_2, urge_3, action_1, action_2):
-    """Creates new User, Urge, and Action objects and commits to DB."""
+    """Create new User, Urge, and Action objects and commit to DB."""
 
     new_user = create_user(fname, email, password, phone_number,
                                         entry_reminders, med_tracking, 
@@ -126,9 +126,57 @@ def create_account_helper(
 
     for action in [action_1, action_2]:
         new_urges.append(create_action(new_user.user_id, action))
-        
+
     db.session.add_all(new_urges)
     db.session.add_all(new_actions)
+    db.session.commit()
+
+
+def create_d_u_a_entries_helper(
+        current_user_id, sad_score, angry_score, fear_score, happy_score,
+        shame_score, urge_1_score, urge_2_score, urge_3_score, action_1,
+        action_2, used_skills):
+    """Create new Diary, Urge, and Action entries and commit to DB."""
+
+    new_d_entry = create_diary_entry(
+        current_user_id,
+        datetime.now(),
+        sad_score,
+        angry_score,
+        fear_score,
+        happy_score,
+        shame_score,
+        used_skills
+    )
+    db.session.add(new_d_entry)
+    db.session.commit()
+
+    new_d_entry = get_diary_entry_by_user_date(
+        current_user_id, 
+        date.today()
+    )
+    user_urges = get_urges_by_user_id(current_user_id)
+    urge_scores = [urge_1_score, urge_2_score, urge_3_score]
+    new_entries = []
+    for i in range(3):
+        new_entries.append(create_urge_entry(
+            user_urges[i].urge_id, 
+            new_d_entry.entry_id, 
+            current_user_id,
+            datetime.now(),
+            urge_scores[i]
+        ))
+    user_actions = get_actions_by_user_id(current_user_id)
+    action_scores = [action_1, action_2]
+    for i in range(2):
+        new_entries.append(create_action_entry(
+            user_actions[i].action_id,
+            new_d_entry.entry_id,
+            current_user_id,
+            datetime.now(),
+            action_scores[i]
+        ))
+    db.session.add_all(new_entries)
     db.session.commit()
 
 # READ
