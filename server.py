@@ -138,8 +138,14 @@ def dashboard():
             entry_contents = None
         entries.append(entry_contents)
 
+    # Is this an ok place for this?
+    show_edit = False
+    if crud.check_entry_today(current_user_id):
+        show_edit = True
+
     return render_template(
-        "dashboard.html", urges=urges, actions=actions, entries=entries)
+        "dashboard.html", urges=urges, actions=actions,
+        entries=entries, show_edit=show_edit)
 
 
 @app.route("/new-diary-entry")
