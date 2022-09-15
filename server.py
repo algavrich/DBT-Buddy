@@ -1,11 +1,11 @@
 """Flask server for diary card app."""
 
 from flask import Flask, session, request, flash, render_template, redirect
-from model import connect_to_db, db
+from model import DiaryEntry, connect_to_db, db
 import crud
 from jinja2 import StrictUndefined
 import os
-from datetime import datetime
+from datetime import datetime, date
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "")
@@ -62,26 +62,28 @@ def create_account():
     password = request.form.get("password")
     password2 = request.form.get("password-2")
     phone_number = request.form.get("phone-number")
-    entry_reminders = request.form.get("entry-reminders")
-    med_tracking = request.form.get("med-tracking")
-    med_reminders = request.form.get("med-reminders")
+    entry_reminders = convert_radio_to_bool(
+        request.form.get("entry-reminders")
+    )
+    med_tracking = convert_radio_to_bool(
+        request.form.get("med-tracking")
+    )
+    med_reminders = convert_radio_to_bool(
+        request.form.get("med-reminders")
+    )
     urge_1 = request.form.get("urge-1")
     urge_2 = request.form.get("urge-2")
     urge_3 = request.form.get("urge-3")
     action_1 = request.form.get("action-1")
     action_2 = request.form.get("action-2")
 
-
-    entry_reminders = convert_radio_to_bool(entry_reminders)
-    med_tracking = convert_radio_to_bool(med_tracking)
-    med_reminders = convert_radio_to_bool(med_reminders)
-
     
     if not crud.get_user_by_email(email):
         if password == password2:
             # TODO move this somewhere else (crud.py? helper func here?)
-            new_user = crud.create_user(fname, email, password, phone_number, entry_reminders,
-                            med_tracking, med_reminders)
+            new_user = crud.create_user(fname, email, password, phone_number,
+                                        entry_reminders, med_tracking, 
+                                        med_reminders)
             db.session.add(new_user)
             db.session.commit()
             new_user = crud.get_user_by_email(email)
@@ -140,7 +142,8 @@ def new_diary_entry():
     user_urges_descs = get_descs_from_object_list(user_urges)
     user_actions_descs = get_descs_from_object_list(user_actions)
 
-    return render_template("diary-entry.html", user_actions=user_actions_descs,
+    return render_template("diary-entry.html", 
+                           user_actions=user_actions_descs,
                            user_urges=user_urges_descs)
 
 
@@ -148,7 +151,67 @@ def new_diary_entry():
 def create_new_diary_entry():
     """Creates new DiaryEntry and pushes to DB given user input."""
 
-    pass
+    current_user_id = session.get("user_id")
+
+    sad_score = int(request.form.get("sad"))
+    angry_score = int(request.form.get("angry"))
+    fear_score = int(request.form.get("fear"))
+    happy_score = int(request.form.get("happy"))
+    shame_score = int(request.form.get("shame"))
+    urge_1_score = int(request.form.get("urge-1"))
+    urge_2_score = int(request.form.get("urge-2"))
+    urge_3_score = int(request.form.get("urge-3"))
+    action_1 = convert_radio_to_bool(request.form.get("action-1"))
+    action_2 = convert_radio_to_bool(request.form.get("action-2"))
+    used_skills = int(request.form.get("used-skills"))
+
+    # TODO make this into a helper function
+    # FROM HERE
+    new_d_entry = crud.create_diary_entry(
+        current_user_id,
+        datetime.now(),
+        sad_score,
+        angry_score,
+        fear_score,
+        happy_score,
+        shame_score,
+        used_skills
+    )
+    db.session.add(new_d_entry)
+    db.session.commit()
+
+    new_d_entry = crud.get_diary_entry_by_user_date(
+        current_user_id, 
+        date.today()
+    )
+    user_urges = crud.get_urges_by_user_id(current_user_id)
+    urge_scores = [urge_1_score, urge_2_score, urge_3_score]
+    new_entries = []
+    for i in range(3):
+        new_entries.append(crud.create_urge_entry(
+            user_urges[i].urge_id, 
+            new_d_entry.entry_id, 
+            current_user_id,
+            datetime.now(),
+            urge_scores[i]
+        ))
+    user_actions = crud.get_actions_by_user_id(current_user_id)
+    action_scores = [action_1, action_2]
+    for i in range(2):
+        new_entries.append(crud.create_action_entry(
+            user_actions[i].action_id,
+            new_d_entry.entry_id,
+            current_user_id,
+            datetime.now(),
+            action_scores[i]
+        ))
+    db.session.add_all(new_entries)
+    db.session.commit()
+    # TO HERE
+    flash("Entry successfully added")
+
+    return redirect("/dashboard")
+
 
 
 @app.route("/logout")
