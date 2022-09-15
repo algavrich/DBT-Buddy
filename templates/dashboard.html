@@ -4,27 +4,41 @@
 
 {% block body %}
 <h1>Hi {{ session.get("fname") }}</h1>
+
+{% if show_edit %}
+  <button>Edit Today's Entry</button>
+{% endif %}
+
 <div class="diary-card">
+  <div id="edit-today"></div>
+
   {% for entry in entries %}
-  <div class="diary-day"></div>
-  {% if entry == None %}
-  <p>No Entry</p>
-  {% else %}
-  <h4>{{ entry["date"] }}</h4>
-  <p>Sadness: {{ entry["sad score"] }}</p>
-  <p>Anger: {{ entry["angry score"] }}</p>
-  <p>Fear: {{ entry["fear score"] }}</p>
-  <p>Happiness: {{ entry["happy score"] }}</p>
-  <p>Shame: {{ entry["shame score"] }}</p>
-  <p>{{ urges[0].description }}: {{ entry["urge1 score"] }}</p>
-  <p>{{ urges[1].description }}: {{ entry["urge2 score"] }}</p>
-  <p>{{ urges[2].description }}: {{ entry["urge3 score"] }}</p>
-  <p>{{ actions[0].description }}: {{ entry["action1 score"] }}</p>
-  <p>{{ actions[1].description }}: {{ entry["action2 score"] }}</p>
-  <p>Used Skills: {{ entry["skills used"] }}</p>
-  {% endif %}
+    <div class="diary-day"></div>
+
+    {% if entry == None %}
+    <p>No Entry</p>
+
+    {% else %}
+    <h4>{{ entry["date"] }}</h4>
+    <p>Sadness: {{ entry["sad score"] }}</p>
+    <p>Anger: {{ entry["angry score"] }}</p>
+    <p>Fear: {{ entry["fear score"] }}</p>
+    <p>Happiness: {{ entry["happy score"] }}</p>
+    <p>Shame: {{ entry["shame score"] }}</p>
+    <p>{{ urges[0].description }}: {{ entry["urge1 score"] }}</p>
+    <p>{{ urges[1].description }}: {{ entry["urge2 score"] }}</p>
+    <p>{{ urges[2].description }}: {{ entry["urge3 score"] }}</p>
+    <p>{{ actions[0].description }}: {{ entry["action1 score"] }}</p>
+    <p>{{ actions[1].description }}: {{ entry["action2 score"] }}</p>
+    <p>Used Skills: {{ entry["skills used"] }}</p>
+    {% endif %}
+    </div>
+  {% endfor %}
 </div>
-{% endfor %}
-</div>
+
 <a href="/new-diary-entry">Make a Diary Entry</a>
+{% endblock %}
+
+{% block after_body %}
+  <script src="/static/js/dashboard.js"></script>
 {% endblock %}
