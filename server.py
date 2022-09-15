@@ -1,11 +1,12 @@
 """Flask server for diary card app."""
 
-from flask import Flask, session, request, flash, render_template, redirect
-from model import DiaryEntry, connect_to_db, db
+from flask import (Flask, session, request, flash,
+                   render_template, redirect, jsonify)
+from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
 import os
-from datetime import datetime, date
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "")
@@ -161,7 +162,6 @@ def create_new_diary_entry():
     flash("Entry successfully added")
 
     return redirect("/dashboard")
-
 
 
 @app.route("/logout")
