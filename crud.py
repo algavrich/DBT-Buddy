@@ -303,6 +303,15 @@ def get_this_week_for_user(user_id):
 
     return entries
 
+
+def check_entry_today(user_id):
+    """Returns True if user made an entry already, False if not."""
+
+    if get_diary_entry_by_user_date(user_id, date.today()):
+        return True
+
+    return False
+
 # POPULATE TEST DATABASE
 
 def example_data():
