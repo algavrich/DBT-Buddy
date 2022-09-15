@@ -26,7 +26,7 @@ def index():
 @app.route("/login")
 def login():
     """Log user in."""
-    
+
     if session.get('user_id'):
         return redirect("/dashboard")
 
@@ -146,10 +146,12 @@ def dashboard():
 def new_diary_entry():
     """Render the new diary entry form."""
 
+    current_user_id = session.get("user_id")
+
     if not session.get("user_id"):
         return redirect("/")
 
-    if crud.check_entry_today:
+    if crud.check_entry_today(current_user_id):
         flash("You've already made an entry today. Try editing it!")
         return redirect("/dashboard")
     
@@ -165,7 +167,7 @@ def new_diary_entry():
 
 @app.route("/new-diary-entry", methods=["POST"])
 def create_new_diary_entry():
-    """Creates new DiaryEntry and pushes to DB given user input."""
+    """Create new DiaryEntry and pushes to DB given user input."""
 
     current_user_id = session.get("user_id")
 
