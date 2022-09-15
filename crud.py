@@ -18,7 +18,7 @@ def create_user(fname, email, password, phone_number, entry_reminders, med_track
         entry_reminders=entry_reminders, 
         med_tracking=med_tracking, 
         med_reminders=med_reminders
-        )
+    )
 
     return user
 
@@ -36,7 +36,7 @@ def create_diary_entry(user_id, dt, sad_score, angry_score, fear_score,
         happy_score=happy_score, 
         shame_score=shame_score, 
         skills_used=skills_used
-        )
+    )
 
     return d_entry
 
@@ -47,7 +47,7 @@ def create_med_entry(user_id, dt):
     m_entry = MedEntry(
         user_id=user_id, 
         dt=dt
-        )
+    )
 
     return m_entry
 
@@ -61,7 +61,7 @@ def create_urge_entry(urge_id, d_entry_id, user_id, dt, score):
         user_id=user_id, 
         dt=dt,
         score=score
-        )
+    )
 
     return u_entry
 
@@ -75,7 +75,7 @@ def create_action_entry(action_id, d_entry_id, user_id, dt, score):
         user_id=user_id, 
         dt=dt,
         score=score
-        )
+    )
 
     return a_entry
 
@@ -86,7 +86,7 @@ def create_urge(user_id, description):
     urge = Urge(
         user_id=user_id, 
         description=description
-        )
+    )
 
     return urge
 
@@ -97,7 +97,7 @@ def create_action(user_id, description):
     action = Action(
         user_id=user_id, 
         description=description
-        )
+    )
 
     return action
 
@@ -172,7 +172,7 @@ def get_diary_entry_by_user_date(user_id, q_date):
     return DiaryEntry.query.filter(
         DiaryEntry.user_id == user_id,
         cast(DiaryEntry.dt, DATE) == q_date
-        ).first()
+    ).first()
 
 
 def get_this_week_for_user(user_id):
