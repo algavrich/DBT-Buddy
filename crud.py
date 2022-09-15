@@ -281,6 +281,28 @@ def get_this_week_for_user(user_id):
 
     return entries
 
+
+def get_this_week_for_user(user_id):
+    """Return a list of a user's entries for the current week."""
+
+    today = date.today()
+
+    entries = {}
+
+    for i in range(7):
+        date_get = today - timedelta(days = i)
+        diary_entry = get_diary_entry_by_user_date(user_id, date_get)
+        if diary_entry:
+            entries[f"day{i}"] = {
+                "diary": diary_entry,
+                "urges": get_urge_entries_by_d_entry_id(diary_entry.entry_id),
+                "actions": get_action_entries_by_d_entry_id(diary_entry.entry_id)
+            }
+        else:
+            entries[f"day{i}"] = None
+
+    return entries
+
 # POPULATE TEST DATABASE
 
 def example_data():
