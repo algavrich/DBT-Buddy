@@ -1,13 +1,14 @@
 """CRUD functions."""
 
-from model import (db, connect_to_db, User, DiaryEntry, MedEntry, UrgeEntry,
-                   ActionEntry, Urge, Action)
+from model import (db, connect_to_db, User, DiaryEntry, MedEntry, 
+                   UrgeEntry, ActionEntry, Urge, Action)
 from datetime import date, datetime, timedelta
 from sqlalchemy import cast, DATE
 
 
-def create_user(fname, email, password, phone_number, entry_reminders, med_tracking,
-                med_reminders):
+def create_user(
+    fname, email, password, phone_number,
+    entry_reminders, med_tracking, med_reminders):
     """Create and return a new user."""
 
     user = User(
@@ -23,8 +24,9 @@ def create_user(fname, email, password, phone_number, entry_reminders, med_track
     return user
 
 
-def create_diary_entry(user_id, dt, sad_score, angry_score, fear_score,
-                 happy_score, shame_score, skills_used):
+def create_diary_entry(
+    user_id, dt, sad_score, angry_score, fear_score,
+    happy_score, shame_score, skills_used):
     """Create and return a new diary entry."""
 
     d_entry = DiaryEntry(
@@ -176,7 +178,7 @@ def get_diary_entry_by_user_date(user_id, q_date):
 
 
 def get_this_week_for_user(user_id):
-    """Returns a list of DiaryEntry objects for the current week when given a user ID."""
+    """Returns a list of a user's entries for the current week."""
     
     today = date.today()
 
@@ -189,33 +191,41 @@ def get_this_week_for_user(user_id):
     return entries
 
 
-
 def example_data():
     """Create test data."""
 
     stuff_to_add = []
     for i in range(10):
         # Create ten test users
-        stuff_to_add.append(create_user("User{i}", f"user{i}@test.com",
-                                        f"password{i}",
-                                        f"{i}{i}{i}{i}{i}{i}{i}{i}{i}{i}",
-                                        True, True, True))
+        stuff_to_add.append(create_user(
+            "User{i}", f"user{i}@test.com", f"password{i}",
+            f"{i}{i}{i}{i}{i}{i}{i}{i}{i}{i}", True, True, True))
+
         for j in range(3):
             # For each test user, create three test urges
             stuff_to_add.append(create_urge((i + 1), "Urge Description"))
+
         for k in range(2):
             # For each test user, create two test actions
             stuff_to_add.append(create_action((i + 1), "Action Description"))
+
         for l in range(10):
             # For each test user, create ten test diary entries
-            stuff_to_add.append(create_diary_entry((i + 1), datetime.now(), 5, 5,
-                                                    5, 5, 5, 8))
+            stuff_to_add.append(
+                create_diary_entry(
+                    (i + 1), datetime.now(), 5, 5, 5, 5, 5, 8))
             for m in range(3):
                 # For each test diary entry, create three test urge entries
-                stuff_to_add.append(create_urge_entry((m + 1), (l + 1), (i + 1), datetime.now(), 5))
+                stuff_to_add.append(
+                    create_urge_entry(
+                        (m + 1), (l + 1), (i + 1), datetime.now(), 5))
+            
             for n in range(2):
                 # For each test diary entry, create two test action entries
-                stuff_to_add.append(create_action_entry((n + 1), (l + 1), (i + 1), datetime.now(), 5))
+                stuff_to_add.append(
+                    create_action_entry(
+                        (n + 1), (l + 1), (i + 1), datetime.now(), 5))
+            
             # For each test user, create ten test med entries
             stuff_to_add.append(create_med_entry((i + 1), datetime.now()))
 
