@@ -70,6 +70,7 @@ def create_account():
     med_tracking = convert_radio_to_bool(
         request.form.get("med-tracking")
     )
+    # What will this be if left empty??
     med_reminders = convert_radio_to_bool(
         request.form.get("med-reminders")
     )
@@ -141,6 +142,10 @@ def dashboard():
 @app.route("/new-diary-entry")
 def new_diary_entry():
     """Render the new diary entry form."""
+
+    if crud.check_entry_today:
+        flash("You've already made an entry today. Try editing it!")
+        return redirect("/dashboard")
     
     user_urges = crud.get_urges_by_user_id(session.get("user_id"))
     user_actions = crud.get_actions_by_user_id(session.get("user_id"))
@@ -192,6 +197,9 @@ def logout():
 
 def convert_radio_to_bool(var):
     """Convert a radio value to boolean."""
+
+    if var is None:
+        return False
     
     return var == "yes"
 
