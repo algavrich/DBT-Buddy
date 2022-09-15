@@ -14,7 +14,13 @@
   <p>Sadness: {{ entry["sad score"] }}</p>
   <p>Anger: {{ entry["angry score"] }}</p>
   <p>Fear: {{ entry["fear score"] }}</p>
+  <p>Happiness: {{ entry["happy score"] }}</p>
   <p>Shame: {{ entry["shame score"] }}</p>
+  <p>{{ urges[0].description }}: {{ entry["urge1 score"] }}</p>
+  <p>{{ urges[1].description }}: {{ entry["urge2 score"] }}</p>
+  <p>{{ urges[2].description }}: {{ entry["urge3 score"] }}</p>
+  <p>{{ actions[0].description }}: {{ entry["action1 score"] }}</p>
+  <p>{{ actions[1].description }}: {{ entry["action2 score"] }}</p>
   <p>Used Skills: {{ entry["skills used"] }}</p>
   {% endif %}
 </div>
