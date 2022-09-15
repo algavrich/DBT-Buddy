@@ -182,31 +182,31 @@ def create_d_u_a_entries_helper(
 # READ
 
 def get_user_by_id(user_id):
-    """Returns user with given ID."""
+    """Return user with given ID."""
 
     return User.query.get(user_id)
 
 
 def get_user_by_email(email):
-    """Returns user with given email."""
+    """Return user with given email."""
 
     return User.query.filter(User.email == email).first()
 
 
 def get_users_entry_reminders():
-    """Returns all users who opted in to entry reminders."""
+    """Return all users who opted in to entry reminders."""
 
     return User.query.filter(User.entry_reminders == True).all()
 
 
 def get_users_med_reminders():
-    """Returns all users who opted in to med reminders."""
+    """Return all users who opted in to med reminders."""
 
     return User.query.filter(User.med_reminders == True).all()
 
 
 def get_fav_trend_by_user_id(user_id):
-    """Returns user's favorite trend when given their ID."""
+    """Return user's favorite trend when given their ID."""
 
     user = get_user_by_id(user_id)
 
@@ -214,7 +214,7 @@ def get_fav_trend_by_user_id(user_id):
 
 
 def get_diary_entries_by_user_id(user_id):
-    """Returns list of user's diary entries when given their ID."""
+    """Return list of user's diary entries when given their ID."""
 
     user = get_user_by_id(user_id)
     
@@ -222,7 +222,7 @@ def get_diary_entries_by_user_id(user_id):
 
 
 def get_med_entries_by_user_id(user_id):
-    """Returns list of user's med entries when given their ID."""
+    """Return list of user's med entries when given their ID."""
 
     user = get_user_by_id(user_id)
     
@@ -230,7 +230,7 @@ def get_med_entries_by_user_id(user_id):
 
 
 def get_urges_by_user_id(user_id):
-    """Returns a list of user's urges when given their ID."""
+    """Return a list of user's urges when given their ID."""
 
     user = get_user_by_id(user_id)
 
@@ -238,7 +238,7 @@ def get_urges_by_user_id(user_id):
 
 
 def get_actions_by_user_id(user_id):
-    """Returns a list of user's actions when given their ID."""
+    """Return a list of user's actions when given their ID."""
 
     user = get_user_by_id(user_id)
 
@@ -246,7 +246,7 @@ def get_actions_by_user_id(user_id):
 
 
 def get_diary_entry_by_user_date(user_id, q_date):
-    """Returns a list of user's diary entries when given user ID and date."""
+    """Return a user's diary entry for a given date."""
 
     return DiaryEntry.query.filter(
         DiaryEntry.user_id == user_id,
@@ -254,8 +254,22 @@ def get_diary_entry_by_user_date(user_id, q_date):
     ).first()
 
 
+def get_urge_entries_by_d_entry_id(d_entry_id):
+    """Return a list of a diary entry's corresponding urge entries."""
+    return UrgeEntry.query.filter(
+        UrgeEntry.d_entry_id == d_entry_id
+    ).all()
+
+
+def get_action_entries_by_d_entry_id(d_entry_id):
+    """Return a list of a diary entry's corresponding action entries."""
+    return ActionEntry.query.filter(
+        ActionEntry.d_entry_id == d_entry_id
+    ).all()
+
+
 def get_this_week_for_user(user_id):
-    """Returns a list of a user's entries for the current week."""
+    """Return a list of a user's entries for the current week."""
     
     today = date.today()
 
