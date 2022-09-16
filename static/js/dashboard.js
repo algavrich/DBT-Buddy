@@ -14,7 +14,7 @@ editTodayButton.addEventListener('click', () => {
     } else {
         clicked = true;
         todayEntry.style.display = 'none';
-        editTodayForm.style.display = 'block';
+        editTodayForm.style.display = 'inline-block';
         editTodayButton.innerHTML = 'Cancel';
     }
 });
