@@ -12,7 +12,6 @@
 {% if show_edit %}
   <button id="edit-today">Edit Today's Entry</button>
 
-
   <div id="edit-today-form">
     <form>
       <fieldset>
@@ -184,13 +183,35 @@
           {% endif %}
         </div>
       </fieldset>
+      <fieldset>
+        <legend>Used Skills</legend>
+        <div id="used-skills-guide">
+          <span>0 = Not thought about or used</span><br>
+          <span>1 = Thought about, not used, didn't want to</span><br>
+          <span>2 = Thought about, not used, wanted to</span><br>
+          <span>3 = Tried but couldn't use them</span><br>
+          <span>4 = Tried, could use them but they didn't help</span><br>
+          <span>5 = Tried, could use them, helped</span><br>
+          <span>6 = Didn't try, used them, didn't help</span><br>
+          <span>7 = Didn't try, used them, helped</span><br>
+        </div>
+        <div>
+          <label for="used-skills">Used Skills</label>
+          <input 
+            type="number" 
+            name="used-skills" 
+            value="{{ entries[0]['skills used'] }}" 
+            id="used-skills" 
+            min="0" 
+            max="7"
+          >
+        </div>
+      </fieldset>
       <div>
         <input type="submit">
       </div>
     </form>
   </div>
-
-
 {% endif %}
 
   {% for entry in entries %}
