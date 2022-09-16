@@ -1,3 +1,11 @@
 #show-med-rem {
     display: none;
 }
+
+#edit-today-form {
+    display: none;
+}
+
+.diary-day {
+    display: inline-block;
+}
