@@ -19,38 +19,94 @@
         <legend>Emotions</legend>
         <div>
           <label for="sad">Sadness: </label>
-          <input type="number" name="sad" value="{{ entries[0]['sad score'] }}" id="sad" min="0" max="5">
+          <input 
+            type="number" 
+            name="sad" 
+            value="{{ entries[0]['sad score'] }}" 
+            id="sad" 
+            min="0" 
+            max="5"
+          >
         </div>
         <div>
           <label for="angry">Anger: </label>
-          <input type="number" name="angry" value="{{ entries[0]['angry score'] }}" id="angry" min="0" max="5">
+          <input 
+            type="number" 
+            name="angry" 
+            value="{{ entries[0]['angry score'] }}" 
+            id="angry" 
+            min="0" 
+            max="5"
+          >
         </div>
         <div>
           <label for="fear">Fear: </label>
-          <input type="number" name="fear" value="{{ entries[0]['fear score'] }}" id="fear" min="0" max="5">
+          <input 
+            type="number" 
+            name="fear" 
+            value="{{ entries[0]['fear score'] }}" 
+            id="fear" 
+            min="0" 
+            max="5"
+          >
         </div>
         <div>
           <label for="happy">Happiness: </label>
-          <input type="number" name="happy" value="{{ entries[0]['happy score'] }}" id="happy" min="0" max="5">
+          <input 
+            type="number" 
+            name="happy" 
+            value="{{ entries[0]['happy score'] }}" 
+            id="happy" 
+            min="0" 
+            max="5"
+          >
         </div>
         <div>
           <label for="shame">Shame: </label>
-          <input type="number" name="shame" value="{{ entries[0]['shame score'] }}" id="shame" min="0" max="5">
+          <input 
+            type="number" 
+            name="shame" 
+            value="{{ entries[0]['shame score'] }}" 
+            id="shame" 
+            min="0" 
+            max="5"
+          >
         </div>
       </fieldset>
       <fieldset>
         <legend>Urges</legend>
         <div>
           <label for="urge-1">{{ urges[0].description }}: </label>
-          <input type="number" name="urge-1" value="{{ entries[0]['urge1 score'] }}" id="urge-1" min="0" max="5">
+          <input 
+            type="number" 
+            name="urge-1" 
+            value="{{ entries[0]['urge1 score'] }}" 
+            id="urge-1" 
+            min="0" 
+            max="5"
+          >
         </div>
         <div>
           <label for="urge-2">{{ urges[1].description }}: </label>
-          <input type="number" name="urge-2" value="{{ entries[0]['urge2 score'] }}" id="urge-2" min="0" max="5">
+          <input 
+            type="number" 
+            name="urge-2" 
+            value="{{ entries[0]['urge2 score'] }}" 
+            id="urge-2" 
+            min="0" 
+            max="5"
+          >
         </div>
         <div>
           <label for="urge-3">{{ urges[2].description }}: </label>
-          <input type="number" name="urge-3" value="{{ entries[0]['urge3 score'] }}" id="urge-3" min="0" max="5">
+          <input 
+            type="number" 
+            name="urge-3" 
+            value="{{ entries[0]['urge3 score'] }}" 
+            id="urge-3" 
+            min="0" 
+            max="5"
+          >
         </div>
       </fieldset>
       <fieldset>
@@ -58,29 +114,73 @@
         <div id="action-1">
           <label for="action-1">{{ actions[0].description }}: </label>
           {% if entries[0]['action1 score'] == 'yes' %}
-          <input type="radio" name="action-1" value="yes" id="action-1-yes" checked="checked">
-          <label for="action-1-yes">Yes</label>
-          <input type="radio" name="action-1" value="no" id="action-1-no">
-          <label for="action-1-no">No</label>
+            <input 
+              type="radio" 
+              name="action-1" 
+              value="yes" 
+              id="action-1-yes" 
+              checked="checked"
+            >
+            <label for="action-1-yes">Yes</label>
+            <input 
+              type="radio" 
+              name="action-1" 
+              value="no" 
+              id="action-1-no"
+            >
+            <label for="action-1-no">No</label>
           {% else %}
-          <input type="radio" name="action-1" value="yes" id="action-1-yes">
-          <label for="action-1-yes">Yes</label>
-          <input type="radio" name="action-1" value="no" id="action-1-no" checked="checked">
-          <label for="action-1-no">No</label>
+            <input 
+              type="radio" 
+              name="action-1" 
+              value="yes" 
+              id="action-1-yes"
+            >
+            <label for="action-1-yes">Yes</label>
+            <input 
+              type="radio" 
+              name="action-1" 
+              value="no" 
+              id="action-1-no"
+              checked="checked"
+            >
+            <label for="action-1-no">No</label>
           {% endif %}
         </div>
         <div id="action-2">
           <label for="action-2">{{ actions[1].description }}: </label>
           {% if entries[0]['action2 score'] == 'yes' %}
-          <input type="radio" name="action-2" value="yes" id="action-2-yes" checked="checked">
-          <label for="action-2-yes">Yes</label>
-          <input type="radio" name="action-2" value="no" id="action-2-no">
-          <label for="action-2-no">No</label>
+            <input 
+              type="radio" 
+              name="action-2" 
+              value="yes" 
+              id="action-2-yes" 
+              checked="checked"
+            >
+            <label for="action-2-yes">Yes</label>
+            <input 
+              type="radio"
+              name="action-2" 
+              value="no" 
+              id="action-2-no"
+            >
+            <label for="action-2-no">No</label>
           {% else %}
-          <input type="radio" name="action-2" value="yes" id="action-2-yes">
-          <label for="action-2-yes">Yes</label>
-          <input type="radio" name="action-2" value="no" id="action-2-no" checked="checked">
-          <label for="action-2-no">No</label>
+            <input 
+              type="radio" 
+              name="action-2" 
+              value="yes" 
+              id="action-2-yes"
+            >
+            <label for="action-2-yes">Yes</label>
+            <input 
+              type="radio" 
+              name="action-2" 
+              value="no"
+              id="action-2-no" 
+              checked="checked"
+            >
+            <label for="action-2-no">No</label>
           {% endif %}
         </div>
       </fieldset>
