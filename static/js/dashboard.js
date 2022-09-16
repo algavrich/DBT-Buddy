@@ -8,7 +8,7 @@ let clicked = false
 editTodayButton.addEventListener('click', () => {
     if (clicked) {
         clicked = false;
-        todayEntry.style.display = 'block';
+        todayEntry.style.display = 'inline-block';
         editTodayForm.style.display = 'none';
         editTodayButton.innerHTML = 'Edit Today\'s Entry';
     } else {
