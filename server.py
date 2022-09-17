@@ -67,14 +67,14 @@ def create_account():
     password = request.form.get("password")
     password2 = request.form.get("password-2")
     phone_number = request.form.get("phone-number")
-    entry_reminders = convert_radio_to_bool(
+    entry_reminders = crud.convert_radio_to_bool(
         request.form.get("entry-reminders")
     )
-    med_tracking = convert_radio_to_bool(
+    med_tracking = crud.convert_radio_to_bool(
         request.form.get("med-tracking")
     )
     # What will this be if left empty??
-    med_reminders = convert_radio_to_bool(
+    med_reminders = crud.convert_radio_to_bool(
         request.form.get("med-reminders")
     )
     urge_1 = request.form.get("urge-1")
@@ -110,6 +110,8 @@ def dashboard():
     
     current_user_id = session.get("user_id")
     urges = crud.get_urges_by_user_id(current_user_id)
+    for urge in urges:
+        print(urge)
     actions = crud.get_actions_by_user_id(current_user_id)
 
     this_week = crud.get_this_week_for_user(session.get("user_id"))
@@ -185,8 +187,8 @@ def create_new_diary_entry():
     urge_1_score = int(request.form.get("urge-1"))
     urge_2_score = int(request.form.get("urge-2"))
     urge_3_score = int(request.form.get("urge-3"))
-    action_1 = convert_radio_to_bool(request.form.get("action-1"))
-    action_2 = convert_radio_to_bool(request.form.get("action-2"))
+    action_1 = crud.convert_radio_to_bool(request.form.get("action-1"))
+    action_2 = crud.convert_radio_to_bool(request.form.get("action-2"))
     used_skills = int(request.form.get("used-skills"))
 
     crud.create_d_u_a_entries_helper(
@@ -199,6 +201,35 @@ def create_new_diary_entry():
     return redirect("/dashboard")
 
 
+@app.route("/api/update-today-entry", methods=["POST"])
+def update_today_entry():
+    """Updates today's entry in DB with info from AJAX request."""
+
+    current_user_id = session.get("user_id")
+
+    sad_score = int(request.json.get("sad_score"))
+    angry_score = int(request.json.get("angry_score"))
+    fear_score = int(request.json.get("fear_score"))
+    happy_score = int(request.json.get("happy_score"))
+    shame_score = int(request.json.get("shame_score"))
+    urge_1_score = int(request.json.get("urge1_score"))
+    urge_2_score = int(request.json.get("urge2_score"))
+    urge_3_score = int(request.json.get("urge3_score"))
+    action_1 = request.json.get("action1_score")
+    action_2 = request.json.get("action2_score")
+    used_skills = int(request.json.get("used_skills"))
+
+    crud.update_today_entry(
+        current_user_id, sad_score, angry_score, fear_score,
+        happy_score, shame_score, urge_1_score, urge_2_score,
+        urge_3_score, action_1, action_2, used_skills)
+
+    return {
+        "success": True,
+        "status": "Your entry for today has been updated!",
+    }
+
+
 @app.route("/logout")
 def logout():
     """Log user out."""
@@ -208,15 +239,6 @@ def logout():
         session.pop("fname")
 
     return redirect("/")
-
-
-def convert_radio_to_bool(var):
-    """Convert a radio value to boolean."""
-
-    if var is None:
-        return False
-    
-    return var == "yes"
 
 
 def convert_bool_to_y_n(value):
