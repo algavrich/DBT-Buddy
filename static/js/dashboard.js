@@ -50,12 +50,9 @@ editTodayForm.addEventListener('submit', (evt) => {
         urge2_score: document.querySelector('#urge-2').value,
         urge3_score: document.querySelector('#urge-3').value,
         action1_score: action1,
-        action1_score: action2,
+        action2_score: action2,
         used_skills: document.querySelector('#used-skills').value,
     };
-
-    console.log(formInputs.action1_score);
-    console.log(formInputs.action2_score);
 
     fetch('/api/update-today-entry', {
         method: 'POST',
@@ -67,10 +64,20 @@ editTodayForm.addEventListener('submit', (evt) => {
     .then((res) => res.json())
     .then((resData) => {
         alert(resData.status);
+        clicked = false;
+        todayEntry.style.display = 'inline-block';
+        editTodayForm.style.display = 'none';
+        editTodayButton.innerHTML = 'Edit Today\'s Entry';
+        document.querySelector('#show-sad').innerHTML = `Sadness: ${formInputs.sad_score}`;
+        document.querySelector('#show-angry').innerHTML = `Anger: ${formInputs.angry_score}`;
+        document.querySelector('#show-fear').innerHTML = `Fear: ${formInputs.fear_score}`;
+        document.querySelector('#show-happy').innerHTML = `Happiness: ${formInputs.happy_score}`;
+        document.querySelector('#show-shame').innerHTML = `Shame: ${formInputs.shame_score}`;
+        document.querySelector('#show-urge1 span').innerHTML = `${formInputs.urge1_score}`;
+        document.querySelector('#show-urge2 span').innerHTML = `${formInputs.urge2_score}`;
+        document.querySelector('#show-urge3 span').innerHTML = `${formInputs.urge3_score}`;
+        document.querySelector('#show-action1 span').innerHTML = `${formInputs.action1_score}`;
+        document.querySelector('#show-action2 span').innerHTML = `${formInputs.action2_score}`;
+        document.querySelector('#show-used-skills').innerHTML = `Used Skills: ${formInputs.sad_score}`;
     });
-
-    clicked = false;
-    todayEntry.style.display = 'inline-block';
-    editTodayForm.style.display = 'none';
-    editTodayButton.innerHTML = 'Edit Today\'s Entry';
 });
