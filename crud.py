@@ -5,6 +5,16 @@ from model import (db, connect_to_db, User, DiaryEntry, MedEntry,
 from datetime import date, datetime, timedelta
 from sqlalchemy import cast, DATE
 
+# HELPER
+
+def convert_radio_to_bool(var):
+    """Convert a radio value to boolean."""
+
+    if var is None:
+        return False
+    
+    return var == "yes"
+
 # CREATE
 
 def create_user(
@@ -254,18 +264,18 @@ def get_diary_entry_by_user_date(user_id, q_date):
     ).first()
 
 
-def get_urge_entries_by_d_entry_id(d_entry_id):
-    """Return a list of a diary entry's corresponding urge entries."""
-    return UrgeEntry.query.filter(
-        UrgeEntry.d_entry_id == d_entry_id
-    ).all()
+# def get_urge_entries_by_d_entry_id(d_entry_id):
+#     """Return a list of a diary entry's corresponding urge entries."""
+#     return UrgeEntry.query.filter(
+#         UrgeEntry.d_entry_id == d_entry_id
+#     ).all()
 
 
-def get_action_entries_by_d_entry_id(d_entry_id):
-    """Return a list of a diary entry's corresponding action entries."""
-    return ActionEntry.query.filter(
-        ActionEntry.d_entry_id == d_entry_id
-    ).all()
+# def get_action_entries_by_d_entry_id(d_entry_id):
+#     """Return a list of a diary entry's corresponding action entries."""
+#     return ActionEntry.query.filter(
+#         ActionEntry.d_entry_id == d_entry_id
+#     ).all()
 
 
 def get_this_week_for_user(user_id):
@@ -295,8 +305,8 @@ def get_this_week_for_user(user_id):
         if diary_entry:
             entries[f"day{i}"] = {
                 "diary": diary_entry,
-                "urges": get_urge_entries_by_d_entry_id(diary_entry.entry_id),
-                "actions": get_action_entries_by_d_entry_id(diary_entry.entry_id)
+                "urges": diary_entry.urge_entries,
+                "actions": diary_entry.action_entries
             }
         else:
             entries[f"day{i}"] = None
@@ -311,6 +321,47 @@ def check_entry_today(user_id):
         return True
 
     return False
+
+# UPDATE
+
+def update_today_entry(
+        current_user_id, sad_score, angry_score, fear_score,
+        happy_score, shame_score, urge_1_score, urge_2_score,
+        urge_3_score, action_1, action_2, used_skills):
+    """Updates Diary, Urge, and Action entries for the current day."""
+    
+    current_d_entry = get_diary_entry_by_user_date(
+        current_user_id, 
+        date.today()
+    )
+    new_u_scores = [
+        urge_1_score,
+        urge_2_score,
+        urge_3_score
+    ]
+    current_u_entries = current_d_entry.urge_entries
+    new_a_scores = [
+        action_1,
+        action_2
+    ]
+    current_a_entries = current_d_entry.action_entries
+
+    current_d_entry.sad_score = sad_score
+    current_d_entry.angry_score = angry_score
+    current_d_entry.fear_score = fear_score
+    current_d_entry.happy_score = happy_score
+    current_d_entry.shame_score = shame_score
+    current_d_entry.sad_score = sad_score
+    current_d_entry.skills_used = used_skills
+
+    for i in range(3):
+        current_u_entries[i].score = new_u_scores[i]
+
+    for i in range(2):
+        current_a_entries[i].score = convert_radio_to_bool(new_a_scores[i])
+
+    db.session.commit()
+
 
 # POPULATE TEST DATABASE
 
