@@ -112,75 +112,37 @@
         <legend>Actions</legend>
         <div id="action-1">
           <label for="action-1">{{ actions[0].description }}: </label>
-          {% if entries[0]['action1 score'] == 'yes' %}
-            <input 
-              type="radio" 
-              name="action-1" 
-              value="yes" 
-              id="action-1-yes-yes" 
-              checked="checked"
-            >
-            <label for="action-1-yes-yes">Yes</label>
-            <input 
-              type="radio" 
-              name="action-1" 
-              value="no" 
-              id="action-1-yes-no"
-            >
-            <label for="action-1-yes-no">No</label>
-          {% else %}
-            <input 
-              type="radio" 
-              name="action-1" 
-              value="yes" 
-              id="action-1-no-yes"
-            >
-            <label for="action-1-no-yes">Yes</label>
-            <input 
-              type="radio" 
-              name="action-1" 
-              value="no" 
-              id="action-1-no-no"
-              checked="checked"
-            >
-            <label for="action-1-no-no">No</label>
-          {% endif %}
+          <input 
+            type="radio" 
+            name="action-1" 
+            value="yes" 
+            id="action-1-yes"
+          >
+          <label for="action-1-yes">Yes</label>
+          <input 
+            type="radio" 
+            name="action-1" 
+            value="no" 
+            id="action-1-no"
+          >
+          <label for="action-1-no">No</label>
         </div>
         <div id="action-2">
           <label for="action-2">{{ actions[1].description }}: </label>
-          {% if entries[0]['action2 score'] == 'yes' %}
-            <input 
-              type="radio" 
-              name="action-2" 
-              value="yes" 
-              id="action-2-yes-yes" 
-              checked="checked"
-            >
-            <label for="action-2-yes-yes">Yes</label>
-            <input 
-              type="radio"
-              name="action-2" 
-              value="no" 
-              id="action-2-yes-no"
-            >
-            <label for="action-2-yes-no">No</label>
-          {% else %}
-            <input 
-              type="radio" 
-              name="action-2" 
-              value="yes" 
-              id="action-2-no-yes"
-            >
-            <label for="action-2-no-yes">Yes</label>
-            <input 
-              type="radio" 
-              name="action-2" 
-              value="no"
-              id="action-2-no-no" 
-              checked="checked"
-            >
-            <label for="action-2-no-no">No</label>
-          {% endif %}
+          <input 
+            type="radio" 
+            name="action-2" 
+            value="yes" 
+            id="action-2-yes"
+          >
+          <label for="action-2-yes">Yes</label>
+          <input 
+            type="radio" 
+            name="action-2" 
+            value="no"
+            id="action-2-no"
+          >
+          <label for="action-2-no">No</label>
         </div>
       </fieldset>
       <fieldset>
@@ -222,17 +184,17 @@
 
       {% else %}
       <h4>{{ entry["date"] }}</h4>
-      <p>Sadness: {{ entry["sad score"] }}</p>
-      <p>Anger: {{ entry["angry score"] }}</p>
-      <p>Fear: {{ entry["fear score"] }}</p>
-      <p>Happiness: {{ entry["happy score"] }}</p>
-      <p>Shame: {{ entry["shame score"] }}</p>
-      <p>{{ urges[0].description }}: {{ entry["urge1 score"] }}</p>
-      <p>{{ urges[1].description }}: {{ entry["urge2 score"] }}</p>
-      <p>{{ urges[2].description }}: {{ entry["urge3 score"] }}</p>
-      <p>{{ actions[0].description }}: {{ entry["action1 score"] }}</p>
-      <p>{{ actions[1].description }}: {{ entry["action2 score"] }}</p>
-      <p>Used Skills: {{ entry["skills used"] }}</p>
+      <p id="show-sad">Sadness: {{ entry["sad score"] }}</p>
+      <p id="show-angry">Anger: {{ entry["angry score"] }}</p>
+      <p id="show-fear">Fear: {{ entry["fear score"] }}</p>
+      <p id="show-happy">Happiness: {{ entry["happy score"] }}</p>
+      <p id="show-shame">Shame: {{ entry["shame score"] }}</p>
+      <p id="show-urge1">{{ urges[0].description }}: <span>{{ entry["urge1 score"] }}</span></p>
+      <p id="show-urge2">{{ urges[1].description }}: <span>{{ entry["urge2 score"] }}</span></p>
+      <p id="show-urge3">{{ urges[2].description }}: <span>{{ entry["urge3 score"] }}</span></p>
+      <p id="show-action1">{{ actions[0].description }}: <span>{{ entry["action1 score"] }}</span></p>
+      <p id="show-action2">{{ actions[1].description }}: <span>{{ entry["action2 score"] }}</span></p>
+      <p id="show-used-skills">Used Skills: {{ entry["skills used"] }}</p>
       {% endif %}
     </div>
   {% endfor %}
