@@ -176,25 +176,25 @@
   </div>
 {% endif %}
 
-  {% for entry in entries %}
-    <div class="diary-day">
+  {% for i in range(7) %}
+    <div class="diary-day" id="day{{ i }}">
 
-      {% if entry == None %}
+      {% if entries[i] == None %}
       <p>No Entry</p>
 
       {% else %}
-      <h4>{{ entry["date"] }}</h4>
-      <p id="show-sad">Sadness: {{ entry["sad score"] }}</p>
-      <p id="show-angry">Anger: {{ entry["angry score"] }}</p>
-      <p id="show-fear">Fear: {{ entry["fear score"] }}</p>
-      <p id="show-happy">Happiness: {{ entry["happy score"] }}</p>
-      <p id="show-shame">Shame: {{ entry["shame score"] }}</p>
-      <p id="show-urge1">{{ urges[0].description }}: <span>{{ entry["urge1 score"] }}</span></p>
-      <p id="show-urge2">{{ urges[1].description }}: <span>{{ entry["urge2 score"] }}</span></p>
-      <p id="show-urge3">{{ urges[2].description }}: <span>{{ entry["urge3 score"] }}</span></p>
-      <p id="show-action1">{{ actions[0].description }}: <span>{{ entry["action1 score"] }}</span></p>
-      <p id="show-action2">{{ actions[1].description }}: <span>{{ entry["action2 score"] }}</span></p>
-      <p id="show-used-skills">Used Skills: {{ entry["skills used"] }}</p>
+      <h4>{{ entries[i]["date"] }}</h4>
+      <p id="show-sad">Sadness: {{ entries[i]["sad score"] }}</p>
+      <p id="show-angry">Anger: {{ entries[i]["angry score"] }}</p>
+      <p id="show-fear">Fear: {{ entries[i]["fear score"] }}</p>
+      <p id="show-happy">Happiness: {{ entries[i]["happy score"] }}</p>
+      <p id="show-shame">Shame: {{ entries[i]["shame score"] }}</p>
+      <p id="show-urge1">{{ urges[0].description }}: <span>{{ entries[i]["urge1 score"] }}</span></p>
+      <p id="show-urge2">{{ urges[1].description }}: <span>{{ entries[i]["urge2 score"] }}</span></p>
+      <p id="show-urge3">{{ urges[2].description }}: <span>{{ entries[i]["urge3 score"] }}</span></p>
+      <p id="show-action1">{{ actions[0].description }}: <span>{{ entries[i]["action1 score"] }}</span></p>
+      <p id="show-action2">{{ actions[1].description }}: <span>{{ entries[i]["action2 score"] }}</span></p>
+      <p id="show-used-skills">Used Skills: {{ entries[i]["skills used"] }}</p>
       {% endif %}
     </div>
   {% endfor %}
