@@ -264,34 +264,6 @@ def get_diary_entry_by_user_date(user_id, q_date):
     ).first()
 
 
-# def get_urge_entries_by_d_entry_id(d_entry_id):
-#     """Return a list of a diary entry's corresponding urge entries."""
-#     return UrgeEntry.query.filter(
-#         UrgeEntry.d_entry_id == d_entry_id
-#     ).all()
-
-
-# def get_action_entries_by_d_entry_id(d_entry_id):
-#     """Return a list of a diary entry's corresponding action entries."""
-#     return ActionEntry.query.filter(
-#         ActionEntry.d_entry_id == d_entry_id
-#     ).all()
-
-
-def get_this_week_for_user(user_id):
-    """Return a list of a user's entries for the current week."""
-    
-    today = date.today()
-
-    entries = []
-
-    for i in range(7):
-        date_get = today - timedelta(days = i)
-        entries.append(get_diary_entry_by_user_date(user_id, date_get))
-
-    return entries
-
-
 def get_this_week_for_user(user_id):
     """Return a list of a user's entries for the current week."""
 
