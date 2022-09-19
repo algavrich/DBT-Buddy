@@ -1,7 +1,7 @@
 'use strict';
 
 const editTodayButton = document.querySelector('#edit-today');
-const todayEntry = document.querySelector('.diary-day');
+const todayEntry = document.querySelector('#day6');
 const editTodayForm = document.querySelector('#edit-today-form');
 let clicked = false
 
@@ -68,16 +68,16 @@ editTodayForm.addEventListener('submit', (evt) => {
         todayEntry.style.display = 'inline-block';
         editTodayForm.style.display = 'none';
         editTodayButton.innerHTML = 'Edit Today\'s Entry';
-        document.querySelector('#show-sad').innerHTML = `Sadness: ${formInputs.sad_score}`;
-        document.querySelector('#show-angry').innerHTML = `Anger: ${formInputs.angry_score}`;
-        document.querySelector('#show-fear').innerHTML = `Fear: ${formInputs.fear_score}`;
-        document.querySelector('#show-happy').innerHTML = `Happiness: ${formInputs.happy_score}`;
-        document.querySelector('#show-shame').innerHTML = `Shame: ${formInputs.shame_score}`;
-        document.querySelector('#show-urge1 span').innerHTML = `${formInputs.urge1_score}`;
-        document.querySelector('#show-urge2 span').innerHTML = `${formInputs.urge2_score}`;
-        document.querySelector('#show-urge3 span').innerHTML = `${formInputs.urge3_score}`;
-        document.querySelector('#show-action1 span').innerHTML = `${formInputs.action1_score}`;
-        document.querySelector('#show-action2 span').innerHTML = `${formInputs.action2_score}`;
-        document.querySelector('#show-used-skills').innerHTML = `Used Skills: ${formInputs.sad_score}`;
+        document.querySelector('#day6 .show-sad').innerHTML = `Sadness: ${formInputs.sad_score}`;
+        document.querySelector('#day6 .show-angry').innerHTML = `Anger: ${formInputs.angry_score}`;
+        document.querySelector('#day6 .show-fear').innerHTML = `Fear: ${formInputs.fear_score}`;
+        document.querySelector('#day6 .show-happy').innerHTML = `Happiness: ${formInputs.happy_score}`;
+        document.querySelector('#day6 .show-shame').innerHTML = `Shame: ${formInputs.shame_score}`;
+        document.querySelector('#day6 .show-urge1 span').innerHTML = `${formInputs.urge1_score}`;
+        document.querySelector('#day6 .show-urge2 span').innerHTML = `${formInputs.urge2_score}`;
+        document.querySelector('#day6 .show-urge3 span').innerHTML = `${formInputs.urge3_score}`;
+        document.querySelector('#day6 .show-action1 span').innerHTML = `${formInputs.action1_score}`;
+        document.querySelector('#day6 .show-action2 span').innerHTML = `${formInputs.action2_score}`;
+        document.querySelector('#day6 .show-used-skills').innerHTML = `Used Skills: ${formInputs.sad_score}`;
     });
 });
