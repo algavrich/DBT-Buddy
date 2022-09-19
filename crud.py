@@ -267,19 +267,21 @@ def get_diary_entry_by_user_date(user_id, q_date):
 def get_this_week_for_user(user_id):
     """Return a list of a user's entries for the current week."""
 
-    entries = {}
+    entries = []
 
-    for i in range(7):
-        date_get = date.today() - timedelta(days = i)
+    for i in range(7, 0, -1):
+        date_get = date.today() - timedelta(days=(i-1))
         diary_entry = get_diary_entry_by_user_date(user_id, date_get)
         if diary_entry:
-            entries[f"day{i}"] = {
-                "diary": diary_entry,
-                "urges": diary_entry.urge_entries,
-                "actions": diary_entry.action_entries
-            }
+            entries.append(
+                {
+                    "diary": diary_entry,
+                    "urges": diary_entry.urge_entries,
+                    "actions": diary_entry.action_entries
+                }
+            )
         else:
-            entries[f"day{i}"] = None
+            entries.append(None)
 
     return entries
 
