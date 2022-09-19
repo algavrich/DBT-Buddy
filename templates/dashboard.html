@@ -21,7 +21,7 @@
           <input 
             type="number" 
             name="sad" 
-            value="{{ entries[0]['sad score'] }}" 
+            value="{{ entries[6]['sad score'] }}" 
             id="sad" 
             min="0" 
             max="5"
@@ -32,7 +32,7 @@
           <input 
             type="number" 
             name="angry" 
-            value="{{ entries[0]['angry score'] }}" 
+            value="{{ entries[6]['angry score'] }}" 
             id="angry" 
             min="0" 
             max="5"
@@ -43,7 +43,7 @@
           <input 
             type="number" 
             name="fear" 
-            value="{{ entries[0]['fear score'] }}" 
+            value="{{ entries[6]['fear score'] }}" 
             id="fear" 
             min="0" 
             max="5"
@@ -54,7 +54,7 @@
           <input 
             type="number" 
             name="happy" 
-            value="{{ entries[0]['happy score'] }}" 
+            value="{{ entries[6]['happy score'] }}" 
             id="happy" 
             min="0" 
             max="5"
@@ -65,7 +65,7 @@
           <input 
             type="number" 
             name="shame" 
-            value="{{ entries[0]['shame score'] }}" 
+            value="{{ entries[6]['shame score'] }}" 
             id="shame" 
             min="0" 
             max="5"
@@ -79,7 +79,7 @@
           <input 
             type="number" 
             name="urge-1" 
-            value="{{ entries[0]['urge1 score'] }}" 
+            value="{{ entries[6]['urge1 score'] }}" 
             id="urge-1" 
             min="0" 
             max="5"
@@ -90,7 +90,7 @@
           <input 
             type="number" 
             name="urge-2" 
-            value="{{ entries[0]['urge2 score'] }}" 
+            value="{{ entries[6]['urge2 score'] }}" 
             id="urge-2" 
             min="0" 
             max="5"
@@ -101,7 +101,7 @@
           <input 
             type="number" 
             name="urge-3" 
-            value="{{ entries[0]['urge3 score'] }}" 
+            value="{{ entries[6]['urge3 score'] }}" 
             id="urge-3" 
             min="0" 
             max="5"
@@ -162,7 +162,7 @@
           <input 
             type="number" 
             name="used-skills" 
-            value="{{ entries[0]['skills used'] }}" 
+            value="{{ entries[6]['skills used'] }}" 
             id="used-skills" 
             min="0" 
             max="7"
@@ -184,17 +184,17 @@
 
       {% else %}
       <h4>{{ entries[i]["date"] }}</h4>
-      <p id="show-sad">Sadness: {{ entries[i]["sad score"] }}</p>
-      <p id="show-angry">Anger: {{ entries[i]["angry score"] }}</p>
-      <p id="show-fear">Fear: {{ entries[i]["fear score"] }}</p>
-      <p id="show-happy">Happiness: {{ entries[i]["happy score"] }}</p>
-      <p id="show-shame">Shame: {{ entries[i]["shame score"] }}</p>
-      <p id="show-urge1">{{ urges[0].description }}: <span>{{ entries[i]["urge1 score"] }}</span></p>
-      <p id="show-urge2">{{ urges[1].description }}: <span>{{ entries[i]["urge2 score"] }}</span></p>
-      <p id="show-urge3">{{ urges[2].description }}: <span>{{ entries[i]["urge3 score"] }}</span></p>
-      <p id="show-action1">{{ actions[0].description }}: <span>{{ entries[i]["action1 score"] }}</span></p>
-      <p id="show-action2">{{ actions[1].description }}: <span>{{ entries[i]["action2 score"] }}</span></p>
-      <p id="show-used-skills">Used Skills: {{ entries[i]["skills used"] }}</p>
+      <p class="show-sad">Sadness: {{ entries[i]["sad score"] }}</p>
+      <p class="show-angry">Anger: {{ entries[i]["angry score"] }}</p>
+      <p class="show-fear">Fear: {{ entries[i]["fear score"] }}</p>
+      <p class="show-happy">Happiness: {{ entries[i]["happy score"] }}</p>
+      <p class="show-shame">Shame: {{ entries[i]["shame score"] }}</p>
+      <p class="show-urge1">{{ urges[0].description }}: <span>{{ entries[i]["urge1 score"] }}</span></p>
+      <p class="show-urge2">{{ urges[1].description }}: <span>{{ entries[i]["urge2 score"] }}</span></p>
+      <p class="show-urge3">{{ urges[2].description }}: <span>{{ entries[i]["urge3 score"] }}</span></p>
+      <p class="show-action1">{{ actions[0].description }}: <span>{{ entries[i]["action1 score"] }}</span></p>
+      <p class="show-action2">{{ actions[1].description }}: <span>{{ entries[i]["action2 score"] }}</span></p>
+      <p class="show-used-skills">Used Skills: {{ entries[i]["skills used"] }}</p>
       {% endif %}
     </div>
   {% endfor %}
