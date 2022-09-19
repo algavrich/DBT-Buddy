@@ -113,7 +113,7 @@ class ActionEntry(db.Model):
     def __repr__(self):
         """String representation for ActionEntry object."""
 
-        return f"<UrgeEntry entry_id={self.entry_id} action_id={self.action_id}>"
+        return f"<ActionEntry entry_id={self.entry_id} action_id={self.action_id}>"
 
 
 class Urge(db.Model):
