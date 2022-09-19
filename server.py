@@ -118,7 +118,7 @@ def dashboard():
 
     # TODO possibly move this to helper func
     entries = []
-    for entry in this_week.values():
+    for entry in this_week:
         if entry is not None:
             entry_contents = {
                 "date": datetime.strftime(entry["diary"].dt, "%A %d"),
