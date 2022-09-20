@@ -4,6 +4,7 @@ from model import (db, connect_to_db, User, DiaryEntry, MedEntry,
                    UrgeEntry, ActionEntry, Urge, Action)
 from datetime import date, datetime, timedelta
 from sqlalchemy import cast, DATE
+from random import randint, choice
 
 # HELPER
 
@@ -334,50 +335,59 @@ def update_today_entry(
 
     db.session.commit()
 
-
 # POPULATE TEST DATABASE
 
 def example_data():
-    """Create test data."""
+    """Add example data to DB for Lucy's user."""
 
-    stuff_to_add = []
-    for i in range(10):
-        # Create ten test users
-        stuff_to_add.append(create_user(
-            "User{i}", f"user{i}@test.com", f"password{i}",
-            f"{i}{i}{i}{i}{i}{i}{i}{i}{i}{i}", True, True, True))
-
-        for j in range(3):
-            # For each test user, create three test urges
-            stuff_to_add.append(create_urge((i + 1), "Urge Description"))
-
-        for k in range(2):
-            # For each test user, create two test actions
-            stuff_to_add.append(create_action((i + 1), "Action Description"))
-
-        for l in range(10):
-            # For each test user, create ten test diary entries
-            stuff_to_add.append(
-                create_diary_entry(
-                    (i + 1), datetime.now(), 5, 5, 5, 5, 5, 8))
-            for m in range(3):
-                # For each test diary entry, create three test urge entries
-                stuff_to_add.append(
-                    create_urge_entry(
-                        (m + 1), (l + 1), (i + 1), datetime.now(), 5))
-            
-            for n in range(2):
-                # For each test diary entry, create two test action entries
-                stuff_to_add.append(
-                    create_action_entry(
-                        (n + 1), (l + 1), (i + 1), datetime.now(), 5))
-            
-            # For each test user, create ten test med entries
-            stuff_to_add.append(create_med_entry((i + 1), datetime.now()))
-
-    db.session.add_all(stuff_to_add)
+    lucy = create_user(
+    "Lucy", "annalgav@gmail.com", "password",
+    "5108469189", True, False, False)
+    db.session.add(lucy)
     db.session.commit()
-    
+
+    urges = []
+    for i in range(3):
+            urges.append(create_urge(1, f"Urge {i}"))
+    db.session.add_all(urges)
+
+    actions = []
+    for j in range(2):
+        actions.append(create_action(1, f"Action {j}"))
+    db.session.add_all(actions)
+    db.session.commit()
+
+    for k in range(30, 0, -1):
+        dt = datetime.now() - timedelta(days=(k - 1))
+
+        diary_entry = create_diary_entry(
+            1, dt, randint(0, 5), randint(0, 5), randint(0, 5),
+            randint(0, 5), randint(0, 5), randint(0, 5))
+        db.session.add(diary_entry)
+        db.session.commit()
+
+        current_date = dt.date()
+        diary_entry = get_diary_entry_by_user_date(1, current_date)
+        d_entry_id = diary_entry.entry_id
+        urge_entries = []
+        for m in range(3):
+            urge_entries.append(
+                create_urge_entry(
+                    (m + 1), d_entry_id, 1, dt, randint(0, 5)
+                )
+            )
+        db.session.add_all(urge_entries)
+
+        action_entries = []
+        for n in range(2):
+            action_entries.append(
+                create_action_entry(
+                    (n + 1), d_entry_id, 1, dt, choice([True, False])
+                )
+            )
+        db.session.add_all(action_entries)
+        db.session.commit()
+
 
 
 if __name__ == '__main__':
