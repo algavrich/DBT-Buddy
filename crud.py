@@ -1,6 +1,6 @@
 """CRUD functions."""
 
-from model import (db, connect_to_db, User, Urge, Action, DiaryEntry, 
+from model import (SentReminder, db, connect_to_db, User, Urge, Action, DiaryEntry, 
                    UrgeEntry, ActionEntry)
 from datetime import date, datetime, timedelta
 from sqlalchemy import cast, DATE
@@ -190,6 +190,29 @@ def create_d_u_a_entries_helper(
     db.session.add_all(new_entries)
     db.session.commit()
 
+
+def create_sent_rem(user_id, dt):
+    """Create new SentReminder object."""
+
+    sent_reminder = SentReminder(
+        user_id=user_id,
+        dt=dt
+    )
+
+    return sent_reminder
+
+
+def add_new_rem_to_db(user_id):
+    """Create new SentReminder object and commit it to DB"""
+
+    new_reminder = create_sent_rem(
+        user_id,
+        datetime.now()
+    )
+
+    db.session.add(new_reminder)
+    db.session.commit()
+
 # READ
 
 def get_user_by_id(user_id):
@@ -291,6 +314,34 @@ def check_entry_today(user_id):
     """Returns True if user made an entry already, False if not."""
 
     if get_diary_entry_by_user_date(user_id, date.today()):
+        return True
+
+    return False
+
+
+def check_entry_past_24(user_id):
+    """Returns True if user made an entry in the past 24 hours, False if not."""
+
+    entry = DiaryEntry.query.filter(
+        DiaryEntry.user_id == user_id,
+        DiaryEntry.dt > (datetime.now() - timedelta(days=1))
+    ).first()
+
+    if entry:
+        return True
+
+    return False
+
+
+def check_for_reminder(user_id):
+    """Check if the given user has been reminded in the last day."""
+
+    reminder = SentReminder.query.filter(
+        SentReminder.user_id == user_id,
+        SentReminder.dt > (datetime.now() - timedelta(days=1))
+    ).first()
+
+    if reminder:
         return True
 
     return False
