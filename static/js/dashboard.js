@@ -78,6 +78,6 @@ editTodayForm.addEventListener('submit', (evt) => {
         document.querySelector('#day6 .show-urge3 span').innerHTML = `${formInputs.urge3_score}`;
         document.querySelector('#day6 .show-action1 span').innerHTML = `${formInputs.action1_score}`;
         document.querySelector('#day6 .show-action2 span').innerHTML = `${formInputs.action2_score}`;
-        document.querySelector('#day6 .show-used-skills').innerHTML = `Used Skills: ${formInputs.sad_score}`;
+        document.querySelector('#day6 .show-used-skills').innerHTML = `Used Skills: ${formInputs.used_skills}`;
     });
 });
