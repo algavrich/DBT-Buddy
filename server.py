@@ -113,6 +113,7 @@ def dashboard():
     for urge in urges:
         print(urge)
     actions = crud.get_actions_by_user_id(current_user_id)
+    weeks = crud.get_dict_for_weeks(current_user_id)
 
     this_week = crud.get_this_week_for_user(session.get("user_id"))
 
@@ -147,7 +148,7 @@ def dashboard():
 
     return render_template(
         "dashboard.html", urges=urges, actions=actions,
-        entries=entries, show_edit=show_edit)
+        weeks=weeks, entries=entries, show_edit=show_edit)
 
 
 @app.route("/new-diary-entry")
@@ -172,6 +173,7 @@ def new_diary_entry():
         "diary-entry.html", user_actions=user_actions_descs,
         user_urges=user_urges_descs)
 
+# Combine these routes with multiple view functions in one route
 
 @app.route("/new-diary-entry", methods=["POST"])
 def create_new_diary_entry():
@@ -201,6 +203,7 @@ def create_new_diary_entry():
     return redirect("/dashboard")
 
 
+# PUT here?
 @app.route("/api/update-today-entry", methods=["POST"])
 def update_today_entry():
     """Updates today's entry in DB with info from AJAX request."""
