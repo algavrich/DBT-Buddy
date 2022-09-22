@@ -363,11 +363,16 @@ def get_dict_for_weeks(user_id):
     num_weeks = math.ceil(days_diff.days / 7)
     weeks = {}
     for i in range(num_weeks):
-        week_start_date = date.strftime(
-            (todays_date - timedelta(weeks=(i), days=6)),
+        week_start_date = (todays_date - timedelta(weeks=(i), days=6))
+        week_start_date_string1 = date.strftime(
+            week_start_date,
+            "%d_%m_%Y"
+        )
+        week_start_date_string2 = date.strftime(
+            week_start_date,
             "%b %-d"
         )
-        weeks[i] = f"Week of {week_start_date}"
+        weeks[week_start_date_string1] = f"Week of {week_start_date_string2}"
     return weeks
 
 # UPDATE
