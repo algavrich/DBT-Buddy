@@ -1,5 +1,7 @@
 """Flask server for diary card app."""
 
+# IMPORTS
+
 from flask import (Flask, session, request, flash,
                    render_template, redirect, jsonify)
 from model import connect_to_db
@@ -12,6 +14,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "")
 app.jinja_env.undefined = StrictUndefined
 
+# ROUTES
 
 @app.route("/")
 def index():
@@ -118,28 +121,7 @@ def dashboard():
     this_week = crud.get_this_week_for_user(session.get("user_id"))
 
     # TODO possibly move this to helper func
-    entries = []
-    for entry in this_week:
-        if entry is not None:
-            entry_contents = {
-                "date": datetime.strftime(entry["diary"].dt, "%A %d"),
-                "sad score": entry["diary"].sad_score,
-                "angry score": entry["diary"].angry_score,
-                "fear score": entry["diary"].fear_score,
-                "happy score": entry["diary"].happy_score,
-                "shame score": entry["diary"].shame_score,
-                "urge1 score": entry["urges"][0].score,
-                "urge2 score": entry["urges"][1].score,
-                "urge3 score": entry["urges"][2].score,
-                "action1 score": convert_bool_to_y_n(
-                    entry["actions"][0].score),
-                "action2 score": convert_bool_to_y_n(
-                    entry["actions"][1].score),
-                "skills used": entry["diary"].skills_used
-            }
-        else:
-            entry_contents = None
-        entries.append(entry_contents)
+    entries = make_entries_jsonifiable(this_week)
 
     # Is this an ok place for this?
     show_edit = False
@@ -233,6 +215,21 @@ def update_today_entry():
     }
 
 
+@app.route("/api/get-given-week")
+def get_given_week():
+    """Returns JSON for a week when given its start date as a string."""
+
+    current_user_id = session.get("user_id")
+    week_start_date_string = request.args.get("date_string")
+    entries = crud.get_given_week_for_user_from_date_string(
+        current_user_id,
+        week_start_date_string
+    )
+    entries_as_dicts = make_entries_jsonifiable(entries)
+
+    return jsonify(entries_as_dicts)
+
+
 @app.route("/logout")
 def logout():
     """Log user out."""
@@ -243,6 +240,7 @@ def logout():
 
     return redirect("/")
 
+# HELPERS
 
 def convert_bool_to_y_n(value):
     """Convert a boolean value to yes or no."""
@@ -262,6 +260,35 @@ def get_descs_from_object_list(objects):
         descriptions.append(object.description)
 
     return descriptions
+
+
+def make_entries_jsonifiable(entries_as_objs):
+    """Turn list of dicts of entry objects into list of dicts of dicts."""
+
+    entries = []
+    for entry in entries_as_objs:
+        if entry is not None:
+            entry_contents = {
+                "date": datetime.strftime(entry["diary"].dt, "%A %d"),
+                "sad score": entry["diary"].sad_score,
+                "angry score": entry["diary"].angry_score,
+                "fear score": entry["diary"].fear_score,
+                "happy score": entry["diary"].happy_score,
+                "shame score": entry["diary"].shame_score,
+                "urge1 score": entry["urges"][0].score,
+                "urge2 score": entry["urges"][1].score,
+                "urge3 score": entry["urges"][2].score,
+                "action1 score": convert_bool_to_y_n(
+                    entry["actions"][0].score),
+                "action2 score": convert_bool_to_y_n(
+                    entry["actions"][1].score),
+                "skills used": entry["diary"].skills_used
+            }
+        else:
+            entry_contents = None
+        entries.append(entry_contents)
+
+    return entries
 
 
 if __name__ == "__main__":
