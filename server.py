@@ -185,8 +185,7 @@ def create_new_diary_entry():
     return redirect("/dashboard")
 
 
-# PUT here?
-@app.route("/api/update-today-entry", methods=["POST"])
+@app.route("/api/update-today-entry", methods=["PUT"])
 def update_today_entry():
     """Updates today's entry in DB with info from AJAX request."""
 
