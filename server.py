@@ -95,8 +95,9 @@ def create_account():
                 action_1, action_2)
 
             flash("Successfully created account")
-            return redirect("/dashboard")
+            return redirect("/")
 
+        # How to do this without rerendering? AJAX?
         flash("Passwords do not match")
         return redirect("/create-account")
 
@@ -227,6 +228,13 @@ def get_given_week():
     entries_as_dicts = make_entries_jsonifiable(entries)
 
     return jsonify(entries_as_dicts)
+
+
+@app.route("/settings")
+def settings():
+    """Render the settings page."""
+
+    return render_template("settings.html")
 
 
 @app.route("/logout")
