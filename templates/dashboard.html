@@ -9,6 +9,17 @@
 {% block body %}
 <h1>Hi {{ session.get("fname") }}</h1>
 
+<div id="select-weeks-form">
+  <form>
+    <label for="select-week">Select a week to view:</label>
+    <select name="week" id="select-week">
+      {% for id, name in weeks.items() %}
+        <option value="{{ id }}">{{ name }}</option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+
 {% if show_edit %}
   <button id="edit-today">Edit Today's Entry</button>
 
