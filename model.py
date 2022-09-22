@@ -37,7 +37,9 @@ class Urge(db.Model):
     __tablename__ = "urges"
 
     urge_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("users.user_id"), nullable=False
+    )
     # Is 50 chars too long? too short?
     description = db.Column(db.String(50), nullable=False)
 
@@ -56,7 +58,9 @@ class Action(db.Model):
     __tablename__ = "actions"
 
     action_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("users.user_id"), nullable=False
+    )
     # Is 50 chars too long? too short?
     description = db.Column(db.String(50), nullable=False)
 
@@ -87,7 +91,9 @@ class DiaryEntry(db.Model):
 
     user = db.relationship("User", back_populates="diary_entries")
     urge_entries = db.relationship("UrgeEntry", back_populates="diary_entry")
-    action_entries = db.relationship("ActionEntry", back_populates="diary_entry")
+    action_entries = db.relationship(
+        "ActionEntry", back_populates="diary_entry"
+    )
 
     def __repr__(self):
         """String representation for DiaryEntry object."""
@@ -119,8 +125,12 @@ class UrgeEntry(db.Model):
     __tablename__ = "urge_entries"
 
     entry_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    urge_id = db.Column(db.Integer, db.ForeignKey("urges.urge_id"), nullable=False)
-    d_entry_id = db.Column(db.Integer, db.ForeignKey("diary_entries.entry_id"), nullable=False)
+    urge_id = db.Column(
+        db.Integer, db.ForeignKey("urges.urge_id"), nullable=False
+    )
+    d_entry_id = db.Column(
+        db.Integer, db.ForeignKey("diary_entries.entry_id"), nullable=False
+    )
     user_id = db.Column(db.Integer, nullable=False)
     dt = db.Column(db.DateTime, nullable=False)
     score = db.Column(db.Integer, nullable=False)
@@ -140,19 +150,29 @@ class ActionEntry(db.Model):
     __tablename__ = "action_entries"
 
     entry_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    action_id = db.Column(db.Integer, db.ForeignKey("actions.action_id"), nullable=False)
-    d_entry_id = db.Column(db.Integer, db.ForeignKey("diary_entries.entry_id"), nullable=False)
+    action_id = db.Column(
+        db.Integer, db.ForeignKey("actions.action_id"), nullable=False
+    )
+    d_entry_id = db.Column(
+        db.Integer, db.ForeignKey("diary_entries.entry_id"), nullable=False
+    )
     user_id = db.Column(db.Integer, nullable=False)
     dt = db.Column(db.DateTime, nullable=False)
     score = db.Column(db.Boolean, nullable=False)
 
-    diary_entry = db.relationship("DiaryEntry", back_populates="action_entries")
+    diary_entry = db.relationship(
+        "DiaryEntry", back_populates="action_entries"
+    )
     action = db.relationship("Action", back_populates="action_entries")
 
     def __repr__(self):
         """String representation for ActionEntry object."""
 
-        return f"<ActionEntry entry_id={self.entry_id} action_id={self.action_id}>"
+        # Is this ok?
+        return (
+            f"<ActionEntry entry_id={self.entry_id}",
+            f"action_id={self.action_id}>"
+        )
 
 
 class SentReminder(db.Model):

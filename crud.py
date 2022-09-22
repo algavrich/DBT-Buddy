@@ -1,7 +1,7 @@
 """CRUD functions."""
 
-from model import (SentReminder, db, connect_to_db, User, Urge, Action, DiaryEntry, 
-                   UrgeEntry, ActionEntry)
+from model import (SentReminder, db, connect_to_db, User, Urge,
+                   Action, DiaryEntry, UrgeEntry, ActionEntry)
 from datetime import date, datetime, timedelta
 from sqlalchemy import cast, DATE
 from random import randint, choice
@@ -60,7 +60,7 @@ def create_action(user_id, description):
 
 
 def create_account_helper(
-        fname, email, password, phone_number, entry_reminders, med_tracking, 
+        fname, email, password, phone_number, entry_reminders, med_tracking,
         med_reminders, urge_1, urge_2, urge_3, action_1, action_2):
     """Create new User, Urge, and Action objects and commit to DB."""
 
@@ -290,7 +290,7 @@ def get_diary_entry_by_user_date(user_id, q_date):
 
 
 def get_given_week_for_user(user_id, start_date):
-    """Return a list of a user's entries for the week with the given start date."""
+    """Return user's entries for the week with the given start date."""
 
     entries = []
 
@@ -328,7 +328,7 @@ def check_entry_today(user_id):
 
 
 def check_entry_past_24(user_id):
-    """Returns True if user made an entry in the past 24 hours, False if not."""
+    """Returns True if user made an entry in the past day, False if not."""
 
     entry = DiaryEntry.query.filter(
         DiaryEntry.user_id == user_id,
@@ -384,7 +384,7 @@ def get_dict_for_weeks(user_id):
 
 
 def get_given_week_for_user_from_date_string(user_id, date_string):
-    """Return a list of a user's entries for the week with given start date."""
+    """Return list of a user's entries for the week with given start date."""
 
     start_date = datetime.date(datetime.strptime(date_string, "%d_%m_%Y"))
 
