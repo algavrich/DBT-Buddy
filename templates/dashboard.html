@@ -13,8 +13,8 @@
   <form>
     <label for="select-week">Select a week to view:</label>
     <select name="week" id="select-week">
-      {% for id, name in weeks.items() %}
-        <option value="{{ id }}">{{ name }}</option>
+      {% for start_date, name in weeks.items() %}
+        <option value="{{ start_date }}">{{ name }}</option>
       {% endfor %}
     </select>
   </form>
@@ -194,18 +194,18 @@
       <p>No Entry</p>
 
       {% else %}
-      <h4>{{ entries[i]["date"] }}</h4>
-      <p class="show-sad">Sadness: {{ entries[i]["sad score"] }}</p>
-      <p class="show-angry">Anger: {{ entries[i]["angry score"] }}</p>
-      <p class="show-fear">Fear: {{ entries[i]["fear score"] }}</p>
-      <p class="show-happy">Happiness: {{ entries[i]["happy score"] }}</p>
-      <p class="show-shame">Shame: {{ entries[i]["shame score"] }}</p>
+      <h4 class="show-date">{{ entries[i]["date"] }}</h4>
+      <p class="show-sad">Sadness: <span>{{ entries[i]["sad score"] }}</span></p>
+      <p class="show-angry">Anger: <span>{{ entries[i]["angry score"] }}</span></p>
+      <p class="show-fear">Fear: <span>{{ entries[i]["fear score"] }}</span></p>
+      <p class="show-happy">Happiness: <span>{{ entries[i]["happy score"] }}</span></p>
+      <p class="show-shame">Shame: <span>{{ entries[i]["shame score"] }}</span></p>
       <p class="show-urge1">{{ urges[0].description }}: <span>{{ entries[i]["urge1 score"] }}</span></p>
       <p class="show-urge2">{{ urges[1].description }}: <span>{{ entries[i]["urge2 score"] }}</span></p>
       <p class="show-urge3">{{ urges[2].description }}: <span>{{ entries[i]["urge3 score"] }}</span></p>
       <p class="show-action1">{{ actions[0].description }}: <span>{{ entries[i]["action1 score"] }}</span></p>
       <p class="show-action2">{{ actions[1].description }}: <span>{{ entries[i]["action2 score"] }}</span></p>
-      <p class="show-used-skills">Used Skills: {{ entries[i]["skills used"] }}</p>
+      <p class="show-used-skills">Used Skills: <span>{{ entries[i]["skills used"] }}</span></p>
       {% endif %}
     </div>
   {% endfor %}
