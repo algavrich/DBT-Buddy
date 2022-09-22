@@ -289,13 +289,13 @@ def get_diary_entry_by_user_date(user_id, q_date):
     ).first()
 
 
-def get_this_week_for_user(user_id):
-    """Return a list of a user's entries for the current week."""
+def get_given_week_for_user(user_id, start_date):
+    """Return a list of a user's entries for the week with the given start date."""
 
     entries = []
 
-    for i in range(7, 0, -1):
-        date_get = date.today() - timedelta(days=(i-1))
+    for i in range(7):
+        date_get = start_date + timedelta(days=(i))
         diary_entry = get_diary_entry_by_user_date(user_id, date_get)
         if diary_entry:
             entries.append(
@@ -309,6 +309,13 @@ def get_this_week_for_user(user_id):
             entries.append(None)
 
     return entries
+
+def get_this_week_for_user(user_id):
+    """Return a list of a user's entries for the current week."""
+
+    return get_given_week_for_user(
+        user_id, (date.today() - timedelta(days=6))
+    )
 
 
 def check_entry_today(user_id):
@@ -374,6 +381,14 @@ def get_dict_for_weeks(user_id):
         )
         weeks[week_start_date_string1] = f"Week of {week_start_date_string2}"
     return weeks
+
+
+def get_given_week_for_user_from_date_string(user_id, date_string):
+    """Return a list of a user's entries for the week with given start date."""
+
+    start_date = datetime.date(datetime.strptime(date_string, "%d_%m_%Y"))
+
+    return get_given_week_for_user(user_id, start_date)
 
 # UPDATE
 
