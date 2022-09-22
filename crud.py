@@ -5,6 +5,7 @@ from model import (SentReminder, db, connect_to_db, User, Urge, Action, DiaryEnt
 from datetime import date, datetime, timedelta
 from sqlalchemy import cast, DATE
 from random import randint, choice
+import math
 
 # HELPER
 
@@ -345,6 +346,29 @@ def check_for_reminder(user_id):
         return True
 
     return False
+
+
+def get_dict_for_weeks(user_id):
+    """Return dictionary representing the weeks from first entry to now."""
+    
+    oldest_entry = DiaryEntry.query.filter(
+        DiaryEntry.user_id == user_id
+    ).order_by(
+        DiaryEntry.dt
+    ).first()
+    earliest_date = datetime.date(oldest_entry.dt)
+    todays_date = date.today()
+    days_diff = todays_date - earliest_date
+    # spaces around operator or not?
+    num_weeks = math.ceil(days_diff.days / 7)
+    weeks = {}
+    for i in range(num_weeks):
+        week_start_date = date.strftime(
+            (todays_date - timedelta(weeks=(i), days=6)),
+            "%b %-d"
+        )
+        weeks[i] = f"Week of {week_start_date}"
+    return weeks
 
 # UPDATE
 
