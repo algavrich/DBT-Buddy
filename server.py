@@ -76,10 +76,12 @@ def create_account():
     med_tracking = crud.convert_radio_to_bool(
         request.form.get("med-tracking")
     )
-    # What will this be if left empty??
-    med_reminders = crud.convert_radio_to_bool(
-        request.form.get("med-reminders")
-    )
+    if med_tracking == False:
+        med_reminders = False
+    else:
+        med_reminders = crud.convert_radio_to_bool(
+            request.form.get("med-reminders")
+        )
     urge_1 = request.form.get("urge-1")
     urge_2 = request.form.get("urge-2")
     urge_3 = request.form.get("urge-3")
