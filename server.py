@@ -59,49 +59,39 @@ def create_account_form():
     return render_template("create-account.html")
 
 
-@app.route("/create-account", methods=["POST"])
+@app.route("/api/create-account", methods=["POST"])
 def create_account():
-    """Create new account."""
+    """Create new account with JSON from AJAX."""
 
-    # TODO add input validation
-
-    fname = request.form.get("fname")
-    email = request.form.get("email")
-    password = request.form.get("password")
-    password2 = request.form.get("password-2")
-    phone_number = request.form.get("phone-number")
+    fname = request.json.get("fname")
+    email = request.json.get("email")
+    password = request.json.get("password")
+    phone_number = request.json.get("phone_number")
+    urge_1 = request.json.get("urge1")
+    urge_2 = request.json.get("urge2")
+    urge_3 = request.json.get("urge3")
+    action_1 = request.json.get("action1")
+    action_2 = request.json.get("action2")
     entry_reminders = crud.convert_radio_to_bool(
-        request.form.get("entry-reminders")
+        request.json.get("entry_reminders")
     )
     med_tracking = crud.convert_radio_to_bool(
-        request.form.get("med-tracking")
+        request.json.get("med_tracking")
     )
-    if med_tracking == False:
-        med_reminders = False
-    else:
-        med_reminders = crud.convert_radio_to_bool(
-            request.form.get("med-reminders")
-        )
-    urge_1 = request.form.get("urge-1")
-    urge_2 = request.form.get("urge-2")
-    urge_3 = request.form.get("urge-3")
-    action_1 = request.form.get("action-1")
-    action_2 = request.form.get("action-2")
-
+    med_reminders = crud.convert_radio_to_bool(
+        request.json.get("med_reminders")
+    )
     
     if not crud.get_user_by_email(email):
-        if password == password2:
-            crud.create_account_helper(
-                fname, email, password, phone_number, entry_reminders,
-                med_tracking, med_reminders, urge_1, urge_2, urge_3, 
-                action_1, action_2)
+        crud.create_account_helper(
+            fname, email, password, phone_number, entry_reminders,
+            med_tracking, med_reminders, urge_1, urge_2, urge_3, 
+            action_1, action_2)
 
-            flash("Successfully created account")
-            return redirect("/")
-
-        # How to do this without rerendering? AJAX?
-        flash("Passwords do not match")
-        return redirect("/create-account")
+        flash("Successfully created account")
+        return jsonify({
+            "success": True,
+        })
 
     flash("That email is already associated with an account")
     return redirect("/create-account")
@@ -211,10 +201,10 @@ def update_today_entry():
         happy_score, shame_score, urge_1_score, urge_2_score,
         urge_3_score, action_1, action_2, used_skills)
 
-    return {
+    return jsonify({
         "success": True,
         "status": "Your entry for today has been updated!",
-    }
+    })
 
 
 @app.route("/api/get-given-week")
