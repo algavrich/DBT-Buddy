@@ -107,8 +107,6 @@ def dashboard():
     
     current_user_id = session.get("user_id")
     urges = crud.get_urges_by_user_id(current_user_id)
-    for urge in urges:
-        print(urge)
     actions = crud.get_actions_by_user_id(current_user_id)
     weeks = crud.get_dict_for_weeks(current_user_id)
 
@@ -227,7 +225,21 @@ def get_given_week():
 def settings():
     """Render the settings page."""
 
-    return render_template("settings.html")
+    if not session.get("user_id"):
+        return redirect("/")
+
+    current_user_id = session.get("user_id")
+    current_user = crud.get_user_by_id(current_user_id)
+    entry_reminders = convert_bool_to_y_n(current_user.entry_reminders)
+    med_tracking = convert_bool_to_y_n(current_user.med_tracking)
+    med_reminders = convert_bool_to_y_n(current_user.med_reminders)
+    active_urges = crud.get_urges_by_user_id(current_user_id)
+    active_actions = crud.get_actions_by_user_id(current_user_id)
+
+    return render_template(
+        "settings.html", user=current_user, entry_reminders=entry_reminders,
+        med_tracking=med_tracking, med_reminders=med_reminders, 
+        active_urges=active_urges, active_actions=active_actions)
 
 
 @app.route("/logout")
