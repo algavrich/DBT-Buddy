@@ -86,7 +86,7 @@
       <fieldset>
         <legend>Urges</legend>
         <div>
-          <label for="urge-1">{{ urges[0].description }}: </label>
+          <label for="urge-1">{{ entries[6]["urge1 name"] }}: </label>
           <input 
             type="number" 
             name="urge-1" 
@@ -97,7 +97,7 @@
           >
         </div>
         <div>
-          <label for="urge-2">{{ urges[1].description }}: </label>
+          <label for="urge-2">{{ entries[6]["urge2 name"] }}: </label>
           <input 
             type="number" 
             name="urge-2" 
@@ -108,7 +108,7 @@
           >
         </div>
         <div>
-          <label for="urge-3">{{ urges[2].description }}: </label>
+          <label for="urge-3">{{ entries[6]["urge3 name"] }}: </label>
           <input 
             type="number" 
             name="urge-3" 
@@ -122,7 +122,7 @@
       <fieldset>
         <legend>Actions</legend>
         <div id="action-1">
-          <label for="action-1">{{ actions[0].description }}: </label>
+          <label for="action-1">{{ entries[6]["action1 name"] }}: </label>
           <input 
             type="radio" 
             name="action-1" 
@@ -139,7 +139,7 @@
           <label for="action-1-no">No</label>
         </div>
         <div id="action-2">
-          <label for="action-2">{{ actions[1].description }}: </label>
+          <label for="action-2">{{ entries[6]["action2 name"] }}: </label>
           <input 
             type="radio" 
             name="action-2" 
@@ -197,11 +197,11 @@
       <p class="show-fear">Fear: <span></span></p>
       <p class="show-happy">Happiness: <span></span></p>
       <p class="show-shame">Shame: <span></span></p>
-      <p class="show-urge1">{{ urges[0].description }}: <span></span></p>
-      <p class="show-urge2">{{ urges[1].description }}: <span></span></p>
-      <p class="show-urge3">{{ urges[2].description }}: <span></span></p>
-      <p class="show-action1">{{ actions[0].description }}: <span></span></p>
-      <p class="show-action2">{{ actions[1].description }}: <span></span></p>
+      <p class="show-urge1">{{ entries[i]["urge1 name"] }}: <span></span></p>
+      <p class="show-urge2">{{ entries[i]["urge2 name"] }}: <span></span></p>
+      <p class="show-urge3">{{ entries[i]["urge3 name"] }}: <span></span></p>
+      <p class="show-action1">{{ entries[i]["action1 name"] }}: <span></span></p>
+      <p class="show-action2">{{ entries[i]["action2 name"] }}: <span></span></p>
       <p class="show-used-skills">Used Skills: <span></span></p>
 
       {% else %}
@@ -227,23 +227,23 @@
         <span>{{ entries[i]["shame score"] }}</span>
       </p>
       <p class="show-urge1">
-        {{ urges[0].description }}: 
+        {{ entries[i]["urge1 name"] }}: 
         <span>{{ entries[i]["urge1 score"] }}</span>
       </p>
       <p class="show-urge2">
-        {{ urges[1].description }}: 
+        {{ entries[i]["urge2 name"] }}: 
         <span>{{ entries[i]["urge2 score"] }}</span>
       </p>
       <p class="show-urge3">
-        {{ urges[2].description }}: 
+        {{ entries[i]["urge3 name"] }}: 
         <span>{{ entries[i]["urge3 score"] }}</span>
       </p>
       <p class="show-action1">
-        {{ actions[0].description }}: 
+        {{ entries[i]["action1 name"] }}: 
         <span>{{ entries[i]["action1 score"] }}</span>
       </p>
       <p class="show-action2">
-        {{ actions[1].description }}: 
+        {{ entries[i]["action2 name"] }}: 
         <span>{{ entries[i]["action2 score"] }}</span>
       </p>
       <p class="show-used-skills">
