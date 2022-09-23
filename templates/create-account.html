@@ -28,22 +28,22 @@
       <legend>Your Info</legend>
       <div>
         <label for="fname">First Name</label>
-        <input type="text" name="fname" id="fname">
+        <input type="text" name="fname" id="fname" required>
       </div>
 
       <div>
         <label for="email">Email</label>
-        <input type="email" name="email" id="email">
+        <input type="email" name="email" id="email" required>
       </div>
 
       <div>
         <label for="password">Password</label>
-        <input type="password" name="password" id="password">
+        <input type="password" name="password" id="password" required>
       </div>
 
       <div>
         <label for="password-2">Retype Password</label>
-        <input type="password" name="password-2" id="password-2">
+        <input type="password" name="password-2" id="password-2" required>
       </div>
 
       <!-- Fix this after regular expressions -->
@@ -59,15 +59,15 @@
         <p>Please provide a concise name for each urge</p>
         <div>
           <label for="urge-1">Urge 1</label>
-          <input type="text" name="urge-1" id="urge-1">
+          <input type="text" name="urge-1" id="urge-1" required>
         </div>
         <div>
           <label for="urge-2">Urge 2</label>
-          <input type="text" name="urge-2" id="urge-2">
+          <input type="text" name="urge-2" id="urge-2" required>
         </div>
         <div>
           <label for="urge-3">Urge 3</label>
-          <input type="text" name="urge-3" id="urge-3">
+          <input type="text" name="urge-3" id="urge-3" required>
         </div>
       </fieldset>
 
@@ -76,11 +76,11 @@
         <p>Please provide a concise name for each action</p>
         <div>
           <label for="action-1">Action 1</label>
-          <input type="text" name="action-1" id="action-1">
+          <input type="text" name="action-1" id="action-1" required>
         </div>
         <div>
           <label for="action-2">Action 2</label>
-          <input type="text" name="action-2" id="action-2">
+          <input type="text" name="action-2" id="action-2" required>
         </div>
       </fieldset>
 
@@ -88,9 +88,22 @@
         Would you like to receive entry reminders?
       </label>
       <div id="e-rem">
-        <input type="radio" name="entry-reminders" value="yes" id="e-rem-yes">
+        <input 
+          type="radio" 
+          name="entry-reminders" 
+          value="yes" 
+          id="e-rem-yes" 
+          required
+        >
         <label for="e-rem-yes">Yes</label>
-        <input type="radio" name="entry-reminders" value="no" id="e-rem-no">
+        <input 
+          type="radio" 
+          name="entry-reminders" 
+          value="no" 
+          id="e-rem-no" 
+          checked 
+          required
+        >
         <label for="e-rem-no">No</label>
       </div>
 
@@ -98,9 +111,22 @@
         Would you like to track your daily medications?
       </label>
       <div id="med-track">
-        <input type="radio" name="med-tracking" value="yes" id="m-track-yes">
+        <input 
+          type="radio" 
+          name="med-tracking" 
+          value="yes" 
+          id="m-track-yes" 
+          required
+        >
         <label for="m-track-yes">Yes</label>
-        <input type="radio" name="med-tracking" value="no" id="m-track-no">
+        <input 
+          type="radio" 
+          name="med-tracking" 
+          value="no" 
+          id="m-track-no" 
+          checked 
+          required
+        >
         <label for="m-track-no">No</label>
       </div>
 
@@ -109,9 +135,22 @@
           Would you like to receive reminders to take your medication?
         </label>
         <div id="med-rem">
-          <input type="radio" name="med-reminders" value="yes" id="m-rem-yes">
+          <input 
+            type="radio" 
+            name="med-reminders" 
+            value="yes" 
+            id="m-rem-yes" 
+            required
+          >
           <label for="m-rem-yes">Yes</label>
-          <input type="radio" name="med-reminders" value="no" id="m-rem-no">
+          <input 
+            type="radio" 
+            name="med-reminders" 
+            value="no" 
+            id="m-rem-no" 
+            checked 
+            required
+          >
           <label for="m-rem-no">No</label>
         </div>
       </div>
