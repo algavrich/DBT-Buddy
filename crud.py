@@ -42,7 +42,8 @@ def create_urge(user_id, description):
 
     urge = Urge(
         user_id=user_id, 
-        description=description
+        description=description,
+        active = True
     )
 
     return urge
@@ -53,7 +54,8 @@ def create_action(user_id, description):
 
     action = Action(
         user_id=user_id, 
-        description=description
+        description=description,
+        active = True
     )
 
     return action
@@ -268,16 +270,24 @@ def get_urges_by_user_id(user_id):
     """Return a list of user's urges when given their ID."""
 
     user = get_user_by_id(user_id)
+    active_urges = []
+    for urge in user.urges:
+        if urge.active:
+            active_urges.append(urge)
 
-    return user.urges
+    return active_urges
 
 
 def get_actions_by_user_id(user_id):
     """Return a list of user's actions when given their ID."""
 
     user = get_user_by_id(user_id)
+    active_actions = []
+    for action in user.actions:
+        if action.active:
+            active_actions.append(action)
 
-    return user.actions
+    return active_actions
 
 
 def get_diary_entry_by_user_date(user_id, q_date):
