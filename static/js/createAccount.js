@@ -32,24 +32,24 @@ createAccountForm.addEventListener('submit', (evt) => {
         const urge3 = document.querySelector('#urge-3').value;
         const action1 = document.querySelector('#action-1').value;
         const action2 = document.querySelector('#action-2').value;
-        const entryReminderRadios = document
-        .querySelectorAll('input[name="entry-reminders"]');
+        const entryReminderRadios = document.querySelectorAll(
+            'input[name="entry-reminders"]');
         let entryReminders = null;
         for (const radio of entryReminderRadios) {
             if (radio.checked) {
                 entryReminders = radio.value;
             }
         }
-        const medTrackRadios = document
-        .querySelectorAll('input[name="med-tracking"]');
+        const medTrackRadios = document.querySelectorAll(
+            'input[name="med-tracking"]');
         let medTracking = null;
         for (const radio of medTrackRadios) {
             if (radio.checked) {
                 medTracking = radio.value;
             }
         }
-        const medReminderRadios = document
-        .querySelectorAll('input[name="med-reminders"]');
+        const medReminderRadios = document.querySelectorAll(
+            'input[name="med-reminders"]');
         let medReminders = null;
         if (medTracking === 'no') {
             medReminders = 'no';
