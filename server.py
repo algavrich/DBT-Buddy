@@ -106,13 +106,10 @@ def dashboard():
         return redirect("/")
     
     current_user_id = session.get("user_id")
-    urges = crud.get_urges_by_user_id(current_user_id)
-    actions = crud.get_actions_by_user_id(current_user_id)
     weeks = crud.get_dict_for_weeks(current_user_id)
 
     this_week = crud.get_this_week_for_user(session.get("user_id"))
 
-    # TODO possibly move this to helper func
     entries = make_entries_jsonifiable(this_week)
 
     # Is this an ok place for this?
@@ -121,8 +118,7 @@ def dashboard():
         show_edit = True
 
     return render_template(
-        "dashboard.html", urges=urges, actions=actions,
-        weeks=weeks, entries=entries, show_edit=show_edit)
+        "dashboard.html", weeks=weeks, entries=entries, show_edit=show_edit)
 
 
 @app.route("/new-diary-entry")
@@ -287,9 +283,14 @@ def make_entries_jsonifiable(entries_as_objs):
                 "fear score": entry["diary"].fear_score,
                 "happy score": entry["diary"].happy_score,
                 "shame score": entry["diary"].shame_score,
+                "urge1 name": crud.get_urge_desc_by_id(entry["urges"][0].urge_id),
+                "urge2 name": crud.get_urge_desc_by_id(entry["urges"][1].urge_id),
+                "urge3 name": crud.get_urge_desc_by_id(entry["urges"][2].urge_id),
                 "urge1 score": entry["urges"][0].score,
                 "urge2 score": entry["urges"][1].score,
                 "urge3 score": entry["urges"][2].score,
+                "action1 name": crud.get_action_desc_by_id(entry["actions"][0].action_id),
+                "action2 name": crud.get_action_desc_by_id(entry["actions"][1].action_id),
                 "action1 score": convert_bool_to_y_n(
                     entry["actions"][0].score),
                 "action2 score": convert_bool_to_y_n(
