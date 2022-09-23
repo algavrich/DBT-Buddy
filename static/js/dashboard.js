@@ -37,7 +37,8 @@ if (editTodayButton != null) {
             }
         }
     
-        const action2Buttons = document.querySelectorAll('input[name="action-2"]');
+        const action2Buttons = document.querySelectorAll(
+            'input[name="action-2"]');
         let action2 = null;
         for (const button of action2Buttons) {
             if (button.checked) {
@@ -108,7 +109,8 @@ const diaryDays = document.querySelectorAll('.diary-day')
 selectWeekMenu.addEventListener('change', (evt) => {
     evt.preventDefault();
     
-    const queryString = new URLSearchParams({date_string: evt.target.value}).toString();
+    const queryString = new URLSearchParams(
+        {date_string: evt.target.value}).toString();
     const url = `/api/get-given-week?${queryString}`;
     fetch(url)
     .then((res) => res.json())
