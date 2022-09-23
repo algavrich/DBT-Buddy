@@ -290,6 +290,26 @@ def get_actions_by_user_id(user_id):
     return active_actions
 
 
+def get_urge_desc_by_id(urge_id):
+    """Return urge description when given it's ID."""
+
+    return db.session.query(
+        Urge.description
+    ).filter(
+        Urge.urge_id == urge_id
+    ).first()[0]
+
+
+def get_action_desc_by_id(action_id):
+    """Return action description when given it's ID."""
+
+    return db.session.query(
+        Action.description
+    ).filter(
+        Action.action_id == action_id
+    ).first()[0]
+
+
 def get_diary_entry_by_user_date(user_id, q_date):
     """Return a user's diary entry for a given date."""
 
