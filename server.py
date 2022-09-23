@@ -67,6 +67,7 @@ def create_account():
     email = request.json.get("email")
     password = request.json.get("password")
     phone_number = request.json.get("phone_number")
+    # Make this clean for DB
     urge_1 = request.json.get("urge1")
     urge_2 = request.json.get("urge2")
     urge_3 = request.json.get("urge3")
