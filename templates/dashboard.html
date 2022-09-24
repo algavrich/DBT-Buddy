@@ -192,69 +192,50 @@
 
       {% if entries[i] == None %}
       <h4 class="show-date">No Entry</h4>
-      <p class="show-sad">Sadness: <span></span></p>
-      <p class="show-angry">Anger: <span></span></p>
-      <p class="show-fear">Fear: <span></span></p>
-      <p class="show-happy">Happiness: <span></span></p>
-      <p class="show-shame">Shame: <span></span></p>
-      <p class="show-urge1">{{ entries[i]["urge1 name"] }}: <span></span></p>
-      <p class="show-urge2">{{ entries[i]["urge2 name"] }}: <span></span></p>
-      <p class="show-urge3">{{ entries[i]["urge3 name"] }}: <span></span></p>
-      <p class="show-action1">{{ entries[i]["action1 name"] }}: <span></span></p>
-      <p class="show-action2">{{ entries[i]["action2 name"] }}: <span></span></p>
-      <p class="show-used-skills">Used Skills: <span></span></p>
+      <p class="show-sad"></p>
+      <p class="show-angry"></p>
+      <p class="show-fear"></p>
+      <p class="show-happy"></p>
+      <p class="show-shame"></p>
+      <p class="show-urge1"></p>
+      <p class="show-urge2"></p>
+      <p class="show-urge3"></p>
+      <p class="show-action1"></p>
+      <p class="show-action2"></p>
+      <p class="show-used-skills"></p>
 
       {% else %}
       <h4 class="show-date">{{ entries[i]["date"] }}</h4>
-      <p class="show-sad">
-        Sadness: 
-        <span>{{ entries[i]["sad score"] }}</span>
-      </p>
-      <p class="show-angry">
-        Anger: 
-        <span>{{ entries[i]["angry score"] }}</span>
-      </p>
-      <p class="show-fear">
-        Fear: 
-        <span>{{ entries[i]["fear score"] }}</span>
-      </p>
-      <p class="show-happy">
-        Happiness: 
-        <span>{{ entries[i]["happy score"] }}</span>
-      </p>
-      <p class="show-shame">
-        Shame: 
-        <span>{{ entries[i]["shame score"] }}</span>
-      </p>
+      <p class="show-sad">Sadness: {{ entries[i]["sad score"] }}</p>
+      <p class="show-angry">Anger: {{ entries[i]["angry score"] }}</p>
+      <p class="show-fear">Fear: {{ entries[i]["fear score"] }}</p>
+      <p class="show-happy">Happiness: {{ entries[i]["happy score"] }}</p>
+      <p class="show-shame">Shame: {{ entries[i]["shame score"] }}</p>
       <p class="show-urge1">
-        {{ entries[i]["urge1 name"] }}: 
-        <span>{{ entries[i]["urge1 score"] }}</span>
+        {{ entries[i]["urge1 name"] }}: {{ entries[i]["urge1 score"] }}
       </p>
       <p class="show-urge2">
-        {{ entries[i]["urge2 name"] }}: 
-        <span>{{ entries[i]["urge2 score"] }}</span>
+        {{ entries[i]["urge2 name"] }}: {{ entries[i]["urge2 score"] }}
       </p>
       <p class="show-urge3">
-        {{ entries[i]["urge3 name"] }}: 
-        <span>{{ entries[i]["urge3 score"] }}</span>
+        {{ entries[i]["urge3 name"] }}: {{ entries[i]["urge3 score"] }}
       </p>
       <p class="show-action1">
-        {{ entries[i]["action1 name"] }}: 
-        <span>{{ entries[i]["action1 score"] }}</span>
+        {{ entries[i]["action1 name"] }}: {{ entries[i]["action1 score"] }}
       </p>
       <p class="show-action2">
-        {{ entries[i]["action2 name"] }}: 
-        <span>{{ entries[i]["action2 score"] }}</span>
+        {{ entries[i]["action2 name"] }}: {{ entries[i]["action2 score"] }}
       </p>
       <p class="show-used-skills">
-        Used Skills: 
-        <span>{{ entries[i]["skills used"] }}</span>
+        Used Skills: {{ entries[i]["skills used"] }}
       </p>
       {% endif %}
     </div>
   {% endfor %}
 
-<a href="/new-diary-entry">Make a Diary Entry</a>
+  {% if not show_edit %}
+    <a href="/new-diary-entry">Make a Diary Entry</a>
+  {% endif %}
 {% endblock %}
 
 {% block after_body %}
