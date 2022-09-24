@@ -70,33 +70,37 @@ if (editTodayButton != null) {
         })
         .then((res) => res.json())
         .then((resData) => {
-            alert(resData.status);
             clicked = false;
             todayEntry.style.display = 'inline-block';
             editTodayForm.style.display = 'none';
             editTodayButton.innerHTML = 'Edit Today\'s Entry';
             document.querySelector('#day6 .show-sad')
-            .innerHTML = `Sadness: ${formInputs.sad_score}`;
+            .innerHTML = `Sadness: ${resData['sad score']}`;
             document.querySelector('#day6 .show-angry')
-            .innerHTML = `Anger: ${formInputs.angry_score}`;
+            .innerHTML = `Anger: ${resData['angry score']}`;
             document.querySelector('#day6 .show-fear')
-            .innerHTML = `Fear: ${formInputs.fear_score}`;
+            .innerHTML = `Fear: ${resData['fear score']}`;
             document.querySelector('#day6 .show-happy')
-            .innerHTML = `Happiness: ${formInputs.happy_score}`;
+            .innerHTML = `Happiness: ${resData['happy score']}`;
             document.querySelector('#day6 .show-shame')
-            .innerHTML = `Shame: ${formInputs.shame_score}`;
-            document.querySelector('#day6 .show-urge1 span')
-            .innerHTML = `${formInputs.urge1_score}`;
-            document.querySelector('#day6 .show-urge2 span')
-            .innerHTML = `${formInputs.urge2_score}`;
-            document.querySelector('#day6 .show-urge3 span')
-            .innerHTML = `${formInputs.urge3_score}`;
-            document.querySelector('#day6 .show-action1 span')
-            .innerHTML = `${formInputs.action1_score}`;
-            document.querySelector('#day6 .show-action2 span')
-            .innerHTML = `${formInputs.action2_score}`;
+            .innerHTML = `Shame: ${resData['shame score']}`;
+            document.querySelector('#day6 .show-urge1')
+            .innerHTML = `${resData['urge1 name']}: 
+                ${resData['urge1 score']}`;
+            document.querySelector('#day6 .show-urge2')
+            .innerHTML = `${resData['urge2 name']}: 
+                ${resData['urge2 score']}`;
+            document.querySelector('#day6 .show-urge3')
+            .innerHTML = `${resData['urge3 name']}: 
+                ${resData['urge3 score']}`;
+            document.querySelector('#day6 .show-action1')
+            .innerHTML = `${resData['action1 name']}: 
+                ${resData['action1 score']}`;
+            document.querySelector('#day6 .show-action2')
+            .innerHTML = `${resData['action2 name']}: 
+                ${resData['action2 score']}`;
             document.querySelector('#day6 .show-used-skills')
-            .innerHTML = `Used Skills: ${formInputs.used_skills}`;
+            .innerHTML = `Used Skills: ${resData['skills used']}`;
         });
     });
 }
@@ -119,43 +123,48 @@ selectWeekMenu.addEventListener('change', (evt) => {
             const showDate = document.querySelector(
                 `#day${i} .show-date`);
             const showSad = document.querySelector(
-                `#day${i} .show-sad span`);
+                `#day${i} .show-sad`);
             const showAngry = document.querySelector(
-                `#day${i} .show-angry span`);
+                `#day${i} .show-angry`);
             const showFear = document.querySelector(
-                `#day${i} .show-fear span`);
+                `#day${i} .show-fear`);
             const showHappy = document.querySelector(
-                `#day${i} .show-happy span`);
+                `#day${i} .show-happy`);
             const showShame = document.querySelector(
-                `#day${i} .show-shame span`);
+                `#day${i} .show-shame`);
             const showUrge1 = document.querySelector(
-                `#day${i} .show-urge1 span`);
+                `#day${i} .show-urge1`);
             const showUrge2 = document.querySelector(
-                `#day${i} .show-urge2 span`);
+                `#day${i} .show-urge2`);
             const showUrge3 = document.querySelector(
-                `#day${i} .show-urge3 span`);
+                `#day${i} .show-urge3`);
             const showAction1 = document.querySelector(
-                `#day${i} .show-action1 span`);
+                `#day${i} .show-action1`);
             const showAction2 = document.querySelector(
-                `#day${i} .show-action2 span`);
+                `#day${i} .show-action2`);
             const showUsedSkills = document.querySelector(
-                `#day${i} .show-used-skills span`);
+                `#day${i} .show-used-skills`);
 
             if (resData[i] !== null) {
                 showDate.innerHTML = `${resData[i]['date']}`;
-                showSad.innerHTML = `${resData[i]['sad score']}`;
-                showAngry.innerHTML = `${resData[i]['angry score']}`;
-                showFear.innerHTML = `${resData[i]['fear score']}`;
-                showHappy
-                .innerHTML = `${resData[i]['happy score']}`;
-                showShame.innerHTML = `${resData[i]['shame score']}`;
-                showUrge1.innerHTML = `${resData[i]['urge1 score']}`;
-                showUrge2.innerHTML = `${resData[i]['urge2 score']}`;
-                showUrge3.innerHTML = `${resData[i]['urge3 score']}`;
-                showAction1.innerHTML = `${resData[i]['action1 score']}`;
-                showAction2.innerHTML = `${resData[i]['action2 score']}`;
-                showUsedSkills
-                .innerHTML = `${resData[i]['skills used']}`;
+                showSad.innerHTML = `Sadness: ${resData[i]['sad score']}`;
+                showAngry.innerHTML = `Anger: ${resData[i]['angry score']}`;
+                showFear.innerHTML = `Fear: ${resData[i]['fear score']}`;
+                showHappy.innerHTML = `Happiness: 
+                    ${resData[i]['happy score']}`;
+                showShame.innerHTML = `Shame: ${resData[i]['shame score']}`;
+                showUrge1.innerHTML = `${resData[i]['urge1 name']}: 
+                    ${resData[i]['urge1 score']}`;
+                showUrge2.innerHTML = `${resData[i]['urge2 name']}: 
+                    ${resData[i]['urge2 score']}`;
+                showUrge3.innerHTML = `${resData[i]['urge3 name']}: 
+                    ${resData[i]['urge3 score']}`;
+                showAction1.innerHTML = `${resData[i]['action1 name']}: 
+                    ${resData[i]['action1 score']}`;
+                showAction2.innerHTML = `${resData[i]['action2 name']}: 
+                    ${resData[i]['action2 score']}`;
+                showUsedSkills.innerHTML = `Used Skills: 
+                    ${resData[i]['skills used']}`;
             } else {
                 showDate.innerHTML = '<h4>No Entry</h4>';
                 showSad.innerHTML = '';
