@@ -328,13 +328,7 @@ def get_given_week_for_user(user_id, start_date):
         date_get = start_date + timedelta(days=(i))
         diary_entry = get_diary_entry_by_user_date(user_id, date_get)
         if diary_entry:
-            entries.append(
-                {
-                    "diary": diary_entry,
-                    "urges": diary_entry.urge_entries,
-                    "actions": diary_entry.action_entries
-                }
-            )
+            entries.append(diary_entry)
         else:
             entries.append(None)
 
