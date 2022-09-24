@@ -8,7 +8,7 @@ from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
 import os
-from datetime import datetime
+from datetime import datetime, date
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "")
@@ -196,10 +196,12 @@ def update_today_entry():
         happy_score, shame_score, urge_1_score, urge_2_score,
         urge_3_score, action_1, action_2, used_skills)
 
-    return jsonify({
-        "success": True,
-        "status": "Your entry for today has been updated!",
-    })
+    updated_d_entry = crud.get_diary_entry_by_user_date(
+        current_user_id, date.today()
+    )
+    updated_d_entry = dict_for_day(updated_d_entry)
+
+    return jsonify(updated_d_entry)
 
 
 @app.route("/api/get-given-week")
@@ -270,33 +272,44 @@ def get_descs_from_object_list(objects):
     return descriptions
 
 
+def dict_for_day(entry):
+    """Create dictionary of values for given entry."""
+
+    return {
+        "date": datetime.strftime(entry.dt, "%A %d"),
+        "sad score": entry.sad_score,
+        "angry score": entry.angry_score,
+        "fear score": entry.fear_score,
+        "happy score": entry.happy_score,
+        "shame score": entry.shame_score,
+        "urge1 name": crud.get_urge_desc_by_id(
+            entry.urge_entries[0].urge_id),
+        "urge2 name": crud.get_urge_desc_by_id(
+            entry.urge_entries[1].urge_id),
+        "urge3 name": crud.get_urge_desc_by_id(
+            entry.urge_entries[2].urge_id),
+        "urge1 score": entry.urge_entries[0].score,
+        "urge2 score": entry.urge_entries[1].score,
+        "urge3 score": entry.urge_entries[2].score,
+        "action1 name": crud.get_action_desc_by_id(
+            entry.action_entries[0].action_id),
+        "action2 name": crud.get_action_desc_by_id(
+            entry.action_entries[1].action_id),
+        "action1 score": convert_bool_to_y_n(
+            entry.action_entries[0].score),
+        "action2 score": convert_bool_to_y_n(
+            entry.action_entries[1].score),
+        "skills used": entry.skills_used
+    }
+
+
 def make_entries_jsonifiable(entries_as_objs):
     """Turn list of dicts of entry objects into list of dicts of dicts."""
 
     entries = []
     for entry in entries_as_objs:
         if entry is not None:
-            entry_contents = {
-                "date": datetime.strftime(entry["diary"].dt, "%A %d"),
-                "sad score": entry["diary"].sad_score,
-                "angry score": entry["diary"].angry_score,
-                "fear score": entry["diary"].fear_score,
-                "happy score": entry["diary"].happy_score,
-                "shame score": entry["diary"].shame_score,
-                "urge1 name": crud.get_urge_desc_by_id(entry["urges"][0].urge_id),
-                "urge2 name": crud.get_urge_desc_by_id(entry["urges"][1].urge_id),
-                "urge3 name": crud.get_urge_desc_by_id(entry["urges"][2].urge_id),
-                "urge1 score": entry["urges"][0].score,
-                "urge2 score": entry["urges"][1].score,
-                "urge3 score": entry["urges"][2].score,
-                "action1 name": crud.get_action_desc_by_id(entry["actions"][0].action_id),
-                "action2 name": crud.get_action_desc_by_id(entry["actions"][1].action_id),
-                "action1 score": convert_bool_to_y_n(
-                    entry["actions"][0].score),
-                "action2 score": convert_bool_to_y_n(
-                    entry["actions"][1].score),
-                "skills used": entry["diary"].skills_used
-            }
+            entry_contents = dict_for_day(entry)
         else:
             entry_contents = None
         entries.append(entry_contents)
