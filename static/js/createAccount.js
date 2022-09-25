@@ -90,7 +90,7 @@ createAccountForm.addEventListener('submit', (evt) => {
                 if (resData.success === true) {
                     window.location.href = "/";
                 } else {
-                    alert('Something went wrong, please try again');
+                    window.scrollTo(0, 0);
                 }
             });
         } else {
