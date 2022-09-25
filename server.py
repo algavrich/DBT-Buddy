@@ -140,14 +140,20 @@ def new_diary_entry(user_id):
         flash("You've already made an entry today. Try editing it!")
         return redirect("/dashboard")
     
-    user_urges = crud.get_urges_by_user_id(session.get("user_id"))
-    user_actions = crud.get_actions_by_user_id(session.get("user_id"))
-    user_urges_descs = get_descs_from_object_list(user_urges)
-    user_actions_descs = get_descs_from_object_list(user_actions)
+    user_urges = get_descs_from_object_list(
+        crud.get_urges_by_user_id(
+            session.get("user_id")
+        )
+    )
+    user_actions = get_descs_from_object_list(
+        crud.get_actions_by_user_id(
+            session.get("user_id")
+        )
+    )
 
     return render_template(
-        "diary-entry.html", user_actions=user_actions_descs,
-        user_urges=user_urges_descs, user_id=user_id)
+        "diary-entry.html", user_actions=user_actions,
+        user_urges=user_urges, user_id=user_id)
 
 # Combine these routes with multiple view functions in one route
 
