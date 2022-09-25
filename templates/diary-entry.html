@@ -4,7 +4,7 @@
 
 {% block body %}
 <h1>New Diary Entry</h1>
-<form action="/new-diary-entry" method="POST">
+<form action="/new-diary-entry/{{ user_id }}" method="POST">
   <fieldset>
     <legend>Rank how intensely you felt the following emotions today</legend>
     <p>Rank each emotion from 0 (least intense) to 5 (most intense)</p>
