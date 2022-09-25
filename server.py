@@ -20,8 +20,10 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Render homepage."""
 
-    if session.get('user_id'):
-        return redirect("/dashboard")
+    current_user_id = session.get("user_id")
+    
+    if current_user_id:
+        return redirect(f"/dashboard/{current_user_id}")
 
     return render_template("login.html")
 
@@ -30,8 +32,10 @@ def index():
 def login():
     """Log user in."""
 
-    if session.get('user_id'):
-        return redirect("/dashboard")
+    current_user_id = session.get("user_id")
+
+    if current_user_id:
+        return redirect(f"/dashboard/{current_user_id}")
 
     email = request.args.get("email")
     password = request.args.get("password")
@@ -42,7 +46,7 @@ def login():
         session["user_id"] = user.user_id
         session["fname"] = user.fname
         flash(f"Successfully logged in as {user.fname}")
-        return redirect("/dashboard")
+        return redirect(f"/dashboard/{user.user_id}")
 
     else:
         flash("Incorrect email or password")
@@ -52,9 +56,11 @@ def login():
 @app.route("/create-account")
 def create_account_form():
     """Render create account page."""
+
+    current_user_id = session.get("user_id")
     
-    if session.get('user_id'):
-        return redirect("/dashboard")
+    if current_user_id:
+        return redirect(f"/dashboard/{current_user_id}")
     
     return render_template("create-account.html")
 
@@ -95,18 +101,19 @@ def create_account():
         })
 
     flash("That email is already associated with an account")
-    return redirect("/create-account")
+    return jsonify({
+        "success": False,
+    })
 
 
-@app.route("/dashboard")
-def dashboard():
+@app.route("/dashboard/<user_id>")
+def dashboard(user_id):
     """Render the dashboard page."""
 
     if not session.get("user_id"):
         return redirect("/")
     
-    current_user_id = session.get("user_id")
-    weeks = crud.get_dict_for_weeks(current_user_id)
+    weeks = crud.get_dict_for_weeks(user_id)
 
     this_week = crud.get_this_week_for_user(session.get("user_id"))
 
@@ -114,23 +121,22 @@ def dashboard():
 
     # Is this an ok place for this?
     show_edit = False
-    if crud.check_entry_today(current_user_id):
+    if crud.check_entry_today(user_id):
         show_edit = True
 
     return render_template(
-        "dashboard.html", weeks=weeks, entries=entries, show_edit=show_edit)
+        "dashboard.html", weeks=weeks, entries=entries,
+        show_edit=show_edit, user_id=user_id)
 
 
-@app.route("/new-diary-entry")
-def new_diary_entry():
+@app.route("/new-diary-entry/<user_id>")
+def new_diary_entry(user_id):
     """Render the new diary entry form."""
-
-    current_user_id = session.get("user_id")
 
     if not session.get("user_id"):
         return redirect("/")
 
-    if crud.check_entry_today(current_user_id):
+    if crud.check_entry_today(user_id):
         flash("You've already made an entry today. Try editing it!")
         return redirect("/dashboard")
     
@@ -141,15 +147,16 @@ def new_diary_entry():
 
     return render_template(
         "diary-entry.html", user_actions=user_actions_descs,
-        user_urges=user_urges_descs)
+        user_urges=user_urges_descs, user_id=user_id)
 
 # Combine these routes with multiple view functions in one route
 
-@app.route("/new-diary-entry", methods=["POST"])
-def create_new_diary_entry():
+@app.route("/new-diary-entry/<user_id>", methods=["POST"])
+def create_new_diary_entry(user_id):
     """Create new DiaryEntry and pushes to DB given user input."""
 
-    current_user_id = session.get("user_id")
+    if not session.get("user_id"):
+        return redirect("/")
 
     sad_score = int(request.form.get("sad"))
     angry_score = int(request.form.get("angry"))
@@ -164,7 +171,7 @@ def create_new_diary_entry():
     used_skills = int(request.form.get("used-skills"))
 
     crud.create_d_u_a_entries_helper(
-        current_user_id, sad_score, angry_score, fear_score, happy_score,
+        user_id, sad_score, angry_score, fear_score, happy_score,
         shame_score, urge_1_score, urge_2_score, urge_3_score, action_1,
         action_2, used_skills)
         
@@ -176,6 +183,9 @@ def create_new_diary_entry():
 @app.route("/api/update-today-entry", methods=["PUT"])
 def update_today_entry():
     """Updates today's entry in DB with info from AJAX request."""
+
+    if not session.get("user_id"):
+        return redirect("/")
 
     current_user_id = session.get("user_id")
 
@@ -208,7 +218,11 @@ def update_today_entry():
 def get_given_week():
     """Returns JSON for a week when given its start date as a string."""
 
+    if not session.get("user_id"):
+        return redirect("/")
+
     current_user_id = session.get("user_id")
+
     week_start_date_string = request.args.get("date_string")
     entries = crud.get_given_week_for_user_from_date_string(
         current_user_id,
@@ -227,6 +241,7 @@ def settings():
         return redirect("/")
 
     current_user_id = session.get("user_id")
+
     current_user = crud.get_user_by_id(current_user_id)
     entry_reminders = convert_bool_to_y_n(current_user.entry_reminders)
     med_tracking = convert_bool_to_y_n(current_user.med_tracking)
