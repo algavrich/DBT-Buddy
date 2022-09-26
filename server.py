@@ -118,6 +118,7 @@ def dashboard(user_id):
     this_week = crud.get_this_week_for_user(session.get("user_id"))
 
     entries = make_entries_jsonifiable(this_week)
+    print(entries[6])
 
     # Is this an ok place for this?
     show_edit = False
@@ -183,7 +184,7 @@ def create_new_diary_entry(user_id):
         
     flash("Entry successfully added")
 
-    return redirect("/dashboard")
+    return redirect(f"/dashboard/{user_id}")
 
 
 @app.route("/api/update-today-entry", methods=["PUT"])
