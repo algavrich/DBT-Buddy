@@ -21,7 +21,7 @@
     {% endfor %}
 
     <nav>
-      <a href="/dashboard">DBT Buddy</a>
+      <a href="/dashboard/{{ session.get('user_id') }}">DBT Buddy</a>
       <a href="/settings">Settings</a>
       <a href="/logout">Log Out</a>
     </nav>
