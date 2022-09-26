@@ -123,37 +123,75 @@
         <legend>Actions</legend>
         <div id="action-1">
           <label for="action-1">{{ entries[6]["action1 name"] }}: </label>
-          <input 
-            type="radio" 
-            name="action-1" 
-            value="yes" 
-            id="action-1-yes"
-          >
-          <label for="action-1-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="action-1" 
-            value="no" 
-            id="action-1-no"
-          >
-          <label for="action-1-no">No</label>
+          {% if entries[6]["action1 score"] == "yes" %}
+            <input 
+              type="radio" 
+              name="action-1" 
+              value="yes" 
+              id="action-1-yes"
+              checked
+            >
+            <label for="action-1-yes">Yes</label>
+            <input 
+              type="radio" 
+              name="action-1" 
+              value="no" 
+              id="action-1-no"
+            >
+            <label for="action-1-no">No</label>
+          {% else %}
+            <input 
+              type="radio" 
+              name="action-1" 
+              value="yes" 
+              id="action-1-yes"
+            >
+            <label for="action-1-yes">Yes</label>
+            <input 
+              type="radio" 
+              name="action-1" 
+              value="no" 
+              id="action-1-no"
+              checked
+            >
+            <label for="action-1-no">No</label>
+          {% endif %}
         </div>
         <div id="action-2">
           <label for="action-2">{{ entries[6]["action2 name"] }}: </label>
-          <input 
-            type="radio" 
-            name="action-2" 
-            value="yes" 
-            id="action-2-yes"
-          >
-          <label for="action-2-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="action-2" 
-            value="no"
-            id="action-2-no"
-          >
-          <label for="action-2-no">No</label>
+          {% if entries[6]["action2 score"] == "yes" %}
+            <input 
+              type="radio" 
+              name="action-2" 
+              value="yes" 
+              id="action-2-yes"
+              checked
+            >
+            <label for="action-2-yes">Yes</label>
+            <input 
+              type="radio" 
+              name="action-2" 
+              value="no"
+              id="action-2-no"
+            >
+            <label for="action-2-no">No</label>
+          {% else %}
+            <input 
+              type="radio" 
+              name="action-2" 
+              value="yes" 
+              id="action-2-yes"
+            >
+            <label for="action-2-yes">Yes</label>
+            <input 
+              type="radio" 
+              name="action-2" 
+              value="no"
+              id="action-2-no"
+              checked
+            >
+            <label for="action-2-no">No</label>
+          {% endif %}
         </div>
       </fieldset>
       <fieldset>
