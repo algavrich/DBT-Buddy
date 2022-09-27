@@ -8,7 +8,7 @@ from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
 import os
-from datetime import datetime, date
+from datetime import date
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "")
@@ -120,8 +120,7 @@ def dashboard(user_id):
 
     this_week = crud.get_this_week_for_user(session.get("user_id"))
 
-    entries = make_entries_jsonifiable(this_week)
-    print(entries[6])
+    entries = crud.make_entries_jsonifiable(this_week)
 
     # Is this an ok place for this?
     show_edit = False
@@ -144,12 +143,12 @@ def new_diary_entry(user_id):
         flash("You've already made an entry today. Try editing it!")
         return redirect(f"/dashboard/{user_id}")
     
-    user_urges = get_descs_from_object_list(
+    user_urges = crud.get_descs_from_object_list(
         crud.get_urges_by_user_id(
             session.get("user_id")
         )
     )
-    user_actions = get_descs_from_object_list(
+    user_actions = crud.get_descs_from_object_list(
         crud.get_actions_by_user_id(
             session.get("user_id")
         )
@@ -219,7 +218,7 @@ def update_today_entry():
     updated_d_entry = crud.get_diary_entry_by_user_date(
         current_user_id, date.today()
     )
-    updated_d_entry = dict_for_day(updated_d_entry)
+    updated_d_entry = crud.dict_for_day(updated_d_entry)
 
     return jsonify(updated_d_entry)
 
@@ -238,7 +237,7 @@ def get_given_week():
         current_user_id,
         week_start_date_string
     )
-    entries_as_dicts = make_entries_jsonifiable(entries)
+    entries_as_dicts = crud.make_entries_jsonifiable(entries)
 
     return jsonify(entries_as_dicts)
 
@@ -253,9 +252,9 @@ def settings():
     current_user_id = session.get("user_id")
 
     current_user = crud.get_user_by_id(current_user_id)
-    entry_reminders = convert_bool_to_y_n(current_user.entry_reminders)
-    med_tracking = convert_bool_to_y_n(current_user.med_tracking)
-    med_reminders = convert_bool_to_y_n(current_user.med_reminders)
+    entry_reminders = crud.convert_bool_to_y_n(current_user.entry_reminders)
+    med_tracking = crud.convert_bool_to_y_n(current_user.med_tracking)
+    med_reminders = crud.convert_bool_to_y_n(current_user.med_reminders)
     active_urges = crud.get_urges_by_user_id(current_user_id)
     active_actions = crud.get_actions_by_user_id(current_user_id)
 
@@ -320,87 +319,6 @@ def logout():
         session.pop("fname")
 
     return redirect("/")
-
-# HELPERS
-
-def convert_bool_to_y_n(value):
-    """Convert a boolean value to yes or no.
-    
-    Takes in a boolean value,
-    Returns "yes" if value is True,
-    Returns "no" if value is False.
-
-    >>> convert_bool_to_y_n(True)
-    'yes'
-    >>> convert_bool_to_y_n(False)
-    'no'
-    >>> convert_bool_to_y_n('x')
-    'invalid input'
-    """
-    
-    if type(value) == bool:
-        if value:
-            return "yes"
-        else:
-            return "no"
-    else:
-        return "invalid input"
-
-
-def get_descs_from_object_list(objects):
-    """Get descriptions from list of user's custom Urge or Action object."""
-    
-    descriptions = []
-
-    for object in objects:
-        descriptions.append(object.description)
-
-    return descriptions
-
-
-def dict_for_day(entry):
-    """Create dictionary of values for given entry."""
-
-    return {
-        "date": datetime.strftime(entry.dt, "%A %d"),
-        "sad score": entry.sad_score,
-        "angry score": entry.angry_score,
-        "fear score": entry.fear_score,
-        "happy score": entry.happy_score,
-        "shame score": entry.shame_score,
-        "urge1 name": crud.get_urge_desc_by_id(
-            entry.urge_entries[0].urge_id),
-        "urge2 name": crud.get_urge_desc_by_id(
-            entry.urge_entries[1].urge_id),
-        "urge3 name": crud.get_urge_desc_by_id(
-            entry.urge_entries[2].urge_id),
-        "urge1 score": entry.urge_entries[0].score,
-        "urge2 score": entry.urge_entries[1].score,
-        "urge3 score": entry.urge_entries[2].score,
-        "action1 name": crud.get_action_desc_by_id(
-            entry.action_entries[0].action_id),
-        "action2 name": crud.get_action_desc_by_id(
-            entry.action_entries[1].action_id),
-        "action1 score": convert_bool_to_y_n(
-            entry.action_entries[0].score),
-        "action2 score": convert_bool_to_y_n(
-            entry.action_entries[1].score),
-        "skills used": entry.skills_used
-    }
-
-
-def make_entries_jsonifiable(entries_as_objs):
-    """Turn list of dicts of entry objects into list of dicts of dicts."""
-
-    entries = []
-    for entry in entries_as_objs:
-        if entry is not None:
-            entry_contents = dict_for_day(entry)
-        else:
-            entry_contents = None
-        entries.append(entry_contents)
-
-    return entries
 
 
 if __name__ == "__main__":
