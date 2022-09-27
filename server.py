@@ -324,12 +324,27 @@ def logout():
 # HELPERS
 
 def convert_bool_to_y_n(value):
-    """Convert a boolean value to yes or no."""
+    """Convert a boolean value to yes or no.
     
-    if value:
-        return "yes"
+    Takes in a boolean value,
+    Returns "yes" if value is True,
+    Returns "no" if value is False.
 
-    return "no"
+    >>> convert_bool_to_y_n(True)
+    'yes'
+    >>> convert_bool_to_y_n(False)
+    'no'
+    >>> convert_bool_to_y_n('x')
+    'invalid input'
+    """
+    
+    if type(value) == bool:
+        if value:
+            return "yes"
+        else:
+            return "no"
+    else:
+        return "invalid input"
 
 
 def get_descs_from_object_list(objects):
