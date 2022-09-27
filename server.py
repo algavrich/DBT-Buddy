@@ -192,6 +192,7 @@ def update_today_entry():
     """Updates today's entry in DB with info from AJAX request."""
 
     if not session.get("user_id"):
+        # return json of failure
         return redirect("/")
 
     current_user_id = session.get("user_id")
@@ -226,6 +227,7 @@ def get_given_week():
     """Returns JSON for a week when given its start date as a string."""
 
     if not session.get("user_id"):
+        # json
         return redirect("/")
 
     current_user_id = session.get("user_id")
@@ -260,6 +262,49 @@ def settings():
         "settings.html", user=current_user, entry_reminders=entry_reminders,
         med_tracking=med_tracking, med_reminders=med_reminders, 
         active_urges=active_urges, active_actions=active_actions)
+
+
+@app.route("/api/update-settings", methods=["PUT"])
+def update_settings():
+    """Updates user's settings in DB with info from AJAX request."""
+
+    current_user_id = session.get("user_id")
+
+    fname = request.json.get("fname")
+    email = request.json.get("email")
+    phone_number = request.json.get("phone_number")
+    urge1 = request.json.get("urge1")
+    urge2 = request.json.get("urge2")
+    urge3 = request.json.get("urge3")
+    old_urge1_id = request.json.get("old_urge1_id")
+    old_urge2_id = request.json.get("old_urge2_id")
+    old_urge3_id = request.json.get("old_urge3_id")
+    action1 = request.json.get("action1")
+    action2 = request.json.get("action2")
+    old_action1_id = request.json.get("old_action1_id")
+    old_action2_id = request.json.get("old_action2_id")
+    entry_reminders = crud.convert_radio_to_bool(request.json.get("entry_reminders"))
+    med_tracking = crud.convert_radio_to_bool(request.json.get("med_tracking"))
+    med_reminders = crud.convert_radio_to_bool(request.json.get("med_reminders"))
+
+    crud.update_user(
+        current_user_id, fname, email, phone_number,
+        entry_reminders, med_tracking, med_reminders)
+
+    new_urges = [urge1, urge2, urge3]
+    old_urges = [old_urge1_id, old_urge2_id, old_urge3_id]
+    for i in range(3):
+        crud.update_urge(current_user_id, old_urges[i], new_urges[i])
+
+    new_actions = [action1, action2]
+    old_actions = [old_action1_id, old_action2_id]
+    for i in range(2):
+        crud.update_action(current_user_id, old_actions[i], new_actions[i])
+
+    flash("Saved changes")
+    return jsonify({
+        "success": True,
+    })
 
 
 @app.route("/logout")
