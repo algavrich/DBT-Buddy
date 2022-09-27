@@ -69,6 +69,9 @@ def create_account_form():
 def create_account():
     """Create new account with JSON from AJAX."""
 
+    if not session.get("user_id"):
+        return redirect("/")
+
     fname = request.json.get("fname")
     email = request.json.get("email")
     password = request.json.get("password")
@@ -139,7 +142,7 @@ def new_diary_entry(user_id):
 
     if crud.check_entry_today(user_id):
         flash("You've already made an entry today. Try editing it!")
-        return redirect("/dashboard")
+        return redirect(f"/dashboard/{user_id}")
     
     user_urges = get_descs_from_object_list(
         crud.get_urges_by_user_id(
@@ -192,7 +195,6 @@ def update_today_entry():
     """Updates today's entry in DB with info from AJAX request."""
 
     if not session.get("user_id"):
-        # return json of failure
         return redirect("/")
 
     current_user_id = session.get("user_id")
@@ -227,7 +229,6 @@ def get_given_week():
     """Returns JSON for a week when given its start date as a string."""
 
     if not session.get("user_id"):
-        # json
         return redirect("/")
 
     current_user_id = session.get("user_id")
@@ -269,6 +270,9 @@ def update_settings():
     """Updates user's settings in DB with info from AJAX request."""
 
     current_user_id = session.get("user_id")
+
+    if not current_user_id:
+        return redirect("/")
 
     fname = request.json.get("fname")
     email = request.json.get("email")
