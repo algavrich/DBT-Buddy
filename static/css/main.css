@@ -9,3 +9,7 @@
 .diary-day {
     display: inline-block;
 }
+
+#preferences input, #preferences label {
+    display: none;
+}
