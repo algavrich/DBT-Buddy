@@ -310,6 +310,22 @@ def get_action_desc_by_id(action_id):
     ).first()[0]
 
 
+def get_urge_by_id(urge_id):
+    """Return Urge object with given ID."""
+
+    return Urge.query.filter(
+        Urge.urge_id == urge_id
+    ).one()
+
+
+def get_action_by_id(action_id):
+    """Return Action object with given ID."""
+
+    return Action.query.filter(
+        Action.action_id == action_id
+    ).first()
+
+
 def get_diary_entry_by_user_date(user_id, q_date):
     """Return a user's diary entry for a given date."""
 
@@ -453,6 +469,48 @@ def update_today_entry(
         current_a_entries[i].score = convert_radio_to_bool(new_a_scores[i])
 
     db.session.commit()
+
+
+def update_user(
+        user_id, fname, email, phone_number, 
+        entry_reminders, med_tracking, med_reminders):
+    """Update User record for user with given user_id."""
+
+    user = get_user_by_id(user_id)
+    user.fname = fname
+    user.email = email
+    user.phone_number = phone_number
+    user.entry_reminders = entry_reminders
+    user.med_tracking = med_tracking
+    user.med_reminders = med_reminders
+
+    db.session.commit()
+
+
+def update_urge(
+    user_id, old_urge_id, new_urge_desc):
+    """Create new Urge record for new urge and deactivate old one."""
+  
+    old_urge_record = get_urge_by_id(old_urge_id)
+
+    if old_urge_record.description != new_urge_desc:
+        new_urge_record = create_urge(user_id, new_urge_desc)
+        old_urge_record.active = False
+        db.session.add(new_urge_record)
+        db.session.commit()
+
+
+def update_action(
+    user_id, old_action_id, new_action_desc):
+    """Create new action record for new action and deactivate old one."""
+
+    old_action_record = get_action_by_id(old_action_id)
+
+    if old_action_record.description != new_action_desc:
+        new_action_record = create_action(user_id, new_action_desc)
+        old_action_record.active = False
+        db.session.add(new_action_record)
+        db.session.commit()
 
 # POPULATE TEST DATABASE
 
