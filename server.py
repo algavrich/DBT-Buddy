@@ -181,8 +181,8 @@ def create_new_diary_entry(user_id):
 
     crud.create_d_u_a_entries_helper(
         user_id, sad_score, angry_score, fear_score, happy_score,
-        shame_score, urge_1_score, urge_2_score, urge_3_score, action_1,
-        action_2, used_skills)
+        shame_score, urge_1_score, urge_2_score, urge_3_score,
+        action_1, action_2, used_skills)
         
     flash("Entry successfully added")
 
@@ -286,9 +286,15 @@ def update_settings():
     action2 = request.json.get("action2")
     old_action1_id = request.json.get("old_action1_id")
     old_action2_id = request.json.get("old_action2_id")
-    entry_reminders = crud.convert_radio_to_bool(request.json.get("entry_reminders"))
-    med_tracking = crud.convert_radio_to_bool(request.json.get("med_tracking"))
-    med_reminders = crud.convert_radio_to_bool(request.json.get("med_reminders"))
+    entry_reminders = crud.convert_radio_to_bool(
+        request.json.get("entry_reminders")
+    )
+    med_tracking = crud.convert_radio_to_bool(
+        request.json.get("med_tracking")
+    )
+    med_reminders = crud.convert_radio_to_bool(
+        request.json.get("med_reminders")
+    )
 
     crud.update_user(
         current_user_id, fname, email, phone_number,
