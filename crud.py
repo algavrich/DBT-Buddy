@@ -16,8 +16,8 @@ def convert_radio_to_bool(s: str) -> bool:
     """Convert a radio value to boolean.
     
     Takes in a string ('yes' or 'no'),
-    Returns True if string is 'yes',
-    Returns False if string is 'no'.
+    returns True if string is 'yes',
+    returns False if string is 'no'.
 
     >>> convert_radio_to_bool('yes')
     True
@@ -40,8 +40,8 @@ def convert_bool_to_y_n(value: bool) -> str:
     """Convert a boolean value to yes or no.
     
     Takes in a boolean value,
-    Returns "yes" if value is True,
-    Returns "no" if value is False.
+    returns "yes" if value is True,
+    returns "no" if value is False.
 
     >>> convert_bool_to_y_n(True)
     'yes'
@@ -63,10 +63,18 @@ def convert_bool_to_y_n(value: bool) -> str:
 # CREATE
 
 def create_user(
-    fname, email, password, phone_number,
-    entry_reminders, med_tracking, med_reminders):
-    """Create and return a new user."""
+        fname: str, email: str, password: str,
+        phone_number: str, entry_reminders: bool,
+        med_tracking: bool, med_reminders: bool) -> User:
+    """Create and return a new user.
+    
+    Takes in user data (preferences),
+    returns User object based on given data.
 
+    """
+
+    # Should i be eliminating the var declarations
+    # all together to minimize memory usage?
     user = User(
         fname=fname,
         email=email, 
@@ -80,8 +88,14 @@ def create_user(
     return user
 
 
-def create_urge(user_id, description):
-    """Create and return a new urge."""
+def create_urge(user_id: int, description: str) -> Urge:
+    """Create and return a new urge.
+    
+    Takes in a user's ID and a short description of the urge that they
+    want to track,
+    returns Urge object with their ID and given description.
+
+    """
 
     urge = Urge(
         user_id=user_id, 
@@ -92,8 +106,14 @@ def create_urge(user_id, description):
     return urge
 
 
-def create_action(user_id, description):
-    """Create and return a new action."""
+def create_action(user_id: int, description: str) -> Action:
+    """Create and return a new action.
+    
+    Takes in a user's ID and a short description of the action that they
+    want to track,
+    returns Action object with their ID and given description.
+    
+    """
 
     action = Action(
         user_id=user_id, 
@@ -105,9 +125,18 @@ def create_action(user_id, description):
 
 
 def create_account_helper(
-        fname, email, password, phone_number, entry_reminders, med_tracking,
-        med_reminders, urge_1, urge_2, urge_3, action_1, action_2):
-    """Create new User, Urge, and Action objects and commit to DB."""
+        fname: str, email: str, password: str, phone_number: str,
+        entry_reminders: bool, med_tracking: bool,
+        med_reminders: bool, urge_1: str, urge_2: str, urge_3: str,
+        action_1: str, action_2: str) -> None:
+    """Create new User, Urge, and Action objects and commit to database.
+    
+    Takes in all information necessary to initialize a user,
+    instantiates a User using create_user and adds to database,
+    makes lists of Urge and Action instances with the user's descriptions,
+    and adds those to the database as well.
+
+    """
 
     new_user = create_user(fname, email, password, phone_number,
                                         entry_reminders, med_tracking, 
@@ -132,9 +161,15 @@ def create_account_helper(
 
 
 def create_diary_entry(
-    user_id, dt, sad_score, angry_score, fear_score,
-    happy_score, shame_score, skills_used):
-    """Create and return a new diary entry."""
+        user_id: int, dt: datetime, sad_score: int,
+        angry_score: int, fear_score: int, happy_score: int,
+        shame_score: int, skills_used: int) -> DiaryEntry:
+    """Create and return a new diary entry.
+    
+    Takes in all of the information needed for a User object,
+    instantiates and returns a User object.
+
+    """
 
     d_entry = DiaryEntry(
         user_id=user_id, 
@@ -161,8 +196,15 @@ def create_diary_entry(
 #     return m_entry
 
 
-def create_urge_entry(urge_id, d_entry_id, user_id, dt, score):
-    """Create and return a new urge entry."""
+def create_urge_entry(
+        urge_id: int, d_entry_id: int, user_id: int,
+        dt: datetime, score: int) -> UrgeEntry:
+    """Create and return a new urge entry.
+
+    Takes in all of the information needed for an urge entry,
+    instantiates and returns an UrgeEntry object.
+
+    """
 
     u_entry = UrgeEntry(
         urge_id=urge_id, 
@@ -175,8 +217,15 @@ def create_urge_entry(urge_id, d_entry_id, user_id, dt, score):
     return u_entry
 
 
-def create_action_entry(action_id, d_entry_id, user_id, dt, score):
-    """Create and return a new action entry."""
+def create_action_entry(
+        action_id: int, d_entry_id: int, user_id: int,
+        dt: datetime, score: int) -> ActionEntry:
+    """Create and return a new action entry.
+    
+    Takes in all of the information needed for an action entry,
+    instantiates and returns an ActionEntry object.
+    
+    """
 
     a_entry = ActionEntry(
         action_id=action_id, 
@@ -190,13 +239,21 @@ def create_action_entry(action_id, d_entry_id, user_id, dt, score):
 
 
 def create_d_u_a_entries_helper(
-        current_user_id, sad_score, angry_score, fear_score, happy_score,
-        shame_score, urge_1_score, urge_2_score, urge_3_score, action_1,
-        action_2, used_skills):
-    """Create new Diary, Urge, and Action entries and commit to DB."""
+        user_id: int, sad_score: int, angry_score: int,
+        fear_score: int, happy_score: int, shame_score: int,
+        urge_1_score: int, urge_2_score: int, urge_3_score: int,
+        action_1: bool, action_2: bool, used_skills: int) -> None:
+    """Create new Diary, Urge, and Action entries and commit to database.
+    
+    Takes in all of the information needed to make a set of
+    DiaryEntry, UrgeEntry, and ActionEntry objects,
+    instantiates them using helper functions,
+    and adds and commits them to the database.
+    
+    """
 
     new_d_entry = create_diary_entry(
-        current_user_id,
+        user_id,
         datetime.now(),
         sad_score,
         angry_score,
@@ -205,40 +262,49 @@ def create_d_u_a_entries_helper(
         shame_score,
         used_skills
     )
+
     db.session.add(new_d_entry)
     db.session.commit()
 
     new_d_entry = get_diary_entry_by_user_date(
-        current_user_id, 
+        user_id, 
         date.today()
     )
-    user_urges = get_urges_by_user_id(current_user_id)
+
+    user_urges = get_urges_by_user_id(user_id)
     urge_scores = [urge_1_score, urge_2_score, urge_3_score]
     new_entries = []
     for i in range(3):
         new_entries.append(create_urge_entry(
             user_urges[i].urge_id, 
             new_d_entry.entry_id, 
-            current_user_id,
+            user_id,
             datetime.now(),
             urge_scores[i]
         ))
-    user_actions = get_actions_by_user_id(current_user_id)
+
+    user_actions = get_actions_by_user_id(user_id)
     action_scores = [action_1, action_2]
     for i in range(2):
         new_entries.append(create_action_entry(
             user_actions[i].action_id,
             new_d_entry.entry_id,
-            current_user_id,
+            user_id,
             datetime.now(),
             action_scores[i]
         ))
+
     db.session.add_all(new_entries)
     db.session.commit()
 
 
-def create_sent_rem(user_id, dt):
-    """Create new SentReminder object."""
+def create_sent_rem(user_id: int, dt: datetime) -> SentReminder:
+    """Create new SentReminder object.
+    
+    Takes in a user ID and datetime object,
+    instantiates and returns a SentReminder.
+
+    """
 
     sent_reminder = SentReminder(
         user_id=user_id,
@@ -248,8 +314,14 @@ def create_sent_rem(user_id, dt):
     return sent_reminder
 
 
-def add_new_rem_to_db(user_id):
-    """Create new SentReminder object and commit it to DB"""
+def add_new_rem_to_db(user_id: int) -> None:
+    """Create a new SentReminder object and commit it to database.
+    
+    Takes in a user ID,
+    calls create_sent_rem to instantiate a SentReminder,
+    adds and commits that object to the database.
+    
+    """
 
     new_reminder = create_sent_rem(
         user_id,
@@ -261,19 +333,19 @@ def add_new_rem_to_db(user_id):
 
 # READ
 
-def get_user_by_id(user_id):
+def get_user_by_id(user_id: int) -> User:
     """Return user with given ID."""
 
     return User.query.get(user_id)
 
 
-def get_user_by_email(email):
+def get_user_by_email(email: str) -> User:
     """Return user with given email."""
 
     return User.query.filter(User.email == email).first()
 
 
-def get_users_entry_reminders():
+def get_users_entry_reminders() -> list[User]:
     """Return all users who opted in to entry reminders."""
 
     return User.query.filter(User.entry_reminders == True).all()
@@ -293,12 +365,17 @@ def get_users_entry_reminders():
 #     return user.fav_trend
 
 
-def get_diary_entries_by_user_id(user_id):
-    """Return list of user's diary entries when given their ID."""
-
-    user = get_user_by_id(user_id)
+# def get_diary_entries_by_user_id(user_id: int) -> list[DiaryEntry]:
+#     """Return list of user's diary entries when given their ID.
     
-    return user.diary_entries
+#     Takes in a user's ID,
+#     returns a list of all of that user's DiaryEntry objects.
+    
+#     """
+
+#     user = get_user_by_id(user_id)
+    
+#     return user.diary_entries
 
 
 # def get_med_entries_by_user_id(user_id):
@@ -309,7 +386,7 @@ def get_diary_entries_by_user_id(user_id):
 #     return user.med_entries
 
 
-def get_urges_by_user_id(user_id):
+def get_urges_by_user_id(user_id: int) -> list[Urge]:
     """Return a list of user's urges when given their ID."""
 
     user = get_user_by_id(user_id)
@@ -321,7 +398,7 @@ def get_urges_by_user_id(user_id):
     return active_urges
 
 
-def get_actions_by_user_id(user_id):
+def get_actions_by_user_id(user_id: int) -> list[Action]:
     """Return a list of user's actions when given their ID."""
 
     user = get_user_by_id(user_id)
@@ -333,7 +410,7 @@ def get_actions_by_user_id(user_id):
     return active_actions
 
 
-def get_urge_desc_by_id(urge_id):
+def get_urge_desc_by_id(urge_id: int) -> str:
     """Return urge description when given it's ID."""
 
     return db.session.query(
@@ -343,7 +420,7 @@ def get_urge_desc_by_id(urge_id):
     ).first()[0]
 
 
-def get_action_desc_by_id(action_id):
+def get_action_desc_by_id(action_id: int) -> str:
     """Return action description when given it's ID."""
 
     return db.session.query(
@@ -353,7 +430,7 @@ def get_action_desc_by_id(action_id):
     ).first()[0]
 
 
-def get_urge_by_id(urge_id):
+def get_urge_by_id(urge_id: int) -> Urge:
     """Return Urge object with given ID."""
 
     return Urge.query.filter(
@@ -361,7 +438,7 @@ def get_urge_by_id(urge_id):
     ).one()
 
 
-def get_action_by_id(action_id):
+def get_action_by_id(action_id: int) -> Action:
     """Return Action object with given ID."""
 
     return Action.query.filter(
@@ -384,7 +461,7 @@ def get_descs_from_object_list(objects: list[UA]) -> list[str]:
     return descriptions
 
 
-def get_diary_entry_by_user_date(user_id, q_date):
+def get_diary_entry_by_user_date(user_id: int, q_date: date) -> DiaryEntry:
     """Return a user's diary entry for a given date."""
 
     return DiaryEntry.query.filter(
@@ -393,7 +470,8 @@ def get_diary_entry_by_user_date(user_id, q_date):
     ).first()
 
 
-def get_given_week_for_user(user_id, start_date):
+def get_given_week_for_user(
+        user_id: int, start_date: date) -> list[DiaryEntry]:
     """Return user's entries for the week with the given start date."""
 
     entries = []
@@ -408,16 +486,23 @@ def get_given_week_for_user(user_id, start_date):
 
     return entries
 
-def get_this_week_for_user(user_id):
-    """Return a list of a user's entries for the current week."""
+def get_this_week_for_user(user_id: int) -> list[DiaryEntry]:
+    """Return a list of a user's entries for the past week.
+    
+    Takes in a user's ID,
+    calls get_given_week_for_user starting at 6 days ago
+    to get the past week,
+    returns the resulting list.
+    
+    """
 
     return get_given_week_for_user(
         user_id, (date.today() - timedelta(days=6))
     )
 
 
-def dict_for_day(entry):
-    """Create dictionary of values for given entry."""
+def dict_for_day(entry: DiaryEntry) -> dict:
+    """Create dictionary of info for given diary entry."""
 
     return {
         "date": datetime.strftime(entry.dt, "%A %d"),
@@ -447,8 +532,14 @@ def dict_for_day(entry):
     }
 
 
-def make_entries_jsonifiable(entries_as_objs):
-    """Turn list of dicts of entry objects into list of dicts of dicts."""
+def make_entries_jsonifiable(
+        entries_as_objs: list[DiaryEntry]) -> list[dict]:
+    """Turn list of entry objects into list of dicts.
+    
+    Takes in a list (week) of DiaryEntry obejcts,
+    returns a list of dictionaries of info from those entries.
+    
+    """
 
     entries = []
     for entry in entries_as_objs:
@@ -461,8 +552,8 @@ def make_entries_jsonifiable(entries_as_objs):
     return entries
 
 
-def check_entry_today(user_id):
-    """Returns True if user made an entry already, False if not."""
+def check_entry_today(user_id: int) -> bool:
+    """Return True if user made an entry already, False if not."""
 
     if get_diary_entry_by_user_date(user_id, date.today()):
         return True
@@ -470,36 +561,38 @@ def check_entry_today(user_id):
     return False
 
 
-def check_entry_past_24(user_id):
-    """Returns True if user made an entry in the past day, False if not."""
+def check_entry_past_24(user_id: int) -> bool:
+    """Return True if user made an entry in the past day, False if not."""
 
-    entry = DiaryEntry.query.filter(
+    if DiaryEntry.query.filter(
         DiaryEntry.user_id == user_id,
         DiaryEntry.dt > (datetime.now() - timedelta(days=1))
-    ).first()
-
-    if entry:
+    ).first():
         return True
 
     return False
 
 
-def check_for_reminder(user_id):
-    """Check if the given user has been reminded in the last day."""
+def check_for_reminder(user_id: int) -> bool:
+    """Return True if user has been reminded in the past day, False if not."""
 
-    reminder = SentReminder.query.filter(
+    if SentReminder.query.filter(
         SentReminder.user_id == user_id,
         SentReminder.dt > (datetime.now() - timedelta(days=1))
-    ).first()
-
-    if reminder:
+    ).first():
         return True
 
     return False
 
 
-def get_dict_for_weeks(user_id):
-    """Return dictionary representing the weeks from first entry to now."""
+def get_dict_for_weeks(user_id: int) -> dict:
+    """Return dictionary representing the weeks from first entry to now.
+    
+    Takes in a user's ID,
+    returns a dictionary of strings representing the start dates
+    of every week since the week of the oldest entry.
+    
+    """
     
     oldest_entry = DiaryEntry.query.filter(
         DiaryEntry.user_id == user_id
@@ -511,7 +604,9 @@ def get_dict_for_weeks(user_id):
     days_diff = todays_date - earliest_date
     # spaces around operator or not?
     num_weeks = math.ceil(days_diff.days / 7)
+
     weeks = {}
+
     for i in range(num_weeks):
         week_start_date = (todays_date - timedelta(weeks=(i), days=6))
         week_start_date_string1 = date.strftime(
@@ -523,11 +618,18 @@ def get_dict_for_weeks(user_id):
             "%b %-d"
         )
         weeks[week_start_date_string1] = f"Week of {week_start_date_string2}"
+
     return weeks
 
 
-def get_given_week_for_user_from_date_string(user_id, date_string):
-    """Return list of a user's entries for the week with given start date."""
+def get_given_week_for_user_from_date_string(
+        user_id: int, date_string: str) -> list[DiaryEntry]:
+    """Return list of a user's entries for the week with given start date.
+    
+    Takes in a user's ID and a string representation of a date,
+    returns a list of DiaryEntry objects for the week with that start date.
+    
+    """
 
     start_date = datetime.date(datetime.strptime(date_string, "%d_%m_%Y"))
 
@@ -536,21 +638,24 @@ def get_given_week_for_user_from_date_string(user_id, date_string):
 # UPDATE
 
 def update_today_entry(
-        current_user_id, sad_score, angry_score, fear_score,
-        happy_score, shame_score, urge_1_score, urge_2_score,
-        urge_3_score, action_1, action_2, used_skills):
+        current_user_id: int, sad_score: int, angry_score: int,
+        fear_score: int, happy_score: int, shame_score: int,
+        urge_1_score: int, urge_2_score: int, urge_3_score: int,
+        action_1: bool, action_2: bool, used_skills: int) -> None:
     """Updates Diary, Urge, and Action entries for the current day."""
     
     current_d_entry = get_diary_entry_by_user_date(
         current_user_id, 
         date.today()
     )
+
     new_u_scores = [
         urge_1_score,
         urge_2_score,
         urge_3_score
     ]
     current_u_entries = current_d_entry.urge_entries
+
     new_a_scores = [
         action_1,
         action_2
@@ -575,11 +680,13 @@ def update_today_entry(
 
 
 def update_user(
-        user_id, fname, email, phone_number, 
-        entry_reminders, med_tracking, med_reminders):
+        user_id: int, fname: str, email: str,
+        phone_number: str, entry_reminders: bool,
+        med_tracking: bool, med_reminders: bool) -> None:
     """Update User record for user with given user_id."""
 
     user = get_user_by_id(user_id)
+    
     user.fname = fname
     user.email = email
     user.phone_number = phone_number
@@ -590,8 +697,7 @@ def update_user(
     db.session.commit()
 
 
-def update_urge(
-    user_id, old_urge_id, new_urge_desc):
+def update_urge(user_id: int, old_urge_id: int, new_urge_desc: str) -> None:
     """Create new Urge record for new urge and deactivate old one."""
   
     old_urge_record = get_urge_by_id(old_urge_id)
@@ -604,8 +710,8 @@ def update_urge(
 
 
 def update_action(
-    user_id, old_action_id, new_action_desc):
-    """Create new action record for new action and deactivate old one."""
+        user_id: int, old_action_id: int, new_action_desc: str) -> None:
+    """Create new Action record for new action and deactivate old one."""
 
     old_action_record = get_action_by_id(old_action_id)
 
@@ -617,7 +723,7 @@ def update_action(
 
 # POPULATE TEST DATABASE
 
-def example_data():
+def example_data() -> None:
     """Add example data to DB for Lucy's user."""
 
     lucy = create_user(
