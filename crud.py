@@ -475,26 +475,43 @@ def get_dict_for_weeks(user_id: int) -> dict:
     ).order_by(
         DiaryEntry.dt
     ).first()
-    earliest_date = datetime.date(oldest_entry.dt)
     todays_date = date.today()
-    days_diff = todays_date - earliest_date
-    num_weeks = math.ceil(days_diff.days/7)
 
-    weeks = {}
+    if oldest_entry:
+        earliest_date = datetime.date(oldest_entry.dt)
+        days_diff = todays_date - earliest_date
+        num_weeks = math.ceil(days_diff.days/7)
 
-    for i in range(num_weeks):
-        week_start_date = (todays_date - timedelta(weeks=(i), days=6))
-        week_start_date_string1 = date.strftime(
+        weeks = {}
+
+        for i in range(num_weeks):
+            week_start_date = (todays_date - timedelta(weeks=(i), days=6))
+            start_date_string1 = date.strftime(
+                week_start_date,
+                "%d_%m_%Y"
+            )
+            start_date_string2 = date.strftime(
+                week_start_date,
+                "%b %-d"
+            )
+            weeks[start_date_string1] = f"Week of {start_date_string2}"
+
+        return weeks
+
+    else:
+        week_start_date = (todays_date - timedelta(days=6))
+        start_date_string1 = date.strftime(
             week_start_date,
             "%d_%m_%Y"
         )
-        week_start_date_string2 = date.strftime(
+        start_date_string2 = date.strftime(
             week_start_date,
             "%b %-d"
         )
-        weeks[week_start_date_string1] = f"Week of {week_start_date_string2}"
 
-    return weeks
+        return {
+            start_date_string1: f"Week of {start_date_string2}"
+        }
 
 
 def get_given_week_for_user_from_date_string(
