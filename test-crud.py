@@ -1,6 +1,7 @@
 """Unit tests for CRUD functions"""
 
-from model import (ActionEntry, UrgeEntry, connect_to_db, db, User, Urge, Action, DiaryEntry, SentReminder)
+from model import (ActionEntry, UrgeEntry, connect_to_db, db,
+                   User, Urge, Action, DiaryEntry, SentReminder)
 import crud
 import unittest
 from datetime import date, timedelta
@@ -12,8 +13,6 @@ class InitializeUserTestCase(unittest.TestCase):
         """Stuff to do before every test."""
 
         connect_to_db(app, db_uri="postgresql:///testdb")
-        db.create_all()
-        crud.example_data()
 
     def tearDown(self):
         """Stuff to do after every test."""
@@ -56,8 +55,6 @@ class InitializeEntriesTestCase(unittest.TestCase):
         """Stuff to do before every test."""
 
         connect_to_db(app, db_uri="postgresql:///testdb")
-        db.create_all()
-        crud.example_data() 
         
         test_user = User(
             fname="Test",
@@ -135,8 +132,6 @@ class RemindersTestCase(unittest.TestCase):
         """Stuff to do before every test."""
 
         connect_to_db(app, db_uri="postgresql:///testdb")
-        db.create_all()
-        crud.example_data()
 
         test_user = User(
             fname="Test",
@@ -181,8 +176,6 @@ class GetWeekTestCase(unittest.TestCase):
         """Stuff to do before every test."""
 
         connect_to_db(app, db_uri="postgresql:///test-db")
-        db.create_all()
-        crud.example_data()
 
     def test_get_given_week_for_user(self):
         """Test get_given_week_for_user."""
