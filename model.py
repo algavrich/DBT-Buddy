@@ -40,7 +40,6 @@ class Urge(db.Model):
     user_id = db.Column(
         db.Integer, db.ForeignKey("users.user_id"), nullable=False
     )
-    # Is 50 chars too long? too short?
     description = db.Column(db.String(50), nullable=False)
     active = db.Column(db.Boolean, nullable=False)
 
@@ -62,7 +61,6 @@ class Action(db.Model):
     user_id = db.Column(
         db.Integer, db.ForeignKey("users.user_id"), nullable=False
     )
-    # Is 50 chars too long? too short?
     description = db.Column(db.String(50), nullable=False)
     active = db.Column(db.Boolean, nullable=False)
 
@@ -170,7 +168,6 @@ class ActionEntry(db.Model):
     def __repr__(self):
         """String representation for ActionEntry object."""
 
-        # Is this ok?
         return (
             f"<ActionEntry entry_id={self.entry_id}",
             f"action_id={self.action_id}>"
