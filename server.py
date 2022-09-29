@@ -76,8 +76,9 @@ def create_account():
     fname = request.json.get("fname")
     email = request.json.get("email")
     password = request.json.get("password")
-    phone_number = request.json.get("phone_number")
-    # Make this clean for DB
+    phone_number = helpers.extract_phone_number(
+        request.json.get("phone_number")
+    )
     urge_1 = request.json.get("urge1")
     urge_2 = request.json.get("urge2")
     urge_3 = request.json.get("urge3")
@@ -123,10 +124,7 @@ def dashboard(user_id):
 
     entries = helpers.make_entries_jsonifiable(this_week)
 
-    # Is this an ok place for this?
-    show_edit = False
-    if crud.check_entry_today(user_id):
-        show_edit = True
+    show_edit = crud.check_entry_today(user_id)
 
     return render_template(
         "dashboard.html", weeks=weeks, entries=entries,
@@ -276,7 +274,9 @@ def update_settings():
 
     fname = request.json.get("fname")
     email = request.json.get("email")
-    phone_number = request.json.get("phone_number")
+    phone_number = helpers.extract_phone_number(
+        request.json.get("phone_number")
+    )
     urge1 = request.json.get("urge1")
     urge2 = request.json.get("urge2")
     urge3 = request.json.get("urge3")
@@ -315,6 +315,13 @@ def update_settings():
     return jsonify({
         "success": True,
     })
+
+
+@app.route("/change-password")
+def change_password():
+    """Render form for changing password."""
+
+    return render_template("change-password.html")
 
 
 @app.route("/logout")
