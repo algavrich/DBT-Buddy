@@ -73,8 +73,6 @@ def create_user(
 
     """
 
-    # Should i be eliminating the var declarations
-    # all together to minimize memory usage?
     user = User(
         fname=fname,
         email=email, 
@@ -433,17 +431,13 @@ def get_action_desc_by_id(action_id: int) -> str:
 def get_urge_by_id(urge_id: int) -> Urge:
     """Return Urge object with given ID."""
 
-    return Urge.query.filter(
-        Urge.urge_id == urge_id
-    ).one()
+    return Urge.query.get(urge_id)
 
 
 def get_action_by_id(action_id: int) -> Action:
     """Return Action object with given ID."""
 
-    return Action.query.filter(
-        Action.action_id == action_id
-    ).first()
+    return Action.query.get(action_id)
 
 
 def get_descs_from_object_list(objects: list[UA]) -> list[str]:
