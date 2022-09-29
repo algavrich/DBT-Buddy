@@ -23,15 +23,18 @@
 
     <form action="/login" id="login-form">
       <div>
-        Email <input type="text" name="email">
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email">
       </div>
 
       <div>
-        Password <input type="password" name="password">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password">
       </div>
 
       <div>
-        Submit <input type="submit">
+        <label for="submit-button" hidden>Log In</label>
+        <input type="submit" value="Log In" id="submit-button">
       </div>
     </form>
   </div>
