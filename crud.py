@@ -85,8 +85,8 @@ def create_account_helper(
     """
 
     new_user = create_user(fname, email, password, phone_number,
-                                        entry_reminders, med_tracking, 
-                                        med_reminders)
+                           entry_reminders, med_tracking, 
+                           med_reminders)
 
     db.session.add(new_user)
     db.session.commit()
@@ -478,8 +478,7 @@ def get_dict_for_weeks(user_id: int) -> dict:
     earliest_date = datetime.date(oldest_entry.dt)
     todays_date = date.today()
     days_diff = todays_date - earliest_date
-    # spaces around operator or not?
-    num_weeks = math.ceil(days_diff.days / 7)
+    num_weeks = math.ceil(days_diff.days/7)
 
     weeks = {}
 
