@@ -70,9 +70,6 @@ def create_account_form():
 def create_account():
     """Create new account with JSON from AJAX."""
 
-    if not session.get("user_id"):
-        return redirect("/")
-
     fname = request.json.get("fname")
     email = request.json.get("email")
     password = request.json.get("password")
