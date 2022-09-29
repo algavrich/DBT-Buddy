@@ -6,6 +6,7 @@ from flask import (Flask, session, request, flash,
                    render_template, redirect, jsonify)
 from model import connect_to_db
 import crud
+import helpers
 from jinja2 import StrictUndefined
 import os
 from datetime import date
@@ -82,13 +83,13 @@ def create_account():
     urge_3 = request.json.get("urge3")
     action_1 = request.json.get("action1")
     action_2 = request.json.get("action2")
-    entry_reminders = crud.convert_radio_to_bool(
+    entry_reminders = helpers.convert_radio_to_bool(
         request.json.get("entry_reminders")
     )
-    med_tracking = crud.convert_radio_to_bool(
+    med_tracking = helpers.convert_radio_to_bool(
         request.json.get("med_tracking")
     )
-    med_reminders = crud.convert_radio_to_bool(
+    med_reminders = helpers.convert_radio_to_bool(
         request.json.get("med_reminders")
     )
     
@@ -120,7 +121,7 @@ def dashboard(user_id):
 
     this_week = crud.get_this_week_for_user(session.get("user_id"))
 
-    entries = crud.make_entries_jsonifiable(this_week)
+    entries = helpers.make_entries_jsonifiable(this_week)
 
     # Is this an ok place for this?
     show_edit = False
@@ -143,12 +144,12 @@ def new_diary_entry(user_id):
         flash("You've already made an entry today. Try editing it!")
         return redirect(f"/dashboard/{user_id}")
     
-    user_urges = crud.get_descs_from_object_list(
+    user_urges = helpers.get_descs_from_object_list(
         crud.get_urges_by_user_id(
             session.get("user_id")
         )
     )
-    user_actions = crud.get_descs_from_object_list(
+    user_actions = helpers.get_descs_from_object_list(
         crud.get_actions_by_user_id(
             session.get("user_id")
         )
@@ -175,8 +176,8 @@ def create_new_diary_entry(user_id):
     urge_1_score = int(request.form.get("urge-1"))
     urge_2_score = int(request.form.get("urge-2"))
     urge_3_score = int(request.form.get("urge-3"))
-    action_1 = crud.convert_radio_to_bool(request.form.get("action-1"))
-    action_2 = crud.convert_radio_to_bool(request.form.get("action-2"))
+    action_1 = helpers.convert_radio_to_bool(request.form.get("action-1"))
+    action_2 = helpers.convert_radio_to_bool(request.form.get("action-2"))
     used_skills = int(request.form.get("used-skills"))
 
     crud.create_d_u_a_entries_helper(
@@ -218,7 +219,7 @@ def update_today_entry():
     updated_d_entry = crud.get_diary_entry_by_user_date(
         current_user_id, date.today()
     )
-    updated_d_entry = crud.dict_for_day(updated_d_entry)
+    updated_d_entry = helpers.dict_for_day(updated_d_entry)
 
     return jsonify(updated_d_entry)
 
@@ -237,7 +238,7 @@ def get_given_week():
         current_user_id,
         week_start_date_string
     )
-    entries_as_dicts = crud.make_entries_jsonifiable(entries)
+    entries_as_dicts = helpers.make_entries_jsonifiable(entries)
 
     return jsonify(entries_as_dicts)
 
@@ -252,9 +253,9 @@ def settings():
     current_user_id = session.get("user_id")
 
     current_user = crud.get_user_by_id(current_user_id)
-    entry_reminders = crud.convert_bool_to_y_n(current_user.entry_reminders)
-    med_tracking = crud.convert_bool_to_y_n(current_user.med_tracking)
-    med_reminders = crud.convert_bool_to_y_n(current_user.med_reminders)
+    entry_reminders = helpers.convert_bool_to_y_n(current_user.entry_reminders)
+    med_tracking = helpers.convert_bool_to_y_n(current_user.med_tracking)
+    med_reminders = helpers.convert_bool_to_y_n(current_user.med_reminders)
     active_urges = crud.get_urges_by_user_id(current_user_id)
     active_actions = crud.get_actions_by_user_id(current_user_id)
 
@@ -286,13 +287,13 @@ def update_settings():
     action2 = request.json.get("action2")
     old_action1_id = request.json.get("old_action1_id")
     old_action2_id = request.json.get("old_action2_id")
-    entry_reminders = crud.convert_radio_to_bool(
+    entry_reminders = helpers.convert_radio_to_bool(
         request.json.get("entry_reminders")
     )
-    med_tracking = crud.convert_radio_to_bool(
+    med_tracking = helpers.convert_radio_to_bool(
         request.json.get("med_tracking")
     )
-    med_reminders = crud.convert_radio_to_bool(
+    med_reminders = helpers.convert_radio_to_bool(
         request.json.get("med_reminders")
     )
 
