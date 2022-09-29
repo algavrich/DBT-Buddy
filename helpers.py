@@ -4,6 +4,7 @@ from model import Urge, Action, DiaryEntry
 import crud
 from typing import TypeVar
 from datetime import datetime
+import re
 
 UA = TypeVar("UA", Urge, Action)
 
@@ -100,7 +101,7 @@ def dict_for_day(entry: DiaryEntry) -> dict:
             entry.action_entries[1].score),
         "skills used": entry.skills_used
     }
-    
+
 
 def make_entries_jsonifiable(
         entries_as_objs: list[DiaryEntry]) -> list[dict]:
@@ -120,3 +121,18 @@ def make_entries_jsonifiable(
         entries.append(entry_contents)
 
     return entries
+
+
+def extract_phone_number(s: str) -> str:
+    """Extracts digits of phone number from various formats.
+    
+    Takes in a string containing 
+    """
+
+    x = re.search(
+        "^[(]?([0-9]{3})[)]?[-\s\.]?([0-9]{3})[-\s\.]?([0-9]{4})$",
+        s
+    )
+
+    if x:
+        return x.group(1) + x.group(2) + x.group(3)
