@@ -613,6 +613,14 @@ def update_action(
         db.session.add(new_action_record)
         db.session.commit()
 
+
+def update_password(user_id: int, new_password: str) -> None:
+    """Update User's password attribute and commit to database."""
+
+    current_user = get_user_by_id(user_id)
+    current_user.password = new_password
+    db.session.commit()
+
 # POPULATE TEST DATABASE
 
 def example_data() -> None:
