@@ -190,7 +190,9 @@ def update_today_entry():
     """Updates today's entry in DB with info from AJAX request."""
 
     if not session.get("user_id"):
-        return redirect("/")
+        return jsonify({
+            "success": False
+        })
 
     current_user_id = session.get("user_id")
 
@@ -267,7 +269,9 @@ def update_settings():
     current_user_id = session.get("user_id")
 
     if not current_user_id:
-        return redirect("/")
+        return jsonify({
+            "success": False
+        })
 
     fname = request.json.get("fname")
     email = request.json.get("email")
@@ -318,7 +322,54 @@ def update_settings():
 def change_password():
     """Render form for changing password."""
 
+    if not session.get("user_id"):
+        return redirect("/")
+
     return render_template("change-password.html")
+
+
+@app.route("/api/check-current-password")
+def check_current_password():
+    """Check if given input matches user's current password, returns JSON."""
+
+    current_user_id = session.get("user_id")
+
+    if not current_user_id:
+        return redirect("/")
+
+    current_user_password = crud.get_user_by_id(current_user_id).password
+    current_password_input = request.args.get("current_password")
+
+    if current_user_password == current_password_input:
+        return jsonify({
+            "match": True
+        })
+    else:
+        return jsonify({
+            "match": False
+        })
+
+
+@app.route("/api/update-password", methods=["PUT"])
+def update_password():
+    """Update user's password in database after it passes checks."""
+
+    # Back end checks here?
+
+    current_user_id = session.get("user_id")
+
+    if not current_user_id:
+        return jsonify({
+            "success": False
+        })
+
+    new_password = request.json.get("new_password")
+    crud.update_password(current_user_id, new_password)
+
+    flash("Password successfully updated")
+    return jsonify({
+        "success": True
+    })
 
 
 @app.route("/logout")
