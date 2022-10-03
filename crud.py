@@ -1,7 +1,7 @@
 """CRUD functions."""
 
-from model import (SentReminder, db, connect_to_db, User, Urge,
-                   Action, DiaryEntry, UrgeEntry, ActionEntry)
+from model import (SentReminder, db, connect_to_db, User, Urge, Action,
+                   DiaryEntry, UrgeEntry, ActionEntry, MedEntry)
 import helpers
 from datetime import date, datetime, timedelta
 from sqlalchemy import cast, DATE
@@ -131,17 +131,6 @@ def create_diary_entry(
     return d_entry
 
 
-# def create_med_entry(user_id, dt):
-#     """Create and return a new med entry."""
-
-#     m_entry = MedEntry(
-#         user_id=user_id, 
-#         dt=dt
-#     )
-
-#     return m_entry
-
-
 def create_urge_entry(
         urge_id: int, d_entry_id: int, user_id: int,
         dt: datetime, score: int) -> UrgeEntry:
@@ -244,20 +233,16 @@ def create_d_u_a_entries_helper(
     db.session.commit()
 
 
-def create_sent_rem(user_id: int, dt: datetime) -> SentReminder:
-    """Create new SentReminder object.
-    
-    Takes in a user ID and datetime object,
-    instantiates and returns a SentReminder.
+def add_med_entry_to_db(user_id: int) -> None:
+    """Create and commit new MedEntry to database."""
 
-    """
-
-    sent_reminder = SentReminder(
-        user_id=user_id,
-        dt=dt
+    m_entry = MedEntry(
+        user_id=user_id, 
+        dt=datetime.now()
     )
 
-    return sent_reminder
+    db.session.add(m_entry)
+    db.session.commit()
 
 
 def add_new_rem_to_db(user_id: int) -> None:
@@ -269,9 +254,9 @@ def add_new_rem_to_db(user_id: int) -> None:
     
     """
 
-    new_reminder = create_sent_rem(
-        user_id,
-        datetime.now()
+    new_reminder = SentReminder(
+        user_id=user_id,
+        dt=datetime.now()
     )
 
     db.session.add(new_reminder)
@@ -443,6 +428,18 @@ def check_entry_past_24(user_id: int) -> bool:
     if DiaryEntry.query.filter(
         DiaryEntry.user_id == user_id,
         DiaryEntry.dt > (datetime.now() - timedelta(days=1))
+    ).first():
+        return True
+
+    return False
+
+
+def check_med_entry_today(user_id: int) -> bool:
+    """Return True if user made a med entry today, False if not."""
+
+    if MedEntry.query.filter(
+        MedEntry.user_id == user_id,
+        cast(MedEntry.dt, DATE) == date.today()
     ).first():
         return True
 
