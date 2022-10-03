@@ -9,7 +9,7 @@ import crud
 import helpers
 from jinja2 import StrictUndefined
 import os
-from datetime import date
+from datetime import date, datetime
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "")
@@ -121,11 +121,13 @@ def dashboard(user_id):
 
     entries = helpers.make_entries_jsonifiable(this_week)
 
+    med_entry = crud.check_med_entry_today(user_id)
+
     show_edit = crud.check_entry_today(user_id)
 
     return render_template(
         "dashboard.html", weeks=weeks, entries=entries,
-        show_edit=show_edit, user_id=user_id)
+        show_edit=show_edit, med_entry=med_entry, user_id=user_id)
 
 
 @app.route("/new-diary-entry/<user_id>")
@@ -239,6 +241,23 @@ def get_given_week():
 
     return jsonify(entries_as_dicts)
 
+
+@app.route("/api/new-med-entry", methods=["POST"])
+def make_med_entry():
+    """Create new med entry for user from AJAX request."""
+    
+    current_user_id = session.get("user_id")
+
+    if not current_user_id:
+        return jsonify({
+            "success": False
+        })
+
+    crud.add_med_entry_to_db(current_user_id)
+
+    return jsonify({
+        "success": True
+    })
 
 @app.route("/settings")
 def settings():
