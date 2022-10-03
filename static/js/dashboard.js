@@ -182,3 +182,19 @@ selectWeekMenu.addEventListener('change', (evt) => {
         }
     });
 });
+
+const medEntryButton = document.querySelector('#make-med-entry');
+
+medEntryButton.addEventListener('click', () => {
+    fetch('/api/new-med-entry', {
+        method: 'POST',
+    })
+    .then((res) => res.json())
+    .then((resData) => {
+        if (resData.success) {
+            document.querySelector('#med-status h4')
+            .innerHTML = 'You already took your medication today';
+            medEntryButton.style.display = 'none';
+        }
+    });
+});
