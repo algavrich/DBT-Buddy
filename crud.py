@@ -477,7 +477,22 @@ def get_dict_for_weeks(user_id: int) -> dict:
     ).first()
     todays_date = date.today()
 
-    if oldest_entry:
+    if not oldest_entry or ((datetime.now() - oldest_entry.dt).days < 7):
+        week_start_date = (todays_date - timedelta(days=6))
+        start_date_string1 = date.strftime(
+            week_start_date,
+            "%d_%m_%Y"
+        )
+        start_date_string2 = date.strftime(
+            week_start_date,
+            "%b %-d"
+        )
+
+        return {
+            start_date_string1: f"Week of {start_date_string2}"
+        }
+
+    else:
         earliest_date = datetime.date(oldest_entry.dt)
         days_diff = todays_date - earliest_date
         num_weeks = math.ceil(days_diff.days/7)
@@ -497,21 +512,6 @@ def get_dict_for_weeks(user_id: int) -> dict:
             weeks[start_date_string1] = f"Week of {start_date_string2}"
 
         return weeks
-
-    else:
-        week_start_date = (todays_date - timedelta(days=6))
-        start_date_string1 = date.strftime(
-            week_start_date,
-            "%d_%m_%Y"
-        )
-        start_date_string2 = date.strftime(
-            week_start_date,
-            "%b %-d"
-        )
-
-        return {
-            start_date_string1: f"Week of {start_date_string2}"
-        }
 
 
 def get_given_week_for_user_from_date_string(
