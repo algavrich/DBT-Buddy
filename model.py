@@ -18,9 +18,9 @@ class User(db.Model):
     entry_reminders = db.Column(db.Boolean, nullable=False)
     med_tracking = db.Column(db.Boolean, nullable=False)
     med_reminders = db.Column(db.Boolean, nullable=False)
-
     diary_entries = db.relationship("DiaryEntry", back_populates="user")
-    # med_entries = db.relationship("MedEntry", back_populates="user")
+    med_entries = db.relationship("MedEntry", back_populates="user")
+    
     urges = db.relationship("Urge", back_populates="user")
     actions = db.relationship("Action", back_populates="user")
     sent_reminders = db.relationship("SentReminder", back_populates="user")
@@ -101,22 +101,22 @@ class DiaryEntry(db.Model):
         return f"<DiaryEntry entry_id={self.entry_id} user_id={self.user_id}>"
 
 
-# class MedEntry(db.Model):
-#     """Model for a med entry."""
+class MedEntry(db.Model):
+    """Model for a med entry."""
 
-#     __tablename__ = "med_entries"
+    __tablename__ = "med_entries"
 
-#     entry_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), 
-#                         nullable=False)
-#     dt = db.Column(db.DateTime, nullable=False)
+    entry_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), 
+                        nullable=False)
+    dt = db.Column(db.DateTime, nullable=False)
 
-#     user = db.relationship("User", back_populates="med_entries")
+    user = db.relationship("User", back_populates="med_entries")
 
-#     def __repr__(self):
-#         """String representation for MedEntry object."""
+    def __repr__(self):
+        """String representation for MedEntry object."""
 
-#         return f"<MedEntry entry_id={self.entry_id} user_id={self.user_id}>"
+        return f"<MedEntry entry_id={self.entry_id} user_id={self.user_id}>"
 
     
 class UrgeEntry(db.Model):
