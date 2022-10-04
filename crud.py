@@ -1,6 +1,6 @@
 """CRUD functions."""
 
-from model import (SentReminder, db, connect_to_db, User, Urge, Action,
+from model import (SentMedReminder, SentReminder, db, connect_to_db, User, Urge, Action,
                    DiaryEntry, UrgeEntry, ActionEntry, MedEntry)
 import helpers
 from datetime import date, datetime, timedelta
@@ -12,8 +12,8 @@ import math
 
 def create_user(
         fname: str, email: str, password: str,
-        phone_number: str, entry_reminders: bool,
-        med_tracking: bool, med_reminders: bool) -> User:
+        phone_number: str, entry_reminders: bool, med_tracking: bool,
+        med_reminders: bool, init_dt: datetime) -> User:
     """Create and return a new user.
     
     Takes in user data (preferences),
@@ -28,7 +28,8 @@ def create_user(
         phone_number=phone_number, 
         entry_reminders=entry_reminders, 
         med_tracking=med_tracking, 
-        med_reminders=med_reminders
+        med_reminders=med_reminders,
+        init_dt=init_dt
     )
 
     return user
@@ -86,7 +87,7 @@ def create_account_helper(
 
     new_user = create_user(fname, email, password, phone_number,
                            entry_reminders, med_tracking, 
-                           med_reminders)
+                           med_reminders, datetime.now())
 
     db.session.add(new_user)
     db.session.commit()
@@ -249,7 +250,7 @@ def add_new_rem_to_db(user_id: int) -> None:
     """Create a new SentReminder object and commit it to database.
     
     Takes in a user ID,
-    calls create_sent_rem to instantiate a SentReminder,
+    instantiates a SentReminder,
     adds and commits that object to the database.
     
     """
@@ -260,6 +261,24 @@ def add_new_rem_to_db(user_id: int) -> None:
     )
 
     db.session.add(new_reminder)
+    db.session.commit()
+
+
+def add_new_med_rem_to_db(user_id: int) -> None:
+    """Create a new SentMedReminder object and commit it to database.
+    
+    Takes in a user ID,
+    instantiates a SentMedReminder,
+    adds and commits that object to the database.
+    
+    """
+
+    new_med_reminder = SentMedReminder(
+        user_id=user_id,
+        dt=datetime.now()
+    )
+
+    db.session.add(new_med_reminder)
     db.session.commit()
 
 # READ
@@ -280,6 +299,12 @@ def get_users_entry_reminders() -> list[User]:
     """Return all users who opted in to entry reminders."""
 
     return User.query.filter(User.entry_reminders == True).all()
+
+
+def get_users_med_reminders() -> list[User]:
+    """Return all users who opted in to med reminders."""
+
+    return User.query.filter(User.med_reminders == True).all()
 
 
 # def get_users_med_reminders():
@@ -446,6 +471,18 @@ def check_med_entry_today(user_id: int) -> bool:
     return False
 
 
+def check_med_entry_past_24(user_id: int) -> bool:
+    """Return True if user made an med entry in the past day, False if not."""
+
+    if MedEntry.query.filter(
+        MedEntry.user_id == user_id,
+        MedEntry.dt > (datetime.now() - timedelta(days=1))
+    ).first():
+        return True
+
+    return False
+
+
 def check_for_reminder(user_id: int) -> bool:
     """Return True if user has been reminded in the past day, False if not."""
 
@@ -456,6 +493,24 @@ def check_for_reminder(user_id: int) -> bool:
         return True
 
     return False
+
+
+def check_for_med_reminder(user_id: int) -> bool:
+    """Return True if user has been sent med reminder in the past day."""
+
+    if SentMedReminder.query.filter(
+        SentMedReminder.user_id == user_id,
+        SentMedReminder.dt > (datetime.now() - timedelta(days=1))
+    ).first():
+        return True
+
+    return False
+
+
+def check_new_user(user_id: int) -> bool:
+    """Return True if given user's account is less than a day old."""
+
+    return (datetime.now() - User.query.get(user_id).init_dt).days == 0
 
 
 def get_dict_for_weeks(user_id: int) -> dict:
@@ -625,7 +680,7 @@ def example_data() -> None:
 
     lucy = create_user(
     "Lucy", "annalgav@gmail.com", "password",
-    "5108469189", True, False, False)
+    "5108469189", True, True, True, datetime.now())
     db.session.add(lucy)
     db.session.commit()
 
