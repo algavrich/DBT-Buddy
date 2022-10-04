@@ -11,7 +11,7 @@ import math
 # CREATE
 
 def create_user(
-        fname: str, email: str, password: str,
+        fname: str, email: str, pw_hash: str,
         phone_number: str, entry_reminders: bool, med_tracking: bool,
         med_reminders: bool, init_dt: datetime) -> User:
     """Create and return a new user.
@@ -24,7 +24,7 @@ def create_user(
     user = User(
         fname=fname,
         email=email, 
-        password=password, 
+        pw_hash=pw_hash, 
         phone_number=phone_number, 
         entry_reminders=entry_reminders, 
         med_tracking=med_tracking, 
@@ -72,7 +72,7 @@ def create_action(user_id: int, description: str) -> Action:
 
 
 def create_account_helper(
-        fname: str, email: str, password: str, phone_number: str,
+        fname: str, email: str, pw_hash: str, phone_number: str,
         entry_reminders: bool, med_tracking: bool,
         med_reminders: bool, urge_1: str, urge_2: str, urge_3: str,
         action_1: str, action_2: str) -> None:
@@ -85,7 +85,7 @@ def create_account_helper(
 
     """
 
-    new_user = create_user(fname, email, password, phone_number,
+    new_user = create_user(fname, email, pw_hash, phone_number,
                            entry_reminders, med_tracking, 
                            med_reminders, datetime.now())
 
@@ -670,8 +670,16 @@ def update_password(user_id: int, new_password: str) -> None:
     """Update User's password attribute and commit to database."""
 
     current_user = get_user_by_id(user_id)
-    current_user.password = new_password
+    current_user.pw_hash = helpers.hash_pw(new_password)
     db.session.commit()
+
+
+def rehash_if_needed(hash, pw, user):
+    """Rehash a password if needed."""
+
+    if helpers.ph.check_needs_rehash(hash):
+        user.pw_hash = helpers.ph.hash(pw)
+        db.session.commit()
 
 # POPULATE TEST DATABASE
 
@@ -679,7 +687,7 @@ def example_data() -> None:
     """Add example data to DB for Lucy's user."""
 
     lucy = create_user(
-    "Lucy", "annalgav@gmail.com", "password",
+    "Lucy", "annalgav@gmail.com", helpers.hash_pw("Password1!"),
     "5108469189", True, True, True, datetime.now())
     db.session.add(lucy)
     db.session.commit()
