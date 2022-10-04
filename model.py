@@ -18,12 +18,14 @@ class User(db.Model):
     entry_reminders = db.Column(db.Boolean, nullable=False)
     med_tracking = db.Column(db.Boolean, nullable=False)
     med_reminders = db.Column(db.Boolean, nullable=False)
+    init_dt = db.Column(db.DateTime, nullable=False)
+
     diary_entries = db.relationship("DiaryEntry", back_populates="user")
     med_entries = db.relationship("MedEntry", back_populates="user")
-    
     urges = db.relationship("Urge", back_populates="user")
     actions = db.relationship("Action", back_populates="user")
     sent_reminders = db.relationship("SentReminder", back_populates="user")
+    sent_med_reminders = db.relationship("SentMedReminder", back_populates="user")
 
     def __repr__(self):
         """String representation for User object."""
@@ -190,6 +192,24 @@ class SentReminder(db.Model):
         """String representation for SentReminder object."""
 
         return f"<SentReminder rem_id={self.rem_id} user_id={self.user_id}>"
+
+
+class SentMedReminder(db.Model):
+    """Model for a sent med reminder."""
+
+    __tablename__ = "sent_med_reminders"
+
+    rem_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), 
+                        nullable=False)
+    dt = db.Column(db.DateTime, nullable=False)
+
+    user = db.relationship("User", back_populates="sent_med_reminders")
+
+    def __repr__(self):
+        """String representation for SentMedReminder object."""
+
+        return f"<SentMedReminder rem_id={self.rem_id} user_id={self.user_id}>"
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///diary-card-app", 
