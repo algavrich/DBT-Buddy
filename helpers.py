@@ -5,8 +5,11 @@ import crud
 from typing import TypeVar
 from datetime import datetime
 import re
+from argon2 import PasswordHasher
 
 UA = TypeVar("UA", Urge, Action)
+
+ph = PasswordHasher()
 
 def convert_radio_to_bool(s: str) -> bool:
     """Convert a radio value to boolean.
@@ -124,10 +127,7 @@ def make_entries_jsonifiable(
 
 
 def extract_phone_number(s: str) -> str:
-    """Extracts digits of phone number from various formats.
-    
-    Takes in a string containing 
-    """
+    """Extracts digits of phone number from various formats."""
 
     x = re.search(
         "^[(]?([0-9]{3})[)]?[-\s\.]?([0-9]{3})[-\s\.]?([0-9]{4})$",
@@ -136,3 +136,15 @@ def extract_phone_number(s: str) -> str:
 
     if x:
         return x.group(1) + x.group(2) + x.group(3)
+
+
+def hash_pw(pw):
+    """Hashe a password."""
+
+    return ph.hash(pw)
+
+
+def verify_pw(hash, pw):
+    """Verify a password."""
+
+    return ph.verify(hash, pw)
