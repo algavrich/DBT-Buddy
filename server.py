@@ -10,6 +10,7 @@ import helpers
 from jinja2 import StrictUndefined
 import os
 from datetime import date, datetime
+import argon2
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "")
@@ -43,13 +44,20 @@ def login():
 
     user = crud.get_user_by_email(email)
 
-    if user and user.password == password:
-        session["user_id"] = user.user_id
-        session["fname"] = user.fname
-        flash(f"Successfully logged in as {user.fname}")
-        return redirect(f"/dashboard/{user.user_id}")
+    try:
+        if user and helpers.verify_pw(user.pw_hash, password):
+            crud.rehash_if_needed(user.pw_hash, password, user)
+            session["user_id"] = user.user_id
+            session["fname"] = user.fname
+            flash(f"Successfully logged in as {user.fname}")
+            return redirect(f"/dashboard/{user.user_id}")
 
-    else:
+        # better way to write the following lines?
+        else:
+            flash("Incorrect email or password")
+            return redirect("/")
+
+    except argon2.exceptions.VerifyMismatchError:
         flash("Incorrect email or password")
         return redirect("/")
 
@@ -72,7 +80,7 @@ def create_account():
 
     fname = request.json.get("fname")
     email = request.json.get("email")
-    password = request.json.get("password")
+    pw_hash = helpers.hash_pw(request.json.get("password"))
     phone_number = helpers.extract_phone_number(
         request.json.get("phone_number")
     )
@@ -93,7 +101,7 @@ def create_account():
     
     if not crud.get_user_by_email(email):
         crud.create_account_helper(
-            fname, email, password, phone_number, entry_reminders,
+            fname, email, pw_hash, phone_number, entry_reminders,
             med_tracking, med_reminders, urge_1, urge_2, urge_3, 
             action_1, action_2)
 
@@ -356,17 +364,23 @@ def check_current_password():
     if not current_user_id:
         return redirect("/")
 
-    current_user_password = crud.get_user_by_id(current_user_id).password
+    current_user_pw_hash = crud.get_user_by_id(current_user_id).pw_hash
     current_password_input = request.args.get("current_password")
 
-    if current_user_password == current_password_input:
+    try:
+        if helpers.verify_pw(current_user_pw_hash, current_password_input):
+            return jsonify({
+                "match": True
+            })
+        else:
+            return jsonify({
+                "match": False
+            })
+
+    except argon2.exceptions.VerifyMismatchError:
         return jsonify({
-            "match": True
-        })
-    else:
-        return jsonify({
-            "match": False
-        })
+                "match": False
+            })
 
 
 @app.route("/api/update-password", methods=["PUT"])
