@@ -13,7 +13,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     fname = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
-    password = db.Column(db.String(), nullable=False)
+    pw_hash = db.Column(db.String(), nullable=False)
     phone_number = db.Column(db.String(20))
     entry_reminders = db.Column(db.Boolean, nullable=False)
     med_tracking = db.Column(db.Boolean, nullable=False)
