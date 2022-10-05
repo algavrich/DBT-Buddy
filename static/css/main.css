@@ -4,12 +4,40 @@
 
 #edit-today-form {
     display: none;
+    width: 20%;
 }
 
 .diary-day {
     display: inline-block;
+    width: 12%;
+    margin: auto;
 }
 
 #preferences input, #preferences label {
     display: none;
+}
+
+.visual-data {
+    display: inline-block;
+    position: relative;
+    width: 49%;
+}
+
+#view-week {
+    display: inline-block;
+    border: 3px solid black;
+    width: 70%;
+}
+
+#dash-contents {
+    width: 85%;
+    margin: auto;
+}
+
+#make-entry-buttons {
+    display: inline-block;
+}
+
+.make-entry-button {
+    display: block;
 }
