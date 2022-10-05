@@ -5,39 +5,15 @@
 // Render chart(s) on (re)load
 
 const dates = [];
-const sadness = [];
-const anger = [];
-const fear = [];
-const happiness = [];
-const shame =[];
+const sadnessScores = [];
+const angerScores = [];
+const fearScores = [];
+const happinessScores = [];
+const shameScores = [];
 
-const currentDateString = document.querySelector('option').value;
-const queryString = new URLSearchParams(
-    {date_string: currentDateString}).toString();
-const url = `/api/get-given-week?${queryString}`;
-fetch(url)
-.then((res) => res.json())
-.then((resData) => {
-    //
-    for (const day of resData) {
-        if (day) {
-            dates.push(day.date);
-            sadness.push(day['sad score']);
-            anger.push(day['angry score']);
-            fear.push(day['fear score']);
-            happiness.push(day['happy score']);
-            shame.push(day['shame score']);
-        } else {
-            dates.push('no entry');
-            sadness.push(null);
-            anger.push(null);
-            fear.push(null);
-            happiness.push(null);
-            shame.push(null);
-        }
-    }
-    moodChart.update();
-});
+const urge1Scores = [];
+const urge2Scores = [];
+const urge3Scores = [];
 
 const moodChart = new Chart(
     document.querySelector('#mood-chart'),
@@ -48,33 +24,121 @@ const moodChart = new Chart(
         datasets: [
           {
             label: 'sadness',
-            data: sadness,
-            borderColor: '#1236a3',
+            data: sadnessScores,
+            borderColor: '#9bc4e2',
           },
           {
             label: 'anger',
-            data: anger,
-            borderColor: '#b82f2f',
+            data: angerScores,
+            borderColor: '#ea9999',
           },
           {
             label: 'fear',
-            data: fear,
-            borderColor: '#630d24',
+            data: fearScores,
+            borderColor: '#974c5e',
           },
           {
             label: 'happiness',
-            data: happiness,
-            borderColor: '#ff9a55',
+            data: happinessScores,
+            borderColor: '#f8d664',
           },
           {
             label: 'shame',
-            data: shame,
+            data: shameScores,
             borderColor: '#9478a7',
           },
         ],
       },
+      options: {
+        responsive: true
+      },
     },
 );
+
+const urgeChart = new Chart(
+    document.querySelector('#urge-chart'),
+    {
+      type: 'line',
+      data: {
+        labels: dates,
+        datasets: [
+          {
+            label: null,
+            data: urge1Scores,
+            borderColor: '#8a9a5b',
+          },
+          {
+            label: null,
+            data: urge2Scores,
+            borderColor: '#cc8899',
+          },
+          {
+            label: null,
+            data: urge3Scores,
+            borderColor: '#e5aa70',
+          },
+        ],
+      },
+      options: {
+        responsive: true
+      },
+    },
+);
+
+const updateCharts = () => {
+    const currentDateString = document.querySelector('option').value;
+    const queryString = new URLSearchParams(
+        {date_string: currentDateString}).toString();
+    const url = `/api/get-given-week?${queryString}`;
+    fetch(url)
+    .then((res) => res.json())
+    .then((resData) => {
+        for (let i=0; i<3; i+=1) {
+            const iString = new String(i+1);
+            urgeChart.data.datasets[i].label = resData[0][`urge${iString} name`];
+        }
+
+        dates.length = 0;
+        sadnessScores.length = 0;
+        angerScores.length = 0;
+        fearScores.length = 0;
+        happinessScores.length = 0;
+        shameScores.length = 0;
+        urge1Scores.length = 0;
+        urge2Scores.length = 0;
+        urge3Scores.length = 0;
+
+        for (const day of resData) {
+            if (day) {
+                dates.push(day.date);
+                sadnessScores.push(day['sad score']);
+                angerScores.push(day['angry score']);
+                fearScores.push(day['fear score']);
+                happinessScores.push(day['happy score']);
+                shameScores.push(day['shame score']);
+                urge1Scores.push(day['urge1 score']);
+                urge2Scores.push(day['urge2 score']);
+                urge3Scores.push(day['urge3 score']);
+
+            } else {
+                dates.push('no entry');
+                sadnessScores.push(null);
+                angerScores.push(null);
+                fearScores.push(null);
+                happinessScores.push(null);
+                shameScores.push(null);
+                urge1Scores.push(null);
+                urge2Scores.push(null);
+                urge3Scores.push(null);
+            }
+        }
+
+        moodChart.update();
+        urgeChart.update();
+    });
+};
+
+updateCharts();
 
 // Edit today's entry
 
@@ -83,7 +147,7 @@ const todayEntry = document.querySelector('#day6');
 const editTodayForm = document.querySelector('#edit-today-form');
 let clicked = false
 
-if (editTodayButton != null) {
+if (editTodayButton) {
     editTodayButton.addEventListener('click', () => {
         if (clicked) {
             clicked = false;
@@ -175,6 +239,7 @@ if (editTodayButton != null) {
                 ${resData['action2 score']}`;
             document.querySelector('#day6 .show-used-skills')
             .innerHTML = `Used Skills: ${resData['skills used']}`;
+            updateCharts();
         });
     });
 }
@@ -239,6 +304,7 @@ selectWeekMenu.addEventListener('change', (evt) => {
                     ${resData[i]['action2 score']}`;
                 showUsedSkills.innerHTML = `Used Skills: 
                     ${resData[i]['skills used']}`;
+
             } else {
                 showDate.innerHTML = '<h4>No Entry</h4>';
                 showSad.innerHTML = '';
@@ -254,53 +320,79 @@ selectWeekMenu.addEventListener('change', (evt) => {
                 showUsedSkills.innerHTML = '';
             }
         }
+
         const newDates = [];
-        const newSadness = [];
-        const newAnger = [];
-        const newFear = [];
-        const newHappiness = [];
-        const newShame =[];
+        const newSadnessScores = [];
+        const newAngerScores = [];
+        const newFearScores = [];
+        const newHappinessScores = [];
+        const newShameScores =[];
+
+        const newUrge1Scores = [];
+        const newUrge2Scores = [];
+        const newUrge3Scores = [];
+
+        for (let i=0; i<3; i+=1) {
+            const iString = new String(i+1);
+            urgeChart.data.datasets[i].label = resData[0][`urge${iString} name`];
+        }
+
         for (const day of resData) {
             if (day) {
                 newDates.push(day.date);
-                newSadness.push(day['sad score']);
-                newAnger.push(day['angry score']);
-                newFear.push(day['fear score']);
-                newHappiness.push(day['happy score']);
-                newShame.push(day['shame score']);
+                newSadnessScores.push(day['sad score']);
+                newAngerScores.push(day['angry score']);
+                newFearScores.push(day['fear score']);
+                newHappinessScores.push(day['happy score']);
+                newShameScores.push(day['shame score']);
+                newUrge1Scores.push(day['urge1 score']);
+                newUrge2Scores.push(day['urge2 score']);
+                newUrge3Scores.push(day['urge3 score']);
+
             } else {
                 newDates.push('no entry');
-                newSadness.push(null);
-                newAnger.push(null);
-                newFear.push(null);
-                newHappiness.push(null);
-                newShame.push(null);
+                newSadnessScores.push(null);
+                newAngerScores.push(null);
+                newFearScores.push(null);
+                newHappinessScores.push(null);
+                newShameScores.push(null);
+                newUrge1Scores.push(null);
+                newUrge2Scores.push(null);
+                newUrge3Scores.push(null);
             }
         }
+
         moodChart.data.labels = newDates;
-        moodChart.data.datasets[0].data = newSadness;
-        moodChart.data.datasets[1].data = newAnger;
-        moodChart.data.datasets[2].data = newFear;
-        moodChart.data.datasets[3].data = newHappiness;
-        moodChart.data.datasets[4].data = newShame;
+        moodChart.data.datasets[0].data = newSadnessScores;
+        moodChart.data.datasets[1].data = newAngerScores;
+        moodChart.data.datasets[2].data = newFearScores;
+        moodChart.data.datasets[3].data = newHappinessScores;
+        moodChart.data.datasets[4].data = newShameScores;
         moodChart.update();
 
+        urgeChart.data.labels = newDates;
+        urgeChart.data.datasets[0].data = newUrge1Scores;
+        urgeChart.data.datasets[1].data = newUrge2Scores;
+        urgeChart.data.datasets[2].data = newUrge3Scores;
+        urgeChart.update();
     });
 });
 
 const medEntryButton = document.querySelector('#make-med-entry');
 
-medEntryButton.addEventListener('click', () => {
-    fetch('/api/new-med-entry', {
-        method: 'POST',
-    })
-    .then((res) => res.json())
-    .then((resData) => {
-        if (resData.success) {
-            document.querySelector('#med-status h4')
-            .innerHTML = 'You already took your medication today';
-            medEntryButton.style.display = 'none';
-        }
+if (medEntryButton) {
+    medEntryButton.addEventListener('click', () => {
+        fetch('/api/new-med-entry', {
+            method: 'POST',
+        })
+        .then((res) => res.json())
+        .then((resData) => {
+            if (resData.success) {
+                document.querySelector('#med-status h4')
+                .innerHTML = 'You already took your medication today';
+                medEntryButton.style.display = 'none';
+            }
+        });
     });
-});
+}
 
