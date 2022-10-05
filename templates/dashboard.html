@@ -3,26 +3,73 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block head %}
-  <link rel="stylesheet" href="/static/css/main.css">
+<link rel="stylesheet" href="/static/css/main.css">
 {% endblock %}
 
 {% block body %}
-<h1>Hi {{ session.get("fname") }}</h1>
+<div id="dash-contents">
+  <h1>Hi {{ session.get("fname") }}</h1>
 
-<div id="select-weeks-form">
-  <form>
-    <label for="select-week">Select a week to view:</label>
-    <select name="week" id="select-week">
-      {% for start_date, name in weeks.items() %}
-        <option value="{{ start_date }}">{{ name }}</option>
-      {% endfor %}
-    </select>
-  </form>
-</div>
+  <div id="select-weeks-form">
+    <form>
+      <label for="select-week">Select a week to view:</label>
+      <select name="week" id="select-week">
+        {% for start_date, name in weeks.items() %}
+          <option value="{{ start_date }}">{{ name }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
 
-{% if show_edit %}
-  <button id="edit-today">Edit Today's Entry</button>
+  <div id="view-week">
+    {% for i in range(7) %}
+    <div class="diary-day" id="day{{ i }}">
 
+      {% if entries[i] == None %}
+      <h4 class="show-date">No Entry</h4>
+      <p class="show-sad"></p>
+      <p class="show-angry"></p>
+      <p class="show-fear"></p>
+      <p class="show-happy"></p>
+      <p class="show-shame"></p>
+      <p class="show-urge1"></p>
+      <p class="show-urge2"></p>
+      <p class="show-urge3"></p>
+      <p class="show-action1"></p>
+      <p class="show-action2"></p>
+      <p class="show-used-skills"></p>
+
+      {% else %}
+      <h4 class="show-date">{{ entries[i]["date"] }}</h4>
+      <p class="show-sad">Sadness: {{ entries[i]["sad score"] }}</p>
+      <p class="show-angry">Anger: {{ entries[i]["angry score"] }}</p>
+      <p class="show-fear">Fear: {{ entries[i]["fear score"] }}</p>
+      <p class="show-happy">Happiness: {{ entries[i]["happy score"] }}</p>
+      <p class="show-shame">Shame: {{ entries[i]["shame score"] }}</p>
+      <p class="show-urge1">
+        {{ entries[i]["urge1 name"] }}: {{ entries[i]["urge1 score"] }}
+      </p>
+      <p class="show-urge2">
+        {{ entries[i]["urge2 name"] }}: {{ entries[i]["urge2 score"] }}
+      </p>
+      <p class="show-urge3">
+        {{ entries[i]["urge3 name"] }}: {{ entries[i]["urge3 score"] }}
+      </p>
+      <p class="show-action1">
+        {{ entries[i]["action1 name"] }}: {{ entries[i]["action1 score"] }}
+      </p>
+      <p class="show-action2">
+        {{ entries[i]["action2 name"] }}: {{ entries[i]["action2 score"] }}
+      </p>
+      <p class="show-used-skills">
+        Used Skills: {{ entries[i]["skills used"] }}
+      </p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if show_edit %}
   <div id="edit-today-form">
     <form>
       <fieldset>
@@ -124,73 +171,73 @@
         <div id="action-1">
           <label for="action-1">{{ entries[6]["action1 name"] }}: </label>
           {% if entries[6]["action1 score"] == "yes" %}
-            <input 
-              type="radio" 
-              name="action-1" 
-              value="yes" 
-              id="action-1-yes"
-              checked
-            >
-            <label for="action-1-yes">Yes</label>
-            <input 
-              type="radio" 
-              name="action-1" 
-              value="no" 
-              id="action-1-no"
-            >
-            <label for="action-1-no">No</label>
+          <input 
+            type="radio" 
+            name="action-1" 
+            value="yes" 
+            id="action-1-yes"
+            checked
+          >
+          <label for="action-1-yes">Yes</label>
+          <input 
+            type="radio" 
+            name="action-1" 
+            value="no" 
+            id="action-1-no"
+          >
+          <label for="action-1-no">No</label>
           {% else %}
-            <input 
-              type="radio" 
-              name="action-1" 
-              value="yes" 
-              id="action-1-yes"
-            >
-            <label for="action-1-yes">Yes</label>
-            <input 
-              type="radio" 
-              name="action-1" 
-              value="no" 
-              id="action-1-no"
-              checked
-            >
-            <label for="action-1-no">No</label>
+          <input 
+            type="radio" 
+            name="action-1" 
+            value="yes" 
+            id="action-1-yes"
+          >
+          <label for="action-1-yes">Yes</label>
+          <input 
+            type="radio" 
+            name="action-1" 
+            value="no" 
+            id="action-1-no"
+            checked
+          >
+          <label for="action-1-no">No</label>
           {% endif %}
         </div>
         <div id="action-2">
           <label for="action-2">{{ entries[6]["action2 name"] }}: </label>
           {% if entries[6]["action2 score"] == "yes" %}
-            <input 
-              type="radio" 
-              name="action-2" 
-              value="yes" 
-              id="action-2-yes"
-              checked
-            >
-            <label for="action-2-yes">Yes</label>
-            <input 
-              type="radio" 
-              name="action-2" 
-              value="no"
-              id="action-2-no"
-            >
-            <label for="action-2-no">No</label>
+          <input 
+            type="radio" 
+            name="action-2" 
+            value="yes" 
+            id="action-2-yes"
+            checked
+          >
+          <label for="action-2-yes">Yes</label>
+          <input 
+            type="radio" 
+            name="action-2" 
+            value="no"
+            id="action-2-no"
+          >
+          <label for="action-2-no">No</label>
           {% else %}
-            <input 
-              type="radio" 
-              name="action-2" 
-              value="yes" 
-              id="action-2-yes"
-            >
-            <label for="action-2-yes">Yes</label>
-            <input 
-              type="radio" 
-              name="action-2" 
-              value="no"
-              id="action-2-no"
-              checked
-            >
-            <label for="action-2-no">No</label>
+          <input 
+            type="radio" 
+            name="action-2" 
+            value="yes" 
+            id="action-2-yes"
+          >
+          <label for="action-2-yes">Yes</label>
+          <input 
+            type="radio" 
+            name="action-2" 
+            value="no"
+            id="action-2-no"
+            checked
+          >
+          <label for="action-2-no">No</label>
           {% endif %}
         </div>
       </fieldset>
@@ -223,77 +270,46 @@
       </div>
     </form>
   </div>
-{% endif %}
+  {% endif %}
 
-  {% for i in range(7) %}
-    <div class="diary-day" id="day{{ i }}">
-
-      {% if entries[i] == None %}
-      <h4 class="show-date">No Entry</h4>
-      <p class="show-sad"></p>
-      <p class="show-angry"></p>
-      <p class="show-fear"></p>
-      <p class="show-happy"></p>
-      <p class="show-shame"></p>
-      <p class="show-urge1"></p>
-      <p class="show-urge2"></p>
-      <p class="show-urge3"></p>
-      <p class="show-action1"></p>
-      <p class="show-action2"></p>
-      <p class="show-used-skills"></p>
-
-      {% else %}
-      <h4 class="show-date">{{ entries[i]["date"] }}</h4>
-      <p class="show-sad">Sadness: {{ entries[i]["sad score"] }}</p>
-      <p class="show-angry">Anger: {{ entries[i]["angry score"] }}</p>
-      <p class="show-fear">Fear: {{ entries[i]["fear score"] }}</p>
-      <p class="show-happy">Happiness: {{ entries[i]["happy score"] }}</p>
-      <p class="show-shame">Shame: {{ entries[i]["shame score"] }}</p>
-      <p class="show-urge1">
-        {{ entries[i]["urge1 name"] }}: {{ entries[i]["urge1 score"] }}
-      </p>
-      <p class="show-urge2">
-        {{ entries[i]["urge2 name"] }}: {{ entries[i]["urge2 score"] }}
-      </p>
-      <p class="show-urge3">
-        {{ entries[i]["urge3 name"] }}: {{ entries[i]["urge3 score"] }}
-      </p>
-      <p class="show-action1">
-        {{ entries[i]["action1 name"] }}: {{ entries[i]["action1 score"] }}
-      </p>
-      <p class="show-action2">
-        {{ entries[i]["action2 name"] }}: {{ entries[i]["action2 score"] }}
-      </p>
-      <p class="show-used-skills">
-        Used Skills: {{ entries[i]["skills used"] }}
-      </p>
+  <div id="make-entry-buttons">
+    {% if not show_edit %}
+    <div class="make-entry-button">
+      <a href="/new-diary-entry/{{ user_id }}">
+        <button>Make a Diary Entry</button>
+      </a>
+    </div>
+    {% else %}
+    <div class="make-entry-button">
+      <button id="edit-today">Edit Today's Entry</button>
+    </div>
+    {% endif %}
+    
+    <div class="make-entry-button">
+      {% if not med_entry %}
+      <button id="make-med-entry">Took Medication</button>
       {% endif %}
     </div>
-  {% endfor %}
+  </div>
 
   <div id="med-status">
     {% if med_entry %}
-      <h4>You already took your medication today</h4>
+    <h4>You already took your medication today</h4>
     {% else %}
-      <h4>Don't forget to take your medication!</h4>
+    <h4>Don't forget to take your medication!</h4>
     {% endif %}
   </div>
+  
+  <div id="charts">
+    <div id="show-mood-chart" class="visual-data">
+      <canvas id="mood-chart"></canvas>
+    </div>
 
-  {% if not show_edit %}
-    <a href="/new-diary-entry/{{ user_id }}">
-      <button>Make a Diary Entry</button>
-    </a>
-  {% endif %}
-
-  {% if not med_entry %}
-    <button id="make-med-entry">Took Medication</button>
-  {% endif %}
-
-
-  <div id="show-mood-chart">
-    <canvas id="mood-chart"></canvas>
+    <div id="show-urge-chart" class="visual-data">
+      <canvas id="urge-chart"></canvas>
+    </div>
   </div>
- 
+</div>
 {% endblock %}
 
 {% block after_body %}
