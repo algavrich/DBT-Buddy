@@ -339,6 +339,8 @@ def update_settings():
     for i in range(2):
         crud.update_action(current_user_id, old_actions[i], new_actions[i])
 
+    session["fname"] = fname
+
     flash("Saved changes")
     return jsonify({
         "success": True,
