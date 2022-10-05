@@ -4,6 +4,13 @@
 
 // Render chart(s) on (re)load
 
+const dates = [];
+const sadness = [];
+const anger = [];
+const fear = [];
+const happiness = [];
+const shame =[];
+
 const currentDateString = document.querySelector('option').value;
 const queryString = new URLSearchParams(
     {date_string: currentDateString}).toString();
@@ -11,12 +18,7 @@ const url = `/api/get-given-week?${queryString}`;
 fetch(url)
 .then((res) => res.json())
 .then((resData) => {
-    const dates = [];
-    const sadness = [];
-    const anger = [];
-    const fear = [];
-    const happiness = [];
-    const shame =[];
+    //
     for (const day of resData) {
         if (day) {
             dates.push(day.date);
@@ -34,45 +36,45 @@ fetch(url)
             shame.push(null);
         }
     }
-
-    const moodChart = new Chart(
-        document.querySelector('#mood-chart'),
-        {
-          type: 'line',
-          data: {
-            labels: dates,
-            datasets: [
-              {
-                label: 'sadness',
-                data: sadness,
-                borderColor: '#1236a3',
-              },
-              {
-                label: 'anger',
-                data: anger,
-                borderColor: '#b82f2f',
-              },
-              {
-                label: 'fear',
-                data: fear,
-                borderColor: '#630d24',
-              },
-              {
-                label: 'happiness',
-                data: happiness,
-                borderColor: '#ff9a55',
-              },
-              {
-                label: 'shame',
-                data: shame,
-                borderColor: '#9478a7',
-              },
-            ],
-          },
-        },
-      );
+    moodChart.update();
 });
 
+const moodChart = new Chart(
+    document.querySelector('#mood-chart'),
+    {
+      type: 'line',
+      data: {
+        labels: dates,
+        datasets: [
+          {
+            label: 'sadness',
+            data: sadness,
+            borderColor: '#1236a3',
+          },
+          {
+            label: 'anger',
+            data: anger,
+            borderColor: '#b82f2f',
+          },
+          {
+            label: 'fear',
+            data: fear,
+            borderColor: '#630d24',
+          },
+          {
+            label: 'happiness',
+            data: happiness,
+            borderColor: '#ff9a55',
+          },
+          {
+            label: 'shame',
+            data: shame,
+            borderColor: '#9478a7',
+          },
+        ],
+      },
+    },
+);
 
 // Edit today's entry
 
@@ -252,6 +254,37 @@ selectWeekMenu.addEventListener('change', (evt) => {
                 showUsedSkills.innerHTML = '';
             }
         }
+        const newDates = [];
+        const newSadness = [];
+        const newAnger = [];
+        const newFear = [];
+        const newHappiness = [];
+        const newShame =[];
+        for (const day of resData) {
+            if (day) {
+                newDates.push(day.date);
+                newSadness.push(day['sad score']);
+                newAnger.push(day['angry score']);
+                newFear.push(day['fear score']);
+                newHappiness.push(day['happy score']);
+                newShame.push(day['shame score']);
+            } else {
+                newDates.push('no entry');
+                newSadness.push(null);
+                newAnger.push(null);
+                newFear.push(null);
+                newHappiness.push(null);
+                newShame.push(null);
+            }
+        }
+        moodChart.data.labels = newDates;
+        moodChart.data.datasets[0].data = newSadness;
+        moodChart.data.datasets[1].data = newAnger;
+        moodChart.data.datasets[2].data = newFear;
+        moodChart.data.datasets[3].data = newHappiness;
+        moodChart.data.datasets[4].data = newShame;
+        moodChart.update();
+
     });
 });
 
