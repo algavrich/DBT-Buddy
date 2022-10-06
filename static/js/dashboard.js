@@ -2,7 +2,7 @@
 
 // Need to edit this file to conform to Airbnb style guide
 
-// Render chart(s) on (re)load
+// Declare empty constants for chart data
 
 const dates = [];
 const sadnessScores = [];
@@ -14,6 +14,15 @@ const shameScores = [];
 const urge1Scores = [];
 const urge2Scores = [];
 const urge3Scores = [];
+
+const action1Vals = [];
+const action2Vals = [];
+let action1Yes = 0;
+let action2Yes = 0;
+
+const usedSkillsScores = [];
+
+// Instantiate empty charts
 
 const moodChart = new Chart(
     document.querySelector('#mood-chart'),
@@ -85,6 +94,29 @@ const urgeChart = new Chart(
     },
 );
 
+const actionChart = new Chart(
+    document.querySelector('#action-chart'),
+    {
+      type: 'bar',
+      data: {
+        labels: null,
+        datasets: [
+          {
+            label: '# days done',
+            data: null,
+            borderColor: '#8a9a5b',
+          },
+        ],
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+      },
+    },
+);
+
+// Function to get current week's data and update charts with it
+
 const updateCharts = () => {
     const currentDateString = document.querySelector('option').value;
     const queryString = new URLSearchParams(
@@ -97,6 +129,7 @@ const updateCharts = () => {
             const iString = new String(i+1);
             urgeChart.data.datasets[i].label = resData[0][`urge${iString} name`];
         }
+        actionChart.data.labels = [resData[0][`action1 name`], resData[0][`action2 name`]];
 
         dates.length = 0;
         sadnessScores.length = 0;
@@ -107,6 +140,8 @@ const updateCharts = () => {
         urge1Scores.length = 0;
         urge2Scores.length = 0;
         urge3Scores.length = 0;
+        action1Vals.length = 0;
+        action2Vals.length = 0;
 
         for (const day of resData) {
             if (day) {
@@ -119,6 +154,8 @@ const updateCharts = () => {
                 urge1Scores.push(day['urge1 score']);
                 urge2Scores.push(day['urge2 score']);
                 urge3Scores.push(day['urge3 score']);
+                action1Vals.push(day['action1 score']);
+                action2Vals.push(day['action2 score']);
 
             } else {
                 dates.push('no entry');
@@ -130,11 +167,26 @@ const updateCharts = () => {
                 urge1Scores.push(null);
                 urge2Scores.push(null);
                 urge3Scores.push(null);
+                action1Vals.push(null);
+                action2Vals.push(null);
             }
         }
+        
+        const valsToNums = (vals) => {
+            let count = 0;
+            for (const val of vals) {
+                if (val === 'yes') {
+                    count ++
+                }
+            }
+            return count;
+        };
+
+        actionChart.data.datasets[0].data = [valsToNums(action1Vals), valsToNums(action2Vals)];
 
         moodChart.update();
         urgeChart.update();
+        actionChart.update();
     });
 };
 
@@ -377,6 +429,8 @@ selectWeekMenu.addEventListener('change', (evt) => {
         urgeChart.update();
     });
 });
+
+// Handle med entry click
 
 const medEntryButton = document.querySelector('#make-med-entry');
 
