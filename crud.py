@@ -35,11 +35,11 @@ def create_user(
     return user
 
 
-def create_urge(user_id: int, description: str) -> Urge:
+def create_urge(user_id: int, description: str, position: int) -> Urge:
     """Create and return a new urge.
     
-    Takes in a user's ID and a short description of the urge that they
-    want to track,
+    Takes in a user's ID, a short description of the urge that they
+    want to track, and the urge position,
     returns Urge object with their ID and given description.
 
     """
@@ -47,17 +47,19 @@ def create_urge(user_id: int, description: str) -> Urge:
     urge = Urge(
         user_id=user_id, 
         description=description,
-        active = True
+        active = True,
+        position = position
+
     )
 
     return urge
 
 
-def create_action(user_id: int, description: str) -> Action:
+def create_action(user_id: int, description: str, position: int) -> Action:
     """Create and return a new action.
     
-    Takes in a user's ID and a short description of the action that they
-    want to track,
+    Takes in a user's ID, a short description of the action that they
+    want to track, and the action position,
     returns Action object with their ID and given description.
     
     """
@@ -65,7 +67,8 @@ def create_action(user_id: int, description: str) -> Action:
     action = Action(
         user_id=user_id, 
         description=description,
-        active = True
+        active = True,
+        position = position
     )
 
     return action
@@ -96,11 +99,13 @@ def create_account_helper(
     new_urges = []
     new_actions = []
 
-    for urge in [urge_1, urge_2, urge_3]:
-        new_urges.append(create_urge(new_user.user_id, urge))
+    urges = [urge_1, urge_2, urge_3]
+    for i in range(3):
+        new_urges.append(create_urge(new_user.user_id, urges[i], i+1))
 
-    for action in [action_1, action_2]:
-        new_urges.append(create_action(new_user.user_id, action))
+    actions = [action_1, action_2]
+    for i in range(2):
+        new_actions.append(create_action(new_user.user_id, actions[i], i+1))
 
     db.session.add_all(new_urges)
     db.session.add_all(new_actions)
@@ -351,7 +356,16 @@ def get_urges_by_user_id(user_id: int) -> list[Urge]:
         if urge.active:
             active_urges.append(urge)
 
-    return active_urges
+    for urge in active_urges:
+        if urge.position == 1:
+            urge_1 = urge
+        elif urge.position == 2:
+            urge_2 = urge
+        else:
+            urge_3 = urge
+    ordered_urges = [urge_1, urge_2, urge_3]
+
+    return ordered_urges
 
 
 def get_actions_by_user_id(user_id: int) -> list[Action]:
@@ -363,7 +377,14 @@ def get_actions_by_user_id(user_id: int) -> list[Action]:
         if action.active:
             active_actions.append(action)
 
-    return active_actions
+    for action in active_actions:
+        if action.position == 1:
+            action_1 = action
+        else:
+            action_2 = action
+    ordered_actions = [action_1, action_2]
+
+    return ordered_actions
 
 
 def get_urge_desc_by_id(urge_id: int) -> str:
@@ -647,7 +668,9 @@ def update_urge(user_id: int, old_urge_id: int, new_urge_desc: str) -> None:
     old_urge_record = get_urge_by_id(old_urge_id)
 
     if old_urge_record.description != new_urge_desc:
-        new_urge_record = create_urge(user_id, new_urge_desc)
+        new_urge_record = create_urge(
+            user_id, new_urge_desc, old_urge_record.position
+        )
         old_urge_record.active = False
         db.session.add(new_urge_record)
         db.session.commit()
@@ -660,7 +683,9 @@ def update_action(
     old_action_record = get_action_by_id(old_action_id)
 
     if old_action_record.description != new_action_desc:
-        new_action_record = create_action(user_id, new_action_desc)
+        new_action_record = create_action(
+            user_id, new_action_desc, old_action_record.position
+        )
         old_action_record.active = False
         db.session.add(new_action_record)
         db.session.commit()
@@ -694,12 +719,12 @@ def example_data() -> None:
 
     urges = []
     for i in range(3):
-            urges.append(create_urge(1, f"Urge {i}"))
+            urges.append(create_urge(1, f"Urge {i+1}", i+1))
     db.session.add_all(urges)
 
     actions = []
     for j in range(2):
-        actions.append(create_action(1, f"Action {j}"))
+        actions.append(create_action(1, f"Action {j+1}", j+1))
     db.session.add_all(actions)
     db.session.commit()
 
