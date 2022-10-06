@@ -44,6 +44,7 @@ class Urge(db.Model):
     )
     description = db.Column(db.String(50), nullable=False)
     active = db.Column(db.Boolean, nullable=False)
+    position = db.Column(db.Integer, nullable=False)
 
     user = db.relationship("User", back_populates="urges")
     urge_entries = db.relationship("UrgeEntry", back_populates="urge")
@@ -65,6 +66,7 @@ class Action(db.Model):
     )
     description = db.Column(db.String(50), nullable=False)
     active = db.Column(db.Boolean, nullable=False)
+    position = db.Column(db.Integer, nullable=False)
 
     user = db.relationship("User", back_populates="actions")
     action_entries = db.relationship("ActionEntry", back_populates="action")
