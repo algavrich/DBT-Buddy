@@ -312,18 +312,10 @@ def get_users_med_reminders() -> list[User]:
     return User.query.filter(User.med_reminders == True).all()
 
 
-# def get_users_med_reminders():
-#     """Return all users who opted in to med reminders."""
+def get_med_tracking_for_user(user_id: int) -> bool:
+    """Return True if given user is tracking meds."""
 
-#     return User.query.filter(User.med_reminders == True).all()
-
-
-# def get_fav_trend_by_user_id(user_id):
-#     """Return user's favorite trend when given their ID."""
-
-#     user = get_user_by_id(user_id)
-
-#     return user.fav_trend
+    return User.query.get(user_id).med_tracking
 
 
 # def get_diary_entries_by_user_id(user_id: int) -> list[DiaryEntry]:
