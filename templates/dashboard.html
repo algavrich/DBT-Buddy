@@ -284,14 +284,17 @@
       <button id="edit-today">Edit Today's Entry</button>
     </div>
     {% endif %}
-    
+
+    {% if med_tracking %}
     <div class="make-entry-button">
       {% if not med_entry %}
       <button id="make-med-entry">Took Medication</button>
       {% endif %}
     </div>
+    {% endif %}
   </div>
 
+  {% if med_tracking %} 
   <div id="med-status">
     {% if med_entry %}
     <h4>You already took your medication today</h4>
@@ -299,6 +302,7 @@
     <h4>Don't forget to take your medication!</h4>
     {% endif %}
   </div>
+  {% endif %}
   
   <div id="charts">
     <div id="show-mood-chart" class="visual-data">
