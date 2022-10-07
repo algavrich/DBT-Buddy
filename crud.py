@@ -619,13 +619,17 @@ def update_today_entry(
         urge_2_score,
         urge_3_score
     ]
-    current_u_entries = current_d_entry.urge_entries
+    current_u_entries = helpers.order_urge_entries(
+        current_d_entry.urge_entries
+    )
 
     new_a_scores = [
         action_1,
         action_2
     ]
-    current_a_entries = current_d_entry.action_entries
+    current_a_entries = helpers.order_action_entries(
+        current_d_entry.action_entries
+    )
 
     current_d_entry.sad_score = sad_score
     current_d_entry.angry_score = angry_score
