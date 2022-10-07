@@ -104,7 +104,7 @@ const actionChart = new Chart(
           {
             label: '# days done',
             data: null,
-            borderColor: '#8a9a5b',
+            backgroundColor: '#9bc4e2',
           },
         ],
       },
@@ -125,11 +125,24 @@ const updateCharts = () => {
     fetch(url)
     .then((res) => res.json())
     .then((resData) => {
-        for (let i=0; i<3; i+=1) {
-            const iString = new String(i+1);
-            urgeChart.data.datasets[i].label = resData[0][`urge${iString} name`];
+        if (resData.urges) {
+            for (let i=0; i<3; i+=1) {
+                urgeChart.data.datasets[i].label = resData.urges[i];
+            }
+        } else {
+            for (let i=0; i<3; i+=1) {
+                const iString = new String(i+1);
+                urgeChart.data.datasets[i].label = resData[entries][0][`urge${iString} name`];
+            }
         }
-        actionChart.data.labels = [resData[0][`action1 name`], resData[0][`action2 name`]];
+        if (resData.actions) {
+            actionChart.data.labels = [resData.actions[0], resData.actions[1]]
+        } else {
+            actionChart.data.labels = [
+                resData.entries[0][`action1 name`],
+                resData.entries[0][`action2 name`]
+            ];
+        }
 
         dates.length = 0;
         sadnessScores.length = 0;
@@ -143,7 +156,7 @@ const updateCharts = () => {
         action1Vals.length = 0;
         action2Vals.length = 0;
 
-        for (const day of resData) {
+        for (const day of resData.entries) {
             if (day) {
                 dates.push(day.date);
                 sadnessScores.push(day['sad score']);
