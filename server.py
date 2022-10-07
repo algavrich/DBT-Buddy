@@ -129,13 +129,15 @@ def dashboard(user_id):
 
     entries = helpers.make_entries_jsonifiable(this_week)
 
+    med_tracking = crud.get_med_tracking_for_user(user_id)
+
     med_entry = crud.check_med_entry_today(user_id)
 
     show_edit = crud.check_entry_today(user_id)
 
     return render_template(
-        "dashboard.html", weeks=weeks, entries=entries,
-        show_edit=show_edit, med_entry=med_entry, user_id=user_id)
+        "dashboard.html", weeks=weeks, entries=entries, show_edit=show_edit,
+        med_tracking=med_tracking, med_entry=med_entry, user_id=user_id)
 
 
 @app.route("/new-diary-entry/<user_id>")
