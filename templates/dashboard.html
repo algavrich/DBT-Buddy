@@ -25,8 +25,9 @@
     {% for i in range(7) %}
     <div class="diary-day" id="day{{ i }}">
 
-      {% if entries[i] == None %}
-      <h4 class="show-date">No Entry</h4>
+      <h4 class="show-date">{{ entries[i]["date"] }}</h4>
+
+      {% if "sad score" not in entries[i] %}
       <p class="show-sad"></p>
       <p class="show-angry"></p>
       <p class="show-fear"></p>
@@ -40,7 +41,6 @@
       <p class="show-used-skills"></p>
 
       {% else %}
-      <h4 class="show-date">{{ entries[i]["date"] }}</h4>
       <p class="show-sad">Sadness: {{ entries[i]["sad score"] }}</p>
       <p class="show-angry">Anger: {{ entries[i]["angry score"] }}</p>
       <p class="show-fear">Fear: {{ entries[i]["fear score"] }}</p>
