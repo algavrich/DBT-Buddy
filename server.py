@@ -9,7 +9,7 @@ import crud
 import helpers
 from jinja2 import StrictUndefined
 import os
-from datetime import date, datetime
+from datetime import date
 import argon2
 
 app = Flask(__name__)
@@ -235,19 +235,34 @@ def update_today_entry():
 def get_given_week():
     """Returns JSON for a week when given its start date as a string."""
 
-    if not session.get("user_id"):
-        return redirect("/")
-
     current_user_id = session.get("user_id")
+
+    if not current_user_id:
+        return redirect("/")
 
     week_start_date_string = request.args.get("date_string")
     entries = crud.get_given_week_for_user_from_date_string(
         current_user_id,
         week_start_date_string
     )
-    entries_as_dicts = helpers.make_entries_jsonifiable(entries)
+    if helpers.check_for_entry_in_week(entries):
+        entries_as_dicts = helpers.make_entries_jsonifiable(entries)
+        actions = None
+        urges = None
+    else:
+        entries_as_dicts = helpers.given_week_dates(week_start_date_string)
+        actions = []
+        for action in crud.get_actions_by_user_id(current_user_id):
+            actions.append(action.description)
+        urges = []
+        for urge in crud.get_urges_by_user_id(current_user_id):
+            urges.append(urge.description)
 
-    return jsonify(entries_as_dicts)
+    return jsonify({
+        "entries": entries_as_dicts,
+        "urges": urges,
+        "actions": actions,
+    })
 
 
 @app.route("/api/new-med-entry", methods=["POST"])
