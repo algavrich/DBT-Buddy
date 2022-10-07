@@ -3,7 +3,7 @@
 from model import Urge, Action, DiaryEntry
 import crud
 from typing import TypeVar
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import re
 from argon2 import PasswordHasher
 
@@ -60,6 +60,27 @@ def convert_bool_to_y_n(value: bool) -> str:
     return "invalid input"
 
 
+def given_week_dates(date_string):
+    """Return dictionary of date strings for the given week."""
+
+    start_date = datetime.strptime(date_string, "%d_%m_%Y").date()
+
+    date_strings = []
+
+    for i in range(7):
+        current_day = start_date + timedelta(days=i)
+        date_strings.append({"date": date.strftime(current_day, "%b %-d")})
+
+    return date_strings
+
+
+def check_for_entry_in_week(entries):
+    for entry in entries:
+        if entry:
+            return True
+    return False
+
+
 def get_descs_from_object_list(objects: list[UA]) -> list[str]:
     """Get descriptions from list of user's custom Urge or Action object.
     
@@ -75,8 +96,41 @@ def get_descs_from_object_list(objects: list[UA]) -> list[str]:
     return descriptions
 
 
+def order_urge_entries(urge_entries):
+    """Orders list of urge entries."""
+
+    for urge_entry in urge_entries:
+        if urge_entry.urge.position == 1:
+            urge_entry1 = urge_entry
+        elif urge_entry.urge.position == 2:
+            urge_entry2 = urge_entry
+        else:
+            urge_entry3 = urge_entry
+
+    return [urge_entry1, urge_entry2, urge_entry3]
+
+
+def order_action_entries(action_entries):
+    """Orders list of action entries."""
+
+    for action_entry in action_entries:
+        if action_entry.action.position == 1:
+            action_entry1 = action_entry
+        else:
+            action_entry2 = action_entry
+
+    return [action_entry1, action_entry2]
+
+
 def dict_for_day(entry: DiaryEntry) -> dict:
     """Create dictionary of info for given diary entry."""
+
+    ordered_urge_entries = order_urge_entries(
+        entry.urge_entries
+    )
+    ordered_action_entries = order_action_entries(
+        entry.action_entries
+    )
 
     return {
         "date": datetime.strftime(entry.dt, "%A %d"),
@@ -86,22 +140,22 @@ def dict_for_day(entry: DiaryEntry) -> dict:
         "happy score": entry.happy_score,
         "shame score": entry.shame_score,
         "urge1 name": crud.get_urge_desc_by_id(
-            entry.urge_entries[0].urge_id),
+            ordered_urge_entries[0].urge_id),
         "urge2 name": crud.get_urge_desc_by_id(
-            entry.urge_entries[1].urge_id),
+            ordered_urge_entries[1].urge_id),
         "urge3 name": crud.get_urge_desc_by_id(
-            entry.urge_entries[2].urge_id),
-        "urge1 score": entry.urge_entries[0].score,
-        "urge2 score": entry.urge_entries[1].score,
-        "urge3 score": entry.urge_entries[2].score,
+            ordered_urge_entries[2].urge_id),
+        "urge1 score": ordered_urge_entries[0].score,
+        "urge2 score": ordered_urge_entries[1].score,
+        "urge3 score": ordered_urge_entries[2].score,
         "action1 name": crud.get_action_desc_by_id(
-            entry.action_entries[0].action_id),
+            ordered_action_entries[0].action_id),
         "action2 name": crud.get_action_desc_by_id(
-            entry.action_entries[1].action_id),
+            ordered_action_entries[1].action_id),
         "action1 score": convert_bool_to_y_n(
-            entry.action_entries[0].score),
+            ordered_action_entries[0].score),
         "action2 score": convert_bool_to_y_n(
-            entry.action_entries[1].score),
+            ordered_action_entries[1].score),
         "skills used": entry.skills_used
     }
 
