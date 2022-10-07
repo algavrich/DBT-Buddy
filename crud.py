@@ -432,7 +432,7 @@ def get_given_week_for_user(
         if diary_entry:
             entries.append(diary_entry)
         else:
-            entries.append(None)
+            entries.append({"date": date.strftime(date_get, "%A %-d")})
 
     return entries
 
