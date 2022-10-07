@@ -61,7 +61,7 @@ def convert_bool_to_y_n(value: bool) -> str:
 
 
 def given_week_dates(date_string):
-    """Return dictionary of date strings for the given week."""
+    """Return list of dictionaries of date strings for the given week."""
 
     start_date = datetime.strptime(date_string, "%d_%m_%Y").date()
 
@@ -69,15 +69,18 @@ def given_week_dates(date_string):
 
     for i in range(7):
         current_day = start_date + timedelta(days=i)
-        date_strings.append({"date": date.strftime(current_day, "%b %-d")})
+        date_strings.append({"date": date.strftime(current_day, "%A %-d")})
 
     return date_strings
 
 
 def check_for_entry_in_week(entries):
+    """Return True if there is at least one entry in the week."""
+
     for entry in entries:
-        if entry:
+        if isinstance(entry, DiaryEntry):
             return True
+
     return False
 
 
@@ -133,7 +136,7 @@ def dict_for_day(entry: DiaryEntry) -> dict:
     )
 
     return {
-        "date": datetime.strftime(entry.dt, "%A %d"),
+        "date": datetime.strftime(entry.dt, "%A %-d"),
         "sad score": entry.sad_score,
         "angry score": entry.angry_score,
         "fear score": entry.fear_score,
@@ -161,6 +164,7 @@ def dict_for_day(entry: DiaryEntry) -> dict:
 
 
 def make_entries_jsonifiable(
+       # Type hinting for multiple types???
         entries_as_objs: list[DiaryEntry]) -> list[dict]:
     """Turn list of entry objects into list of dicts.
     
@@ -171,10 +175,10 @@ def make_entries_jsonifiable(
 
     entries = []
     for entry in entries_as_objs:
-        if entry is not None:
+        if isinstance(entry, DiaryEntry):
             entry_contents = dict_for_day(entry)
         else:
-            entry_contents = None
+            entry_contents = entry
         entries.append(entry_contents)
 
     return entries
