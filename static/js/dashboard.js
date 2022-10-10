@@ -35,26 +35,31 @@ const moodChart = new Chart(
             label: 'Sadness',
             data: sadnessScores,
             borderColor: '#9bc4e2',
+            backgroundColor: '#9bc4e2',
           },
           {
             label: 'Anger',
             data: angerScores,
             borderColor: '#ea9999',
+            backgroundColor: '#ea9999',
           },
           {
             label: 'Fear',
             data: fearScores,
             borderColor: '#974c5e',
+            backgroundColor: '#974c5e',
           },
           {
             label: 'Happiness',
             data: happinessScores,
             borderColor: '#f8d664',
+            backgroundColor: '#f8d664',
           },
           {
             label: 'Shame',
             data: shameScores,
             borderColor: '#9478a7',
+            backgroundColor: '#9478a7',
           },
         ],
       },
@@ -81,16 +86,19 @@ const urgeChart = new Chart(
             label: null,
             data: urge1Scores,
             borderColor: '#8a9a5b',
+            backgroundColor: '#9478a7',
           },
           {
             label: null,
             data: urge2Scores,
             borderColor: '#cc8899',
+            backgroundColor: '#cc8899',
           },
           {
             label: null,
             data: urge3Scores,
             borderColor: '#e5aa70',
+            backgroundColor: '#e5aa70',
           },
         ],
       },
@@ -180,21 +188,10 @@ const updateCharts = (dateString) => {
     fetch(url)
     .then((res) => res.json())
     .then((resData) => {
-        if (resData.urges) {
-            for (let i=0; i<3; i+=1) {
-                urgeChart.data.datasets[i].label = resData.urges[i];
-            }
-            actionChart.data.labels = [resData.actions[0], resData.actions[1]];
-        } else {
-            for (let i=0; i<3; i+=1) {
-                const iString = new String(i+1);
-                urgeChart.data.datasets[i].label = resData.entries[0][`urge${iString} name`];
-            }
-            actionChart.data.labels = [
-                resData.entries[0][`action1 name`],
-                resData.entries[0][`action2 name`]
-            ];
+        for (let i=0; i<3; i+=1) {
+            urgeChart.data.datasets[i].label = resData.urges[i];
         }
+        actionChart.data.labels = [resData.actions[0], resData.actions[1]];
 
         dates.length = 0;
         sadnessScores.length = 0;
