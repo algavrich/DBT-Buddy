@@ -1,3 +1,43 @@
+html, body {
+    height: 100%;
+    background-color: #FFFFFF;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cpattern id='p' width='100' height='100' patternUnits='userSpaceOnUse' patternTransform='scale(1.37)'%3E%3Cpath data-color='fill' fill='none' stroke='%23B1B6D0' stroke-width='3.34' d='M50 0C22.4 0 0 22.4 0 50c27.6 0 50-22.4 50-50zM0 50c0 27.6 22.4 50 50 50 0-27.6-22.4-50-50-50zM100 50c-27.6 0-50 22.4-50 50 27.6 0 50-22.4 50-50zM100 50c0-27.6-22.4-50-50-50 0 27.6 22.4 50 50 50z'%3E%3C/path%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23p)' width='100%25' height='100%25'%3E%3C/rect%3E%3C/svg%3E");
+    background-size: cover;
+    background-position: center;
+}
+
+h1, h3, h4, p, label {
+    color: #e7f0ff;
+}
+
+a {
+    color: #e7f0ff;
+}
+
+input, button, option, select {
+    border-radius: 2px;
+    border-width: 1px;
+    background: #e3ecfa;
+}
+
+canvas {
+    background-color: #e3ecfa;
+}
+
+.flash-msg {
+    margin: 0;
+}
+
+#login-content {
+    border-radius: 10px;
+    padding: 35px 50px;
+    background-color: #3f4957;
+}
+
+#welcome {
+    margin: 0px 0px 50px 0px;
+}
+
 #show-med-rem {
     display: none;
 }
@@ -9,7 +49,7 @@
 
 .diary-day {
     display: inline-block;
-    width: 12%;
+    width: 120px;
     margin: auto;
 }
 
