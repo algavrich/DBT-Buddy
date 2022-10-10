@@ -28,6 +28,10 @@ canvas {
     margin: 0;
 }
 
+#login-content-row {
+    width: 500px;
+}
+
 #login-content {
     border-radius: 10px;
     padding: 35px 50px;
