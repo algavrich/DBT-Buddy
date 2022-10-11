@@ -15,242 +15,266 @@
 </head>
 
 <body>
-  {% for msg in get_flashed_messages() %}
-    <p class="flash-msg">
-      {{ msg }}
-    </p>
+  <div class="container-fluid">
+    {% for msg in get_flashed_messages() %}
+    <div class="alert alert-primary" role="alert">
+      <p class="flash-msg">
+        {{ msg }}
+      </p>
+    </div>
     {% endfor %}
 
-  <h1 id="welcome">Welcome to DBT Buddy</h1>
+    <div class="row justify-content-center" id="create-account-row">
+      <div class="col-6" id="create-account-content">
+        <h1 class="text-center" id="welcome">Welcome to DBT Buddy</h1>
 
-  <h3>Create Account</h3>
+        <form id="create-account-form">
+          <fieldset>
+            <legend>Your Info</legend>
+            <div class="spaced-input">
+              <label for="fname" hidden>First Name</label>
+              <input 
+                type="text" 
+                name="fname" 
+                placeholder="First Name" 
+                id="fname"
+                maxlength="50"
+                required
+              >
+            </div>
 
-  <form id="create-account-form">
-    <fieldset>
-      <legend>Your Info</legend>
-      <div>
-        <label for="fname" hidden>First Name</label>
-        <input 
-          type="text" 
-          name="fname" 
-          placeholder="First Name" 
-          id="fname"
-          maxlength="50"
-          required
-        >
+            <div class="spaced-input">
+              <label for="email" hidden>Email</label>
+              <input 
+                type="email" 
+                name="email" 
+                placeholder="Email" 
+                id="email"
+                minlength="6"
+                maxlength="50"
+                required
+              >
+            </div>
+
+            <div class="spaced-input">
+              <label for="password" hidden>Password</label>
+              <input 
+                type="password" 
+                name="password" 
+                placeholder="Password" 
+                id="password"
+                minlength="8"
+                required
+              >
+            </div>
+
+            <div>
+              <label for="password-2" hidden>Retype Password</label>
+              <input 
+                type="password" 
+                name="password-2" 
+                placeholder="Retype Password" 
+                id="password-2" 
+                minlength="8"
+                required
+              >
+            </div>
+
+            <div id="pw-reqs">
+              <p
+                class="smaller-text" 
+                id="pw-prompt"
+              >
+                Password must contain at least one:
+              </p>
+              <ul>
+                <li class="smaller-text">Upper case letter</li>
+                <li class="smaller-text">Lower case letter</li>
+                <li class="smaller-text">Digit (0-9)</li>
+                <li class="smaller-text">
+                  Special Character (!, @, #, $, %, etc.)
+                </li>
+              </ul>
+            </div>
+
+            <div class="spaced-input">
+              <label for="phone-number" hidden>Phone Number</label>
+              <input 
+                type="tel" 
+                name="phone-number" 
+                placeholder="Phone Number" 
+                id="phone-number"
+                pattern="^[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$"
+                required
+              >
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Preferences</legend>
+            <fieldset>
+              <legend class="smaller-legend">Pick three urges to track</legend>
+              <p class="smaller-text">
+                Please provide a concise name for each urge
+              </p>
+              <div class="spaced-input">
+                <label for="urge-1" hidden>Urge 1</label>
+                <input 
+                  type="text" 
+                  name="urge-1" 
+                  placeholder="Urge 1" 
+                  id="urge-1" 
+                  minlength="3"
+                  maxlength="50"
+                  required
+                >
+              </div>
+
+              <div class="spaced-input">
+                <label for="urge-2" hidden>Urge 2</label>
+                <input 
+                  type="text" 
+                  name="urge-2" 
+                  placeholder="Urge 2" 
+                  id="urge-2"
+                  minlength="3"
+                  maxlength="50"
+                  required
+                >
+              </div>
+
+              <div class="spaced-input">
+                <label for="urge-3" hidden>Urge 3</label>
+                <input 
+                  type="text" 
+                  name="urge-3" 
+                  placeholder="Urge 3" 
+                  id="urge-3"
+                  minlength="3"
+                  maxlength="50"
+                  required
+                >
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend class="smaller-legend">Pick two actions to track</legend>
+              <p class="smaller-text">
+                Please provide a concise name for each action
+              </p>
+              <div class="spaced-input">
+                <label for="action-1" hidden>Action 1</label>
+                <input 
+                  type="text" 
+                  name="action-1" 
+                  placeholder="Action 1" 
+                  id="action-1"
+                  minlength="3"
+                  maxlength="50"
+                  required
+                >
+              </div>
+
+              <div class="spaced-input">
+                <label for="action-2" hidden>Action 2</label>
+                <input 
+                  type="text" 
+                  name="action-2" 
+                  placeholder="Action 2" 
+                  id="action-2"
+                  minlength="3"
+                  maxlength="50"
+                  required
+                >
+              </div>
+            </fieldset>
+
+            <label class="smaller-text" for="e-rem">
+              Would you like to receive entry reminders?
+            </label>
+            <div id="e-rem">
+              <input 
+                type="radio" 
+                name="entry-reminders" 
+                value="yes" 
+                id="e-rem-yes" 
+                required
+              >
+              <label class="smaller-text" for="e-rem-yes">Yes</label>
+              <input 
+                type="radio" 
+                name="entry-reminders" 
+                value="no" 
+                id="e-rem-no" 
+                checked 
+                required
+              >
+              <label class="smaller-text" for="e-rem-no">No</label>
+            </div>
+
+            <label class="smaller-text" for="med-track">
+              Would you like to track your daily medications?
+            </label>
+            <div id="med-track">
+              <input 
+                type="radio" 
+                name="med-tracking" 
+                value="yes" 
+                id="m-track-yes" 
+                required
+              >
+              <label class="smaller-text" for="m-track-yes">Yes</label>
+              <input 
+                type="radio" 
+                name="med-tracking" 
+                value="no" 
+                id="m-track-no" 
+                checked 
+                required
+              >
+              <label class="smaller-text" for="m-track-no">No</label>
+            </div>
+
+            <div id="show-med-rem">
+              <label class="smaller-text" for="med-rem">
+                Would you like to receive reminders to take your medication?
+              </label>
+              <div id="med-rem">
+                <input 
+                  type="radio" 
+                  name="med-reminders" 
+                  value="yes" 
+                  id="m-rem-yes" 
+                  required
+                >
+                <label class="smaller-text" for="m-rem-yes">Yes</label>
+                <input 
+                  type="radio" 
+                  name="med-reminders" 
+                  value="no" 
+                  id="m-rem-no" 
+                  checked 
+                  required
+                >
+                <label class="smaller-text" for="m-rem-no">No</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div>
+            <label for="submit-button" hidden>Create Account</label>
+            <input
+              class="btn btn-sm" 
+              type="submit" 
+              value="Create Account" 
+              id="submit-button"
+            >
+          </div>
+        </form>
       </div>
-
-      <div>
-        <label for="email" hidden>Email</label>
-        <input 
-          type="email" 
-          name="email" 
-          placeholder="Email" 
-          id="email"
-          minlength="6"
-          maxlength="50"
-          required
-        >
-      </div>
-
-      <div>
-        <label for="password" hidden>Password</label>
-        <input 
-          type="password" 
-          name="password" 
-          placeholder="Password" 
-          id="password"
-          minlength="8"
-          required
-        >
-      </div>
-
-      <div>
-        <label for="password-2" hidden>Retype Password</label>
-        <input 
-          type="password" 
-          name="password-2" 
-          placeholder="Retype Password" 
-          id="password-2" 
-          minlength="8"
-          required
-        >
-      </div>
-
-      <p>Password must contain at least one:</p>
-      <ul>
-        <li>Upper case letter</li>
-        <li>Lower case letter</li>
-        <li>Digit (0-9)</li>
-        <li>Special Character (!, @, #, $, %, etc.)</li>
-      </ul>
-
-      <div>
-        <label for="phone-number" hidden>Phone Number</label>
-        <input 
-          type="tel" 
-          name="phone-number" 
-          placeholder="Phone Number" 
-          id="phone-number"
-          pattern="^[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$"
-          required
-        >
-      </div>
-    </fieldset>
-
-    <fieldset>
-      <legend>Preferences</legend>
-      <fieldset>
-        <legend>Pick three urges to track</legend>
-        <p>Please provide a concise name for each urge</p>
-        <div>
-          <label for="urge-1" hidden>Urge 1</label>
-          <input 
-            type="text" 
-            name="urge-1" 
-            placeholder="Urge 1" 
-            id="urge-1" 
-            minlength="3"
-            maxlength="50"
-            required
-          >
-        </div>
-
-        <div>
-          <label for="urge-2" hidden>Urge 2</label>
-          <input 
-            type="text" 
-            name="urge-2" 
-            placeholder="Urge 2" 
-            id="urge-2"
-            minlength="3"
-            maxlength="50"
-            required
-          >
-        </div>
-
-        <div>
-          <label for="urge-3" hidden>Urge 3</label>
-          <input 
-            type="text" 
-            name="urge-3" 
-            placeholder="Urge 3" 
-            id="urge-3"
-            minlength="3"
-            maxlength="50"
-            required
-          >
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Pick two actions to track</legend>
-        <p>Please provide a concise name for each action</p>
-        <div>
-          <label for="action-1" hidden>Action 1</label>
-          <input 
-            type="text" 
-            name="action-1" 
-            placeholder="Action 1" 
-            id="action-1"
-            minlength="3"
-            maxlength="50"
-            required
-          >
-        </div>
-
-        <div>
-          <label for="action-2" hidden>Action 2</label>
-          <input 
-            type="text" 
-            name="action-2" 
-            placeholder="Action 2" 
-            id="action-2"
-            minlength="3"
-            maxlength="50"
-            required
-          >
-        </div>
-      </fieldset>
-
-      <label for="e-rem">
-        Would you like to receive entry reminders?
-      </label>
-      <div id="e-rem">
-        <input 
-          type="radio" 
-          name="entry-reminders" 
-          value="yes" 
-          id="e-rem-yes" 
-          required
-        >
-        <label for="e-rem-yes">Yes</label>
-        <input 
-          type="radio" 
-          name="entry-reminders" 
-          value="no" 
-          id="e-rem-no" 
-          checked 
-          required
-        >
-        <label for="e-rem-no">No</label>
-      </div>
-
-      <label for="med-track">
-        Would you like to track your daily medications?
-      </label>
-      <div id="med-track">
-        <input 
-          type="radio" 
-          name="med-tracking" 
-          value="yes" 
-          id="m-track-yes" 
-          required
-        >
-        <label for="m-track-yes">Yes</label>
-        <input 
-          type="radio" 
-          name="med-tracking" 
-          value="no" 
-          id="m-track-no" 
-          checked 
-          required
-        >
-        <label for="m-track-no">No</label>
-      </div>
-
-      <div id="show-med-rem">
-        <label for="med-rem">
-          Would you like to receive reminders to take your medication?
-        </label>
-        <div id="med-rem">
-          <input 
-            type="radio" 
-            name="med-reminders" 
-            value="yes" 
-            id="m-rem-yes" 
-            required
-          >
-          <label for="m-rem-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="med-reminders" 
-            value="no" 
-            id="m-rem-no" 
-            checked 
-            required
-          >
-          <label for="m-rem-no">No</label>
-        </div>
-      </div>
-    </fieldset>
-
-    <div>
-      <label for="submit-button" hidden>Create Account</label>
-      <input type="submit" value="Create Account" id="submit-button">
     </div>
-  </form>
-  
+  </div>
+
   <script src="/static/js/createAccount.js"></script>
 </body>
 
