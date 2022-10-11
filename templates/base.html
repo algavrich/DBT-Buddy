@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <div class="container-fluid"></div>
+  <div class="container-fluid">
     {% for msg in get_flashed_messages() %}
     <div class="alert alert-primary" role="alert">
       <p class="flash-msg">
@@ -27,13 +27,11 @@
     </div>
     {% endfor %}
     
-
     <nav>
       <a href="/dashboard/{{ session.get('user_id') }}">DBT Buddy</a>
       <a href="/settings">Settings</a>
       <a href="/logout">Log Out</a>
     </nav>
-
 
     {% block body %}{% endblock %}
   </div>
