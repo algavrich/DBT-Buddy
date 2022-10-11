@@ -11,6 +11,18 @@ h1, h3, h4, p, li, legend, label {
     color: #e7f0ff;
 }
 
+p {
+    margin-bottom: 10px;
+}
+
+ul {
+    margin-bottom: 10px;
+}
+
+legend {
+    font-size: 22px;
+}
+
 a {
     font-family: 'Arial', sans-serif;
     color: #e7f0ff;
@@ -55,8 +67,29 @@ canvas {
     background-color: #3f4957;
 }
 
+#dbt-buddy {
+    margin-bottom: 50px;
+}
+
 #welcome {
-    margin: 0px 0px 50px 0px;
+    margin-bottom: 20px;
+}
+
+.spaced-input {
+    margin-bottom: 10px;
+}
+
+#pw-prompt {
+    margin: 10px 0px 0px;
+}
+
+.smaller-legend {
+    font-size: 18px;
+    margin: 0;
+}
+
+.smaller-text {
+    font-size: 14px;
 }
 
 #show-med-rem {
