@@ -6,18 +6,25 @@ html, body {
     background-position: center;
 }
 
-h1, h3, h4, p, label {
+h1, h3, h4, p, li, legend, label {
+    font-family: 'Arial', sans-serif;
     color: #e7f0ff;
 }
 
 a {
+    font-family: 'Arial', sans-serif;
     color: #e7f0ff;
 }
 
 input, button, option, select {
-    border-radius: 2px;
+    border-radius: 2px !important;
     border-width: 1px;
-    background: #e3ecfa;
+    background-color: #e3ecfa;
+}
+
+#submit-button {
+    background-color: #e3ecfa !important;
+    margin: 10px 0px;
 }
 
 canvas {
@@ -28,11 +35,21 @@ canvas {
     margin: 0;
 }
 
-#login-content-row {
-    width: 500px;
+#alert-col {
+    padding: 0 !important;
 }
 
-#login-content {
+.alert-primary {
+    margin: 0 !important;
+    background-color: #3f4957 !important;
+}
+
+#login-content-row {
+    width: 500px;
+
+}
+
+#login-content, #create-account-content {
     border-radius: 10px;
     padding: 35px 50px;
     background-color: #3f4957;
