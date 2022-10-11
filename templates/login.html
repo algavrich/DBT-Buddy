@@ -35,22 +35,37 @@
         <div class="row justify-content-center" id="login">
           <div class="col-6">
             <div>
-              <h3>Log In</h3>
-
               <form action="/login" id="login-form">
                 <div>
                   <label for="email" hidden>Email</label>
-                  <input type="text" name="email" placeholder="Email" id="email">
+                  <input
+                    type="text" 
+                    name="email" 
+                    placeholder="Email" 
+                    id="email" 
+                    required
+                  >
                 </div>
 
                 <div>
                   <label for="password" hidden>Password</label>
-                  <input type="password" name="password" placeholder="Password" id="password">
+                  <input
+                    type="password" 
+                    name="password" 
+                    placeholder="Password" 
+                    id="password" 
+                    required
+                  >
                 </div>
 
                 <div>
                   <label for="submit-button" hidden>Log In</label>
-                  <input type="submit" value="Log In" id="submit-button">
+                  <input
+                    class="btn btn-sm" 
+                    type="submit" 
+                    value="Log In" 
+                    id="submit-button"
+                  >
                 </div>
               </form>
 
