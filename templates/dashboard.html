@@ -3,318 +3,399 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-<div id="dash-contents">
-  <h1>Hi {{ session.get("fname") }}</h1>
-
-  <div id="select-weeks-form">
-    <form>
-      <label for="select-week">Select a week to view:</label>
-      <select name="week" id="select-week">
-        {% for start_date, name in weeks.items() %}
-          <option value="{{ start_date }}">{{ name }}</option>
-        {% endfor %}
-      </select>
-    </form>
-  </div>
-
-  <div id="view-week">
-    {% for i in range(7) %}
-    <div class="diary-day" id="day{{ i }}">
-
-      <h4 class="show-date">{{ entries[i]["date"] }}</h4>
-
-      {% if "sad score" not in entries[i] %}
-      <p class="show-sad"></p>
-      <p class="show-angry"></p>
-      <p class="show-fear"></p>
-      <p class="show-happy"></p>
-      <p class="show-shame"></p>
-      <p class="show-urge1"></p>
-      <p class="show-urge2"></p>
-      <p class="show-urge3"></p>
-      <p class="show-action1"></p>
-      <p class="show-action2"></p>
-      <p class="show-used-skills"></p>
-
-      {% else %}
-      <p class="show-sad">Sadness: {{ entries[i]["sad score"] }}</p>
-      <p class="show-angry">Anger: {{ entries[i]["angry score"] }}</p>
-      <p class="show-fear">Fear: {{ entries[i]["fear score"] }}</p>
-      <p class="show-happy">Happiness: {{ entries[i]["happy score"] }}</p>
-      <p class="show-shame">Shame: {{ entries[i]["shame score"] }}</p>
-      <p class="show-urge1">
-        {{ entries[i]["urge1 name"] }}: {{ entries[i]["urge1 score"] }}
-      </p>
-      <p class="show-urge2">
-        {{ entries[i]["urge2 name"] }}: {{ entries[i]["urge2 score"] }}
-      </p>
-      <p class="show-urge3">
-        {{ entries[i]["urge3 name"] }}: {{ entries[i]["urge3 score"] }}
-      </p>
-      <p class="show-action1">
-        {{ entries[i]["action1 name"] }}: {{ entries[i]["action1 score"] }}
-      </p>
-      <p class="show-action2">
-        {{ entries[i]["action2 name"] }}: {{ entries[i]["action2 score"] }}
-      </p>
-      <p class="show-used-skills">
-        Used Skills: {{ entries[i]["skills used"] }}
-      </p>
-      {% endif %}
-    </div>
-    {% endfor %}
-  </div>
-
-  {% if show_edit %}
-  <div id="edit-today-form">
-    <form>
-      <fieldset>
-        <legend>Emotions</legend>
-        <div>
-          <label for="sad">Sadness: </label>
-          <input 
-            type="number" 
-            name="sad" 
-            value="{{ entries[6]['sad score'] }}" 
-            id="sad" 
-            min="0" 
-            max="5"
-          >
+<div class="container-fluid">
+  <div class="row justify-content-center" id="dash-contents">
+    <div class="col-12" id="dash-contents-col">
+      <div class="row" id="greeting-row">
+        <div class="col-12" id="greeting-col">
+          <h1>Hi {{ session.get("fname") }}</h1>
         </div>
-        <div>
-          <label for="angry">Anger: </label>
-          <input 
-            type="number" 
-            name="angry" 
-            value="{{ entries[6]['angry score'] }}" 
-            id="angry" 
-            min="0" 
-            max="5"
-          >
-        </div>
-        <div>
-          <label for="fear">Fear: </label>
-          <input 
-            type="number" 
-            name="fear" 
-            value="{{ entries[6]['fear score'] }}" 
-            id="fear" 
-            min="0" 
-            max="5"
-          >
-        </div>
-        <div>
-          <label for="happy">Happiness: </label>
-          <input 
-            type="number" 
-            name="happy" 
-            value="{{ entries[6]['happy score'] }}" 
-            id="happy" 
-            min="0" 
-            max="5"
-          >
-        </div>
-        <div>
-          <label for="shame">Shame: </label>
-          <input 
-            type="number" 
-            name="shame" 
-            value="{{ entries[6]['shame score'] }}" 
-            id="shame" 
-            min="0" 
-            max="5"
-          >
-        </div>
-      </fieldset>
-      <fieldset>
-        <legend>Urges</legend>
-        <div>
-          <label for="urge-1">{{ entries[6]["urge1 name"] }}: </label>
-          <input 
-            type="number" 
-            name="urge-1" 
-            value="{{ entries[6]['urge1 score'] }}" 
-            id="urge-1" 
-            min="0" 
-            max="5"
-          >
-        </div>
-        <div>
-          <label for="urge-2">{{ entries[6]["urge2 name"] }}: </label>
-          <input 
-            type="number" 
-            name="urge-2" 
-            value="{{ entries[6]['urge2 score'] }}" 
-            id="urge-2" 
-            min="0" 
-            max="5"
-          >
-        </div>
-        <div>
-          <label for="urge-3">{{ entries[6]["urge3 name"] }}: </label>
-          <input 
-            type="number" 
-            name="urge-3" 
-            value="{{ entries[6]['urge3 score'] }}" 
-            id="urge-3" 
-            min="0" 
-            max="5"
-          >
-        </div>
-      </fieldset>
-      <fieldset>
-        <legend>Actions</legend>
-        <div id="action-1">
-          <label for="action-1">{{ entries[6]["action1 name"] }}: </label>
-          {% if entries[6]["action1 score"] == "yes" %}
-          <input 
-            type="radio" 
-            name="action-1" 
-            value="yes" 
-            id="action-1-yes"
-            checked
-          >
-          <label for="action-1-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="action-1" 
-            value="no" 
-            id="action-1-no"
-          >
-          <label for="action-1-no">No</label>
-          {% else %}
-          <input 
-            type="radio" 
-            name="action-1" 
-            value="yes" 
-            id="action-1-yes"
-          >
-          <label for="action-1-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="action-1" 
-            value="no" 
-            id="action-1-no"
-            checked
-          >
-          <label for="action-1-no">No</label>
-          {% endif %}
-        </div>
-        <div id="action-2">
-          <label for="action-2">{{ entries[6]["action2 name"] }}: </label>
-          {% if entries[6]["action2 score"] == "yes" %}
-          <input 
-            type="radio" 
-            name="action-2" 
-            value="yes" 
-            id="action-2-yes"
-            checked
-          >
-          <label for="action-2-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="action-2" 
-            value="no"
-            id="action-2-no"
-          >
-          <label for="action-2-no">No</label>
-          {% else %}
-          <input 
-            type="radio" 
-            name="action-2" 
-            value="yes" 
-            id="action-2-yes"
-          >
-          <label for="action-2-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="action-2" 
-            value="no"
-            id="action-2-no"
-            checked
-          >
-          <label for="action-2-no">No</label>
-          {% endif %}
-        </div>
-      </fieldset>
-      <fieldset>
-        <legend>Used Skills</legend>
-        <div id="used-skills-guide">
-          <span>0 = Not thought about or used</span><br>
-          <span>1 = Thought about, not used, didn't want to</span><br>
-          <span>2 = Thought about, not used, wanted to</span><br>
-          <span>3 = Tried but couldn't use them</span><br>
-          <span>4 = Tried, could use them but they didn't help</span><br>
-          <span>5 = Tried, could use them, helped</span><br>
-          <span>6 = Didn't try, used them, didn't help</span><br>
-          <span>7 = Didn't try, used them, helped</span><br>
-        </div>
-        <div>
-          <label for="used-skills">Used Skills</label>
-          <input 
-            type="number" 
-            name="used-skills" 
-            value="{{ entries[6]['skills used'] }}" 
-            id="used-skills" 
-            min="0" 
-            max="7"
-          >
-        </div>
-      </fieldset>
-      <div>
-        <input type="submit">
       </div>
-    </form>
-  </div>
-  {% endif %}
 
-  <div id="make-entry-buttons">
-    {% if not show_edit %}
-    <div class="make-entry-button">
-      <a href="/new-diary-entry/{{ user_id }}">
-        <button>Make a Diary Entry</button>
-      </a>
-    </div>
-    {% else %}
-    <div class="make-entry-button">
-      <button id="edit-today">Edit Today's Entry</button>
-    </div>
-    {% endif %}
+      <div id="select-weeks-form">
+        <form>
+          <label for="select-week">Select a week to view:</label>
+          <select name="week" id="select-week">
+            {% for start_date, name in weeks.items() %}
+              <option value="{{ start_date }}">{{ name }}</option>
+            {% endfor %}
+          </select>
+        </form>
+      </div>
 
-    {% if med_tracking %}
-    <div class="make-entry-button">
-      {% if not med_entry %}
-      <button id="make-med-entry">Took Medication</button>
+      <div id="view-week">
+        <table>
+          <tr id="table-dates">
+            <td>&nbsp;</td>
+            {% for i in range(7) %}
+            <td class="day{{ i }}">{{ entries[i]["date"] }}</td>
+            {% endfor %}
+          </tr>
+          <tr id="table-sadness">
+            <td>Sadness</td>
+            {% for i in range(7) %}
+            {% if "sad score" in entries[i] %}
+            <td class="day{{ i }}">{{ entries[i]["sad score"] }}</td>
+            {% else %}
+            <td class="day{{ i }}">&nbsp;</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr id="table-anger">
+            <td>Anger</td>
+            {% for i in range(7) %}
+            {% if "sad score" in entries[i] %}
+            <td class="day{{ i }}">{{ entries[i]["angry score"] }}</td>
+            {% else %}
+            <td class="day{{ i }}">&nbsp;</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr id="table-fear">
+            <td>Fear</td>
+            {% for i in range(7) %}
+            {% if "sad score" in entries[i] %}
+            <td class="day{{ i }}">{{ entries[i]["fear score"] }}</td>
+            {% else %}
+            <td class="day{{ i }}">&nbsp;</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr id="table-happiness">
+            <td>Happiness</td>
+            {% for i in range(7) %}
+            {% if "sad score" in entries[i] %}
+            <td class="day{{ i }}">{{ entries[i]["happy score"] }}</td>
+            {% else %}
+            <td class="day{{ i }}">&nbsp;</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr id="table-shame">
+            <td>Shame</td>
+            {% for i in range(7) %}
+            {% if "sad score" in entries[i] %}
+            <td class="day{{ i }}">{{ entries[i]["shame score"] }}</td>
+            {% else %}
+            <td class="day{{ i }}">&nbsp;</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr id="table-urge1">
+            <td>{{ entries[0]["urge1 name"] }}</td>
+            {% for i in range(7) %}
+            {% if "sad score" in entries[i] %}
+            <td class="day{{ i }}">{{ entries[i]["urge1 score"] }}</td>
+            {% else %}
+            <td class="day{{ i }}">&nbsp;</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr id="table-urge2">
+            <td>{{ entries[0]["urge2 name"] }}</td>
+            {% for i in range(7) %}
+            {% if "sad score" in entries[i] %}
+            <td class="day{{ i }}">{{ entries[i]["urge2 score"] }}</td>
+            {% else %}
+            <td class="day{{ i }}">&nbsp;</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr id="table-urge3">
+            <td>{{ entries[0]["urge3 name"] }}</td>
+            {% for i in range(7) %}
+            {% if "sad score" in entries[i] %}
+            <td class="day{{ i }}">{{ entries[i]["urge3 score"] }}</td>
+            {% else %}
+            <td class="day{{ i }}">&nbsp;</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr id="table-action1">
+            <td>{{ entries[0]["action1 name"] }}</td>
+            {% for i in range(7) %}
+            {% if "sad score" in entries[i] %}
+            <td class="day{{ i }}">{{ entries[i]["action1 score"] }}</td>
+            {% else %}
+            <td class="day{{ i }}">&nbsp;</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr id="table-action2">
+            <td>{{ entries[0]["action2 name"] }}</td>
+            {% for i in range(7) %}
+            {% if "sad score" in entries[i] %}
+            <td class="day{{ i }}">{{ entries[i]["action2 score"] }}</td>
+            {% else %}
+            <td class="day{{ i }}">&nbsp;</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr id="table-used-skills">
+            <td>Used Skills</td>
+            {% for i in range(7) %}
+            {% if "sad score" in entries[i] %}
+            <td class="day{{ i }}">{{ entries[i]["skills used"] }}</td>
+            {% else %}
+            <td class="day{{ i }}">&nbsp;</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+        </table>
+      </div>
+
+      {% if show_edit %}
+      <div id="edit-today-form">
+        <form>
+          <fieldset>
+            <legend hidden>Emotions</legend>
+            <div>
+              <label for="sad">Sadness: </label>
+              <input 
+                type="number" 
+                name="sad" 
+                value="{{ entries[6]['sad score'] }}" 
+                id="sad" 
+                min="0" 
+                max="5"
+              >
+            </div>
+            <div>
+              <label for="angry">Anger: </label>
+              <input 
+                type="number" 
+                name="angry" 
+                value="{{ entries[6]['angry score'] }}" 
+                id="angry" 
+                min="0" 
+                max="5"
+              >
+            </div>
+            <div>
+              <label for="fear">Fear: </label>
+              <input 
+                type="number" 
+                name="fear" 
+                value="{{ entries[6]['fear score'] }}" 
+                id="fear" 
+                min="0" 
+                max="5"
+              >
+            </div>
+            <div>
+              <label for="happy">Happiness: </label>
+              <input 
+                type="number" 
+                name="happy" 
+                value="{{ entries[6]['happy score'] }}" 
+                id="happy" 
+                min="0" 
+                max="5"
+              >
+            </div>
+            <div>
+              <label for="shame">Shame: </label>
+              <input 
+                type="number" 
+                name="shame" 
+                value="{{ entries[6]['shame score'] }}" 
+                id="shame" 
+                min="0" 
+                max="5"
+              >
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend hidden>Urges</legend>
+            <div>
+              <label for="urge-1">{{ entries[6]["urge1 name"] }}: </label>
+              <input 
+                type="number" 
+                name="urge-1" 
+                value="{{ entries[6]['urge1 score'] }}" 
+                id="urge-1" 
+                min="0" 
+                max="5"
+              >
+            </div>
+            <div>
+              <label for="urge-2">{{ entries[6]["urge2 name"] }}: </label>
+              <input 
+                type="number" 
+                name="urge-2" 
+                value="{{ entries[6]['urge2 score'] }}" 
+                id="urge-2" 
+                min="0" 
+                max="5"
+              >
+            </div>
+            <div>
+              <label for="urge-3">{{ entries[6]["urge3 name"] }}: </label>
+              <input 
+                type="number" 
+                name="urge-3" 
+                value="{{ entries[6]['urge3 score'] }}" 
+                id="urge-3" 
+                min="0" 
+                max="5"
+              >
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend hidden>Actions</legend>
+            <div id="action-1">
+              <label for="action-1">{{ entries[6]["action1 name"] }}: </label>
+              {% if entries[6]["action1 score"] == "yes" %}
+              <input 
+                type="radio" 
+                name="action-1" 
+                value="yes" 
+                id="action-1-yes"
+                checked
+              >
+              <label for="action-1-yes">Yes</label>
+              <input 
+                type="radio" 
+                name="action-1" 
+                value="no" 
+                id="action-1-no"
+              >
+              <label for="action-1-no">No</label>
+              {% else %}
+              <input 
+                type="radio" 
+                name="action-1" 
+                value="yes" 
+                id="action-1-yes"
+              >
+              <label for="action-1-yes">Yes</label>
+              <input 
+                type="radio" 
+                name="action-1" 
+                value="no" 
+                id="action-1-no"
+                checked
+              >
+              <label for="action-1-no">No</label>
+              {% endif %}
+            </div>
+            <div id="action-2">
+              <label for="action-2">{{ entries[6]["action2 name"] }}: </label>
+              {% if entries[6]["action2 score"] == "yes" %}
+              <input 
+                type="radio" 
+                name="action-2" 
+                value="yes" 
+                id="action-2-yes"
+                checked
+              >
+              <label for="action-2-yes">Yes</label>
+              <input 
+                type="radio" 
+                name="action-2" 
+                value="no"
+                id="action-2-no"
+              >
+              <label for="action-2-no">No</label>
+              {% else %}
+              <input 
+                type="radio" 
+                name="action-2" 
+                value="yes" 
+                id="action-2-yes"
+              >
+              <label for="action-2-yes">Yes</label>
+              <input 
+                type="radio" 
+                name="action-2" 
+                value="no"
+                id="action-2-no"
+                checked
+              >
+              <label for="action-2-no">No</label>
+              {% endif %}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend hidden>Used Skills</legend>
+            <div id="used-skills-guide" hidden>
+              <span>0 = Not thought about or used</span><br>
+              <span>1 = Thought about, not used, didn't want to</span><br>
+              <span>2 = Thought about, not used, wanted to</span><br>
+              <span>3 = Tried but couldn't use them</span><br>
+              <span>4 = Tried, could use them but they didn't help</span><br>
+              <span>5 = Tried, could use them, helped</span><br>
+              <span>6 = Didn't try, used them, didn't help</span><br>
+              <span>7 = Didn't try, used them, helped</span><br>
+            </div>
+            <div>
+              <label for="used-skills">Used Skills: </label>
+              <input 
+                type="number" 
+                name="used-skills" 
+                value="{{ entries[6]['skills used'] }}" 
+                id="used-skills" 
+                min="0" 
+                max="7"
+              >
+            </div>
+          </fieldset>
+          <div>
+            <input type="submit">
+          </div>
+        </form>
+      </div>
       {% endif %}
-    </div>
-    {% endif %}
-  </div>
 
-  {% if med_tracking %} 
-  <div id="med-status">
-    {% if med_entry %}
-    <h4>You already took your medication today</h4>
-    {% else %}
-    <h4>Don't forget to take your medication!</h4>
-    {% endif %}
-  </div>
-  {% endif %}
-  
-  <div id="charts">
-    <div id="show-mood-chart" class="visual-data">
-      <canvas id="mood-chart"></canvas>
-    </div>
+      <div id="make-entry-buttons">
+        {% if not show_edit %}
+        <div class="make-entry-button">
+          <a href="/new-diary-entry/{{ user_id }}">
+            <button>Make a Diary Entry</button>
+          </a>
+        </div>
+        {% else %}
+        <div class="make-entry-button">
+          <button id="edit-today">Edit Today's Entry</button>
+        </div>
+        {% endif %}
 
-    <div id="show-urge-chart" class="visual-data">
-      <canvas id="urge-chart"></canvas>
-    </div>
+        {% if med_tracking %}
+        <div class="make-entry-button">
+          {% if not med_entry %}
+          <button id="make-med-entry">Took Medication</button>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
 
-    <div id="show-action-chart" class="visual-data">
-      <canvas id="action-chart"></canvas>
-    </div>
+      {% if med_tracking %} 
+      <div id="med-status">
+        {% if med_entry %}
+        <h4>You already took your medication today</h4>
+        {% else %}
+        <h4>Don't forget to take your medication!</h4>
+        {% endif %}
+      </div>
+      {% endif %}
+      
+      <div id="charts">
+        <div id="show-mood-chart" class="visual-data">
+          <canvas id="mood-chart"></canvas>
+        </div>
 
-    <div id="show-skills-chart" class="visual-data">
-      <canvas id="skills-chart"></canvas>
+        <div id="show-urge-chart" class="visual-data">
+          <canvas id="urge-chart"></canvas>
+        </div>
+
+        <div id="show-action-chart" class="visual-data">
+          <canvas id="action-chart"></canvas>
+        </div>
+
+        <div id="show-skills-chart" class="visual-data">
+          <canvas id="skills-chart"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 </div>
