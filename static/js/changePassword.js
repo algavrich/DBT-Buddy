@@ -51,7 +51,7 @@ changePasswordForm.addEventListener('submit', (evt) => {
                                 if (resData.success) {
                                     window.location.href = '/settings';
                                 } else {
-                                    window.scrollTo(0, 0);
+                                    window.location.href = '/change-password';
                                 }
                             });
                         } else {
