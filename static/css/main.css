@@ -1,14 +1,20 @@
 html, body {
-    height: 100%;
     background-color: #FFFFFF;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cpattern id='p' width='100' height='100' patternUnits='userSpaceOnUse' patternTransform='scale(1.37)'%3E%3Cpath data-color='fill' fill='none' stroke='%23B1B6D0' stroke-width='3.34' d='M50 0C22.4 0 0 22.4 0 50c27.6 0 50-22.4 50-50zM0 50c0 27.6 22.4 50 50 50 0-27.6-22.4-50-50-50zM100 50c-27.6 0-50 22.4-50 50 27.6 0 50-22.4 50-50zM100 50c0-27.6-22.4-50-50-50 0 27.6 22.4 50 50 50z'%3E%3C/path%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23p)' width='100%25' height='100%25'%3E%3C/rect%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cpattern id='p' width='100' height='100' patternUnits='userSpaceOnUse' patternTransform='scale(1.33)'%3E%3Cpath data-color='fill' fill='none' stroke='%23DD7D50' stroke-width='3.42' d='M50 0C22.4 0 0 22.4 0 50c27.6 0 50-22.4 50-50zM0 50c0 27.6 22.4 50 50 50 0-27.6-22.4-50-50-50zM100 50c-27.6 0-50 22.4-50 50 27.6 0 50-22.4 50-50zM100 50c0-27.6-22.4-50-50-50 0 27.6 22.4 50 50 50z'%3E%3C/path%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23p)' width='100%25' height='100%25'%3E%3C/rect%3E%3C/svg%3E");
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
+}
+
+nav {
+    background-color: #864d32;
 }
 
 h1, h3, h4, p, li, legend, label {
     font-family: 'Arial', sans-serif;
-    color: #e7f0ff;
+    color: #3b1605;
 }
 
 p {
@@ -25,22 +31,27 @@ legend {
 
 a {
     font-family: 'Arial', sans-serif;
-    color: #e7f0ff;
+    color: #3b1605;
+}
+
+a:hover {
+    color: #b34512;
 }
 
 input, button, option, select {
-    border-radius: 2px !important;
-    border-width: 1px;
-    background-color: #e3ecfa;
+    border-radius: 5px !important;
+    border-width: 0;
+    background-color: #fffede;
 }
 
 #submit-button {
-    background-color: #e3ecfa !important;
+    background-color: #fffede !important;
     margin: 10px 0px;
 }
 
 canvas {
-    background-color: #e3ecfa;
+    border-radius: 10px;
+    background-color: #fffede;
 }
 
 .flash-msg {
@@ -53,7 +64,7 @@ canvas {
 
 .alert-primary {
     margin: 0 !important;
-    background-color: #3f4957 !important;
+    background-color: #feae62 !important;
 }
 
 #login-content-row {
@@ -61,10 +72,21 @@ canvas {
 
 }
 
-#login-content, #create-account-content {
+#login-content {
     border-radius: 10px;
     padding: 35px 50px;
-    background-color: #3f4957;
+    background-color: #dd7d50;
+}
+
+#create-account-content {
+    border-radius: 10px;
+    padding: 35px 50px;
+    background-color: #dd7d50;
+}
+
+#dash-contents-col {
+    width: calc(100% - 100px);
+    background-color: #dd7d50;
 }
 
 #dbt-buddy {
@@ -101,12 +123,6 @@ canvas {
     width: 20%;
 }
 
-.diary-day {
-    display: inline-block;
-    width: 120px;
-    margin: auto;
-}
-
 #preferences input, #preferences label {
     display: none;
 }
@@ -119,13 +135,10 @@ canvas {
 
 #view-week {
     display: inline-block;
-    border: 3px solid black;
-    width: 70%;
 }
 
-#dash-contents {
-    width: 85%;
-    margin: auto;
+td {
+    width: 120px;
 }
 
 #make-entry-buttons {
