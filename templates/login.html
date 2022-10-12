@@ -15,70 +15,61 @@
   </head>
 
 <body>
+  {% for msg in get_flashed_messages() %}
+  <div class="alert alert-primary" role="alert">
+    <p class="flash-msg">
+      {{ msg }}
+    </p>
+  </div>
+  {% endfor %}
+
   <div class="container-fluid d-flex h-100 justify-content-center">
-    
-    <div class="row" id="whole-login-page-row">
-      <div class="col-12" id="whole-login-page-col">
-        <div class="row" id="alert-row">
-          <div class="col-12" id="alert-col">
-            {% for msg in get_flashed_messages() %}
-            <div class="alert alert-primary" role="alert">
-              <p class="flash-msg">
-                {{ msg }}
-              </p>
-            </div>
-            {% endfor %}
+    <div class="row h-100" id="login-content-row">
+      <div class="col-12 align-self-center" id="login-content">
+        <div class="row" id="header-row">
+          <div class="col-12" id="header-col">
+            <h1 class="text-center" id="dbt-buddy">DBT Buddy</h1>
           </div>
         </div>
 
-        <div class="row h-100" id="login-content-row">
-          <div class="col-12 align-self-center" id="login-content">
-            <div class="row" id="header-row">
-              <div class="col-12" id="header-col">
-                <h1 class="text-center" id="dbt-buddy">DBT Buddy</h1>
+        <div class="row justify-content-center" id="login-form-row">
+          <div class="col-6" id="login-form-col">  
+            <form action="/login" id="login-form">
+              <div class="spaced-input">
+                <label for="email" hidden>Email</label>
+                <input
+                  type="text" 
+                  name="email" 
+                  placeholder="Email" 
+                  id="email" 
+                  required
+                >
               </div>
-            </div>
 
-            <div class="row justify-content-center" id="login-form-row">
-              <div class="col-6" id="login-form-col">  
-                <form action="/login" id="login-form">
-                  <div>
-                    <label for="email" hidden>Email</label>
-                    <input
-                      type="text" 
-                      name="email" 
-                      placeholder="Email" 
-                      id="email" 
-                      required
-                    >
-                  </div>
-
-                  <div>
-                    <label for="password" hidden>Password</label>
-                    <input
-                      type="password" 
-                      name="password" 
-                      placeholder="Password" 
-                      id="password" 
-                      required
-                    >
-                  </div>
-
-                  <div>
-                    <label for="submit-button" hidden>Log In</label>
-                    <input
-                      class="btn btn-sm" 
-                      type="submit" 
-                      value="Log In" 
-                      id="submit-button"
-                    >
-                  </div>
-                </form>
-
-                <div id="create-account">
-                  <a href="/create-account">Create Account</a>
-                </div>
+              <div>
+                <label for="password" hidden>Password</label>
+                <input
+                  type="password" 
+                  name="password" 
+                  placeholder="Password" 
+                  id="password" 
+                  required
+                >
               </div>
+
+              <div>
+                <label for="submit-button" hidden>Log In</label>
+                <input
+                  class="btn btn-sm" 
+                  type="submit" 
+                  value="Log In" 
+                  id="submit-button"
+                >
+              </div>
+            </form>
+
+            <div id="create-account">
+              <a href="/create-account">Create Account</a>
             </div>
           </div>
         </div>
