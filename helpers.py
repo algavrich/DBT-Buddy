@@ -1,11 +1,13 @@
 """Helper functions for DBT Buddy"""
 
-from model import Urge, Action, DiaryEntry
-import crud
-from typing import TypeVar
 from datetime import datetime, date, timedelta
 import re
+from typing import TypeVar
+
 from argon2 import PasswordHasher
+
+from model import Urge, Action, DiaryEntry
+import crud
 
 UA = TypeVar("UA", Urge, Action)
 
@@ -69,7 +71,7 @@ def given_week_dates(date_string):
 
     for i in range(7):
         current_day = start_date + timedelta(days=i)
-        date_strings.append({"date": date.strftime(current_day, "%A %-d")})
+        date_strings.append({"date": date.strftime(current_day, "%a %-d")})
 
     return date_strings
 
@@ -129,14 +131,14 @@ def dict_for_day(entry: DiaryEntry) -> dict:
     """Create dictionary of info for given diary entry."""
 
     ordered_urge_entries = order_urge_entries(
-        entry.urge_entries
+        entry.urge_entries,
     )
     ordered_action_entries = order_action_entries(
-        entry.action_entries
+        entry.action_entries,
     )
 
     return {
-        "date": datetime.strftime(entry.dt, "%A %-d"),
+        "date": datetime.strftime(entry.dt, "%a %-d"),
         "sad score": entry.sad_score,
         "angry score": entry.angry_score,
         "fear score": entry.fear_score,
@@ -159,12 +161,12 @@ def dict_for_day(entry: DiaryEntry) -> dict:
             ordered_action_entries[0].score),
         "action2 score": convert_bool_to_y_n(
             ordered_action_entries[1].score),
-        "skills used": entry.skills_used
+        "skills used": entry.skills_used,
     }
 
 
 def make_entries_jsonifiable(
-       # Type hinting for multiple types???
+       # Type hinting for multiple types?
         entries_as_objs: list[DiaryEntry]) -> list[dict]:
     """Turn list of entry objects into list of dicts.
     
@@ -196,13 +198,13 @@ def extract_phone_number(s: str) -> str:
         return x.group(1) + x.group(2) + x.group(3)
 
 
-def hash_pw(pw):
+def hash_pw(pw: str) -> str:
     """Hashe a password."""
 
     return ph.hash(pw)
 
 
-def verify_pw(hash, pw):
+def verify_pw(hash: str, pw: str) -> bool:
     """Verify a password."""
 
     return ph.verify(hash, pw)

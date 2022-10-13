@@ -686,7 +686,7 @@ def update_password(user_id: int, new_password: str) -> None:
     db.session.commit()
 
 
-def rehash_if_needed(hash, pw, user):
+def rehash_if_needed(hash: str, pw: str, user: User) -> None:
     """Rehash a password if needed."""
 
     if helpers.ph.check_needs_rehash(hash):
