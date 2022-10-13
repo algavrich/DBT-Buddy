@@ -686,13 +686,12 @@ def update_password(user_id: int, new_password: str) -> None:
     db.session.commit()
 
 
-# Forgot to implement this, call in update-password route after demo day
-# def rehash_if_needed(hash, pw, user):
-#     """Rehash a password if needed."""
+def rehash_if_needed(hash, pw, user):
+    """Rehash a password if needed."""
 
-#     if helpers.ph.check_needs_rehash(hash):
-#         user.pw_hash = helpers.ph.hash(pw)
-#         db.session.commit()
+    if helpers.ph.check_needs_rehash(hash):
+        user.pw_hash = helpers.ph.hash(pw)
+        db.session.commit()
 
 # POPULATE TEST DATABASE
 
