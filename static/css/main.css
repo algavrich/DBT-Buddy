@@ -25,12 +25,25 @@ p {
     margin-bottom: 10px;
 }
 
+#used-skills-guide p {
+    margin: 0;
+}
+
 ul {
     margin-bottom: 10px;
 }
 
 legend {
     font-size: 22px;
+}
+
+#new-entry-col legend {
+    margin: 10px 0px 0px;
+}
+
+#mood-inputs input, #urge-inputs input, #used-skills-inputs input {
+    margin-right: 10px;
+    width: 93px;
 }
 
 a {
@@ -87,7 +100,7 @@ canvas {
     background-color: #dd7d50;
 }
 
-#settings-col {
+#settings-col, #new-entry-col {
     background-color: #dd7d50;
 }
 
