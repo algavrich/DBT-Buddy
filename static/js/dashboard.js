@@ -83,19 +83,19 @@ const urgeChart = new Chart(
         labels: dates,
         datasets: [
           {
-            label: null,
+            label: '',
             data: urge1Scores,
             borderColor: '#8a9a5b',
             backgroundColor: '#9478a7',
           },
           {
-            label: null,
+            label: '',
             data: urge2Scores,
             borderColor: '#cc8899',
             backgroundColor: '#cc8899',
           },
           {
-            label: null,
+            label: '',
             data: urge3Scores,
             borderColor: '#e5aa70',
             backgroundColor: '#e5aa70',
@@ -119,7 +119,7 @@ const actionChart = new Chart(
     {
       type: 'bar',
       data: {
-        labels: null,
+        labels: ['', ''],
         datasets: [
           {
             label: '# Days Done',
@@ -177,21 +177,69 @@ const valsToNums = (vals) => {
     return count;
 };
 
+const namesFromWeek = (week) => {
+    let urge1Name = null;
+    let urge2Name = null;
+    let urge3Name = null;
+    let action1Name = null;
+    let action2Name = null;
+    for (const day of week.entries) {
+        if ("sad score" in day) {
+            urge1Name = day["urge1 name"];
+            urge2Name = day["urge2 name"];
+            urge3Name = day["urge3 name"];
+            action1Name = day["action1 name"];
+            action2Name = day["action2 name"];
+            break;
+        }
+    }
+    const names = {
+        urge1: urge1Name,
+        urge2: urge2Name,
+        urge3: urge3Name,
+        action1: action1Name,
+        action2: action2Name,
+    };
+    return names;
+};
+
 // Function to get current week's data and update charts with it
 
 const currentDateString = document.querySelector('option').value;
 
-const updateCharts = (dateString) => {
+const updateWeek = (dateString) => {
     const queryString = new URLSearchParams(
         {date_string: dateString}).toString();
     const url = `/api/get-given-week?${queryString}`;
     fetch(url)
     .then((res) => res.json())
     .then((resData) => {
-        for (let i=0; i<3; i+=1) {
-            urgeChart.data.datasets[i].label = resData.urges[i];
+        const urge1Name = document.querySelector('#urge1-name');
+        const urge2Name = document.querySelector('#urge2-name');
+        const urge3Name = document.querySelector('#urge3-name');
+        const action1Name = document.querySelector('#action1-name');
+        const action2Name = document.querySelector('#action2-name');
+        const urgeNames = [urge1Name, urge2Name, urge3Name];
+        const actionNames = [action1Name, action2Name];
+
+        if (resData.urges) {
+            for (let i=0; i<3; i+=1) {
+                urgeChart.data.datasets[i].label = resData.urges[i];
+                urgeNames[i].innerHTML = resData.urges[i];
+            }
+            actionChart.data.labels = [resData.actions[0], resData.actions[1]];
+            actionNames[0].innerHTML = resData.actions[0];
+            actionNames[1].innerHTML = resData.actions[1];
+        } else {
+            const names = namesFromWeek(resData);
+            for (let i=0; i<3; i+=1) {
+                urgeChart.data.datasets[i].label = names[`urge${i+1}`];
+                urgeNames[i].innerHTML = names[`urge${i+1}`];
+            }
+            actionChart.data.labels = [names.action1, names.action2];
+            actionNames[0].innerHTML = [names.action1];
+            actionNames[1].innerHTML = [names.action2];
         }
-        actionChart.data.labels = [resData.actions[0], resData.actions[1]];
 
         dates.length = 0;
         sadnessScores.length = 0;
@@ -207,8 +255,8 @@ const updateCharts = (dateString) => {
         usedSkillsScores.length = 0;
 
         for (const day of resData.entries) {
+            dates.push(day.date);
             if (day) {
-                dates.push(day.date);
                 sadnessScores.push(day['sad score']);
                 angerScores.push(day['angry score']);
                 fearScores.push(day['fear score']);
@@ -222,7 +270,6 @@ const updateCharts = (dateString) => {
                 usedSkillsScores.push(day['skills used'])
 
             } else {
-                dates.push('no entry');
                 sadnessScores.push(null);
                 angerScores.push(null);
                 fearScores.push(null);
@@ -237,6 +284,76 @@ const updateCharts = (dateString) => {
             }
         }
 
+        const dateEls = document.querySelectorAll(
+            '#table-dates .table-date'
+        );
+
+        for (let i=0; i<7; i+=1) {
+            dateEls[i].innerHTML = dates[i];
+        }
+
+        const sadnessEls = document.querySelectorAll(
+            '#table-sadness .table-score'
+        );
+        const angerEls = document.querySelectorAll(
+            '#table-anger .table-score'
+        );
+        const fearEls = document.querySelectorAll(
+            '#table-fear .table-score'
+        );
+        const happinessEls = document.querySelectorAll(
+            '#table-happiness .table-score'
+        );
+        const shameEls = document.querySelectorAll(
+            '#table-shame .table-score'
+        );
+        const urge1Els = document.querySelectorAll(
+            '#table-urge1 .table-score'
+        );
+        const urge2Els = document.querySelectorAll(
+            '#table-urge2 .table-score'
+        );
+        const urge3Els = document.querySelectorAll(
+            '#table-urge3 .table-score'
+        );
+        const action1Els = document.querySelectorAll(
+            '#table-action1 .table-score'
+        );
+        const action2Els = document.querySelectorAll(
+            '#table-action2 .table-score'
+        );
+        const usedSkillsEls = document.querySelectorAll(
+            '#table-used-skills .table-score'
+        );
+
+        for (let i=0; i<7; i+=1) {
+            if (sadnessScores[i] == null) {
+                sadnessEls[i].innerHTML = '&nbsp;';
+                angerEls[i].innerHTML = '&nbsp;';
+                fearEls[i].innerHTML = '&nbsp;';
+                happinessEls[i].innerHTML = '&nbsp;';
+                shameEls[i].innerHTML = '&nbsp;';
+                urge1Els[i].innerHTML = '&nbsp;';
+                urge2Els[i].innerHTML = '&nbsp;';
+                urge3Els[i].innerHTML = '&nbsp;';
+                action1Els[i].innerHTML = '&nbsp;';
+                action2Els[i].innerHTML = '&nbsp;';
+                usedSkillsEls[i].innerHTML = '&nbsp;';
+            } else {
+                sadnessEls[i].innerHTML = sadnessScores[i];
+                angerEls[i].innerHTML = angerScores[i];
+                fearEls[i].innerHTML = fearScores[i];
+                happinessEls[i].innerHTML = happinessScores[i];
+                shameEls[i].innerHTML = shameScores[i];
+                urge1Els[i].innerHTML = urge1Scores[i];
+                urge2Els[i].innerHTML = urge2Scores[i];
+                urge3Els[i].innerHTML = urge3Scores[i];
+                action1Els[i].innerHTML = action1Vals[i];
+                action2Els[i].innerHTML = action2Vals[i];
+                usedSkillsEls[i].innerHTML = usedSkillsScores[i];
+            }
+        }
+
         actionChart.data.datasets[0].data = [valsToNums(action1Vals), valsToNums(action2Vals)];
 
         moodChart.update();
@@ -246,7 +363,7 @@ const updateCharts = (dateString) => {
     });
 };
 
-updateCharts(currentDateString);
+updateWeek(currentDateString);
 
 // Edit today's entry
 
@@ -349,7 +466,7 @@ if (editTodayButton) {
             todayEntryTDs[11]
             .innerHTML = `${resData['skills used']}`;
 
-            updateCharts(currentDateString);
+            updateWeek(currentDateString);
         });
     });
 }
@@ -370,30 +487,6 @@ selectWeekMenu.addEventListener('change', (evt) => {
     .then((resData) => {
         for (let i=0; i<7; i+=1) {
             const givenDayTDs = document.querySelectorAll(`.day${i}`);
-            // const showDate = document.querySelector(
-            //     `#day${i} .show-date`);
-            // const showSad = document.querySelector(
-            //     `#day${i} .show-sad`);
-            // const showAngry = document.querySelector(
-            //     `#day${i} .show-angry`);
-            // const showFear = document.querySelector(
-            //     `#day${i} .show-fear`);
-            // const showHappy = document.querySelector(
-            //     `#day${i} .show-happy`);
-            // const showShame = document.querySelector(
-            //     `#day${i} .show-shame`);
-            // const showUrge1 = document.querySelector(
-            //     `#day${i} .show-urge1`);
-            // const showUrge2 = document.querySelector(
-            //     `#day${i} .show-urge2`);
-            // const showUrge3 = document.querySelector(
-            //     `#day${i} .show-urge3`);
-            // const showAction1 = document.querySelector(
-            //     `#day${i} .show-action1`);
-            // const showAction2 = document.querySelector(
-            //     `#day${i} .show-action2`);
-            // const showUsedSkills = document.querySelector(
-            //     `#day${i} .show-used-skills`);
 
             givenDayTDs[0].innerHTML = `${resData.entries[i]['date']}`;
 
@@ -425,7 +518,7 @@ selectWeekMenu.addEventListener('change', (evt) => {
             }
         }
 
-        updateCharts(evt.target.value);
+        updateWeek(evt.target.value);
     });
 });
 

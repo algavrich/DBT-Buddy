@@ -4,8 +4,10 @@
 
 {% block body %}
 <div class="container-fluid">
+
   <div class="row justify-content-center" id="dash-contents">
     <div class="col-12" id="dash-contents-col">
+
       <div class="row" id="greeting-row">
         <div class="col-12" id="greeting-col">
           <h1>Hi {{ session.get("fname") }}</h1>
@@ -28,117 +30,73 @@
           <tr id="table-dates">
             <td>&nbsp;</td>
             {% for i in range(7) %}
-            <td class="day{{ i }}">{{ entries[i]["date"] }}</td>
+            <td class="table-date day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
           <tr id="table-sadness">
-            <td>Sadness</td>
+            <td class="score-name">Sadness</td>
             {% for i in range(7) %}
-            {% if "sad score" in entries[i] %}
-            <td class="day{{ i }}">{{ entries[i]["sad score"] }}</td>
-            {% else %}
-            <td class="day{{ i }}">&nbsp;</td>
-            {% endif %}
+            <td class="table-score day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
           <tr id="table-anger">
-            <td>Anger</td>
+            <td class="score-name">Anger</td>
             {% for i in range(7) %}
-            {% if "sad score" in entries[i] %}
-            <td class="day{{ i }}">{{ entries[i]["angry score"] }}</td>
-            {% else %}
-            <td class="day{{ i }}">&nbsp;</td>
-            {% endif %}
+            <td class="table-score day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
           <tr id="table-fear">
-            <td>Fear</td>
+            <td class="score-name">Fear</td>
             {% for i in range(7) %}
-            {% if "sad score" in entries[i] %}
-            <td class="day{{ i }}">{{ entries[i]["fear score"] }}</td>
-            {% else %}
-            <td class="day{{ i }}">&nbsp;</td>
-            {% endif %}
+            <td class="table-score day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
           <tr id="table-happiness">
-            <td>Happiness</td>
+            <td class="score-name">Happiness</td>
             {% for i in range(7) %}
-            {% if "sad score" in entries[i] %}
-            <td class="day{{ i }}">{{ entries[i]["happy score"] }}</td>
-            {% else %}
-            <td class="day{{ i }}">&nbsp;</td>
-            {% endif %}
+            <td class="table-score day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
           <tr id="table-shame">
-            <td>Shame</td>
+            <td class="score-name">Shame</td>
             {% for i in range(7) %}
-            {% if "sad score" in entries[i] %}
-            <td class="day{{ i }}">{{ entries[i]["shame score"] }}</td>
-            {% else %}
-            <td class="day{{ i }}">&nbsp;</td>
-            {% endif %}
+            <td class="table-score day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
           <tr id="table-urge1">
-            <td>{{ entries[0]["urge1 name"] }}</td>
+            <td class="score-name" id="urge1-name">&nbsp;</td>
             {% for i in range(7) %}
-            {% if "sad score" in entries[i] %}
-            <td class="day{{ i }}">{{ entries[i]["urge1 score"] }}</td>
-            {% else %}
-            <td class="day{{ i }}">&nbsp;</td>
-            {% endif %}
+            <td class="table-score day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
           <tr id="table-urge2">
-            <td>{{ entries[0]["urge2 name"] }}</td>
+            <td class="score-name" id="urge2-name">&nbsp;</td>
             {% for i in range(7) %}
-            {% if "sad score" in entries[i] %}
-            <td class="day{{ i }}">{{ entries[i]["urge2 score"] }}</td>
-            {% else %}
-            <td class="day{{ i }}">&nbsp;</td>
-            {% endif %}
+            <td class="table-score day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
           <tr id="table-urge3">
-            <td>{{ entries[0]["urge3 name"] }}</td>
+            <td class="score-name" id="urge3-name">&nbsp;</td>
             {% for i in range(7) %}
-            {% if "sad score" in entries[i] %}
-            <td class="day{{ i }}">{{ entries[i]["urge3 score"] }}</td>
-            {% else %}
-            <td class="day{{ i }}">&nbsp;</td>
-            {% endif %}
+            <td class="table-score day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
           <tr id="table-action1">
-            <td>{{ entries[0]["action1 name"] }}</td>
+            <td class="score-name" id="action1-name">&nbsp;</td>
             {% for i in range(7) %}
-            {% if "sad score" in entries[i] %}
-            <td class="day{{ i }}">{{ entries[i]["action1 score"] }}</td>
-            {% else %}
-            <td class="day{{ i }}">&nbsp;</td>
-            {% endif %}
+            <td class="table-score day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
           <tr id="table-action2">
-            <td>{{ entries[0]["action2 name"] }}</td>
+            <td class="score-name" id="action2-name">&nbsp;</td>
             {% for i in range(7) %}
-            {% if "sad score" in entries[i] %}
-            <td class="day{{ i }}">{{ entries[i]["action2 score"] }}</td>
-            {% else %}
-            <td class="day{{ i }}">&nbsp;</td>
-            {% endif %}
+            <td class="table-score day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
           <tr id="table-used-skills">
-            <td>Used Skills</td>
+            <td class="score-name">Used Skills</td>
             {% for i in range(7) %}
-            {% if "sad score" in entries[i] %}
-            <td class="day{{ i }}">{{ entries[i]["skills used"] }}</td>
-            {% else %}
-            <td class="day{{ i }}">&nbsp;</td>
-            {% endif %}
+            <td class="table-score day{{ i }}">&nbsp;</td>
             {% endfor %}
           </tr>
         </table>
@@ -160,6 +118,7 @@
                 max="5"
               >
             </div>
+
             <div>
               <label for="angry">Anger: </label>
               <input 
@@ -171,6 +130,7 @@
                 max="5"
               >
             </div>
+
             <div>
               <label for="fear">Fear: </label>
               <input 
@@ -182,6 +142,7 @@
                 max="5"
               >
             </div>
+
             <div>
               <label for="happy">Happiness: </label>
               <input 
@@ -193,6 +154,7 @@
                 max="5"
               >
             </div>
+
             <div>
               <label for="shame">Shame: </label>
               <input 
@@ -205,6 +167,7 @@
               >
             </div>
           </fieldset>
+
           <fieldset>
             <legend hidden>Urges</legend>
             <div>
@@ -218,6 +181,7 @@
                 max="5"
               >
             </div>
+
             <div>
               <label for="urge-2">{{ entries[6]["urge2 name"] }}: </label>
               <input 
@@ -229,6 +193,7 @@
                 max="5"
               >
             </div>
+
             <div>
               <label for="urge-3">{{ entries[6]["urge3 name"] }}: </label>
               <input 
@@ -241,6 +206,7 @@
               >
             </div>
           </fieldset>
+
           <fieldset>
             <legend hidden>Actions</legend>
             <div id="action-1">
@@ -279,6 +245,7 @@
               <label for="action-1-no">No</label>
               {% endif %}
             </div>
+
             <div id="action-2">
               <label for="action-2">{{ entries[6]["action2 name"] }}: </label>
               {% if entries[6]["action2 score"] == "yes" %}
@@ -316,6 +283,7 @@
               {% endif %}
             </div>
           </fieldset>
+
           <fieldset>
             <legend hidden>Used Skills</legend>
             <div id="used-skills-guide" hidden>
@@ -340,6 +308,7 @@
               >
             </div>
           </fieldset>
+
           <div>
             <input type="submit">
           </div>
