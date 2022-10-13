@@ -4,7 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-
 class User(db.Model):
     """Model for a user."""
 
@@ -25,7 +24,10 @@ class User(db.Model):
     urges = db.relationship("Urge", back_populates="user")
     actions = db.relationship("Action", back_populates="user")
     sent_reminders = db.relationship("SentReminder", back_populates="user")
-    sent_med_reminders = db.relationship("SentMedReminder", back_populates="user")
+    sent_med_reminders = db.relationship(
+        "SentMedReminder",
+        back_populates="user",
+    )
 
     def __repr__(self):
         """String representation for User object."""
