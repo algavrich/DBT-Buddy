@@ -3,252 +3,262 @@
 {% block title %}Settings{% endblock %}
 
 {% block body %}
-  <h1>Settings</h1>
+  <div class="container-fluid h-100">
 
-  <p>
-    Click on a value to edit it<br>
-    Click "Save Changes" when you're done
-  </p>
+    <div class="row justify-content-center h-100" id="settings-row">
+      <div 
+        class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4" 
+        id="settings-col"
+      >
+        <h1 class="text-center">Settings</h1>
 
-  <div id="preferences">
-    <form>
-      <div id="fname">
-        <h4>First Name</h4>
-        <p class="text-pref">{{ user.fname }}</p>
-        <label for="fname-input" hidden>Edit First Name</label>
-        <input 
-          type="text" 
-          name="fname"
-          value="{{ user.fname }}" 
-          id="fname-input"
-          maxlength="50"
-        >
-      </div>
+        <p>
+          Click on a value to edit it<br>
+          Click "Save Changes" when you're done
+        </p>
 
-      <div id="email">
-        <h4>Email</h4>
-        <p class="text-pref">{{ user.email }}</p>
-        <label for="email-input" hidden>Edit Email</label>
-        <input 
-          type="email" 
-          name="email"
-          value="{{ user.email }}"
-          id="email-input"
-          maxlength="50"
-        >
-      </div>
+        <div id="preferences">
+          <form>
+            <div id="fname">
+              <h4>First Name</h4>
+              <p class="text-pref">{{ user.fname }}</p>
+              <label for="fname-input" hidden>Edit First Name</label>
+              <input 
+                type="text" 
+                name="fname"
+                value="{{ user.fname }}" 
+                id="fname-input"
+                maxlength="50"
+              >
+            </div>
 
-      <div id="password">
-        <h4>Password</h4>
-        <a href="/change-password">Change password</a>
-      </div>
+            <div id="email">
+              <h4>Email</h4>
+              <p class="text-pref">{{ user.email }}</p>
+              <label for="email-input" hidden>Edit Email</label>
+              <input 
+                type="email" 
+                name="email"
+                value="{{ user.email }}"
+                id="email-input"
+                maxlength="50"
+              >
+            </div>
 
-      <div id="phone-number">
-        <h4>Phone Number</h4>
-        <p class="text-pref">{{ user.phone_number }}</p>
-        <label for="phone-number-input" hidden>Edit Phone Number</label>
-        <input 
-          type="tel" 
-          name="phone-number"
-          value="{{ user.phone_number }}" 
-          id="phone-number-input"
-          pattern="^[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$"
-        >
-      </div>
+            <div id="password">
+              <h4>Password</h4>
+              <a href="/change-password">Change password</a>
+            </div>
 
-      <div id="urge-1">
-        <h4>Urge 1</h4>
-        <p class="text-pref">{{ active_urges[0].description }}</p>
-        <label for="urge-1-input" hidden>Edit Urge 1 Name</label>
-        <input 
-          type="text" 
-          name="urge-1"
-          data-old-urge-ID="{{ active_urges[0].urge_id }}"
-          value="{{ active_urges[0].description }}" 
-          id="urge-1-input"
-          minlength="3"
-          maxlength="50"
-        >
-      </div>
+            <div id="phone-number">
+              <h4>Phone Number</h4>
+              <p class="text-pref">{{ user.phone_number }}</p>
+              <label for="phone-number-input" hidden>Edit Phone Number</label>
+              <input 
+                type="tel" 
+                name="phone-number"
+                value="{{ user.phone_number }}" 
+                id="phone-number-input"
+                pattern="^[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$"
+              >
+            </div>
 
-      <div id="urge-2">
-        <h4>Urge 2</h4>
-        <p class="text-pref">{{ active_urges[1].description }}</p>
-        <label for="urge-2-input" hidden>Edit Urge 2 Name</label>
-        <input 
-          type="text" 
-          name="urge-2"
-          data-old-urge-ID="{{ active_urges[1].urge_id }}"
-          value="{{ active_urges[1].description }}" 
-          id="urge-2-input"
-          minlength="3"
-          maxlength="50"
-        >
-      </div>
+            <div id="urge-1">
+              <h4>Urge 1</h4>
+              <p class="text-pref">{{ active_urges[0].description }}</p>
+              <label for="urge-1-input" hidden>Edit Urge 1 Name</label>
+              <input 
+                type="text" 
+                name="urge-1"
+                data-old-urge-ID="{{ active_urges[0].urge_id }}"
+                value="{{ active_urges[0].description }}" 
+                id="urge-1-input"
+                minlength="3"
+                maxlength="50"
+              >
+            </div>
 
-      <div id=urge-3>
-      <h4>Urge 3</h4>
-      <p class="text-pref">{{ active_urges[2].description }}</p>
-      <label for="urge-3-input" hidden>Edit Urge 3 Name</label>
-      <input 
-          type="text" 
-          name="urge-3"
-          data-old-urge-ID="{{ active_urges[2].urge_id }}"
-          value="{{ active_urges[2].description }}" 
-          id="urge-3-input"
-          minlength="3"
-          maxlength="50"
-        >
-      </div>
+            <div id="urge-2">
+              <h4>Urge 2</h4>
+              <p class="text-pref">{{ active_urges[1].description }}</p>
+              <label for="urge-2-input" hidden>Edit Urge 2 Name</label>
+              <input 
+                type="text" 
+                name="urge-2"
+                data-old-urge-ID="{{ active_urges[1].urge_id }}"
+                value="{{ active_urges[1].description }}" 
+                id="urge-2-input"
+                minlength="3"
+                maxlength="50"
+              >
+            </div>
 
-      <div id="action-1">
-        <h4>Action 1</h4>
-        <p class="text-pref">{{ active_actions[0].description }}</p>
-        <label for="action-1-input" hidden>Edit Action 1 Name</label>
-        <input 
-          type="text" 
-          name="action-1"
-          data-old-action-ID="{{ active_actions[0].action_id }}"
-          value="{{ active_actions[0].description }}" 
-          id="action-1-input"
-          minlength="3"
-          maxlength="50"
-        >
-      </div>
+            <div id=urge-3>
+            <h4>Urge 3</h4>
+            <p class="text-pref">{{ active_urges[2].description }}</p>
+            <label for="urge-3-input" hidden>Edit Urge 3 Name</label>
+            <input 
+                type="text" 
+                name="urge-3"
+                data-old-urge-ID="{{ active_urges[2].urge_id }}"
+                value="{{ active_urges[2].description }}" 
+                id="urge-3-input"
+                minlength="3"
+                maxlength="50"
+              >
+            </div>
 
-      <div id="action-2">
-        <h4>Action 2</h4>
-        <p class="text-pref">{{ active_actions[1].description }}</p>
-        <label for="action-2-input" hidden>Edit Action 2 Name</label>
-        <input 
-          type="text" 
-          name="action-2"
-          data-old-action-ID="{{ active_actions[1].action_id }}"
-          value="{{ active_actions[1].description }}" 
-          id="action-2-input"
-          minlength="3"
-          maxlength="50"
-        >
-      </div>
+            <div id="action-1">
+              <h4>Action 1</h4>
+              <p class="text-pref">{{ active_actions[0].description }}</p>
+              <label for="action-1-input" hidden>Edit Action 1 Name</label>
+              <input 
+                type="text" 
+                name="action-1"
+                data-old-action-ID="{{ active_actions[0].action_id }}"
+                value="{{ active_actions[0].description }}" 
+                id="action-1-input"
+                minlength="3"
+                maxlength="50"
+              >
+            </div>
 
-      <div id="entry-reminders">
-        <h4>Entry Reminders</h4>
-        <p class="radio-pref">{{ entry_reminders }}</p>
-        {% if entry_reminders == "yes" %}
-          <input 
-            type="radio" 
-            name="entry-reminders-input" 
-            value="yes" 
-            id="e-rem-yes" 
-            checked
-          >
-          <label for="e-rem-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="entry-reminders-input" 
-            value="no" 
-            id="e-rem-no"
-          >
-          <label for="e-rem-no">No</label>
-        {% else %}
-          <input 
-            type="radio" 
-            name="entry-reminders-input" 
-            value="yes" 
-            id="e-rem-yes"
-          >
-          <label for="e-rem-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="entry-reminders-input" 
-            value="no" 
-            id="e-rem-no"
-            checked
-          >
-          <label for="e-rem-no">No</label>
-        {% endif %}
-      </div>
+            <div id="action-2">
+              <h4>Action 2</h4>
+              <p class="text-pref">{{ active_actions[1].description }}</p>
+              <label for="action-2-input" hidden>Edit Action 2 Name</label>
+              <input 
+                type="text" 
+                name="action-2"
+                data-old-action-ID="{{ active_actions[1].action_id }}"
+                value="{{ active_actions[1].description }}" 
+                id="action-2-input"
+                minlength="3"
+                maxlength="50"
+              >
+            </div>
 
-      <div id="med-tracking">
-        <h4>Med Tracking</h4>
-        <p class="radio-pref">{{ med_tracking }}</p>
-        {% if med_tracking == "yes" %}
-          <input 
-            type="radio" 
-            name="med-tracking-input" 
-            value="yes" 
-            id="med-track-yes" 
-            checked
-          >
-          <label for="med-track-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="med-tracking-input" 
-            value="no" 
-            id="med-track-no"
-          >
-          <label for="med-track-no">No</label>
-        {% else %}
-          <input 
-            type="radio" 
-            name="med-tracking-input" 
-            value="yes" 
-            id="med-track-yes"
-          >
-          <label for="med-track-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="med-tracking-input" 
-            value="no" 
-            id="med-track-no"
-            checked
-          >
-          <label for="med-track-no">No</label>
-        {% endif %}
-      </div>
+            <div id="entry-reminders">
+              <h4>Entry Reminders</h4>
+              <p class="radio-pref">{{ entry_reminders }}</p>
+              {% if entry_reminders == "yes" %}
+                <input 
+                  type="radio" 
+                  name="entry-reminders-input" 
+                  value="yes" 
+                  id="e-rem-yes" 
+                  checked
+                >
+                <label for="e-rem-yes">Yes</label>
+                <input 
+                  type="radio" 
+                  name="entry-reminders-input" 
+                  value="no" 
+                  id="e-rem-no"
+                >
+                <label for="e-rem-no">No</label>
+              {% else %}
+                <input 
+                  type="radio" 
+                  name="entry-reminders-input" 
+                  value="yes" 
+                  id="e-rem-yes"
+                >
+                <label for="e-rem-yes">Yes</label>
+                <input 
+                  type="radio" 
+                  name="entry-reminders-input" 
+                  value="no" 
+                  id="e-rem-no"
+                  checked
+                >
+                <label for="e-rem-no">No</label>
+              {% endif %}
+            </div>
 
-      <div id="med-reminders">
-        <h4>Med Reminders</h4>
-        <p class="radio-pref">{{ med_reminders }}</p>
-        {% if med_reminders == "yes" %}
-          <input 
-            type="radio" 
-            name="med-reminders-input" 
-            value="yes" 
-            id="m-rem-yes" 
-            checked
-          >
-          <label for="m-rem-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="med-reminders-input" 
-            value="no" 
-            id="m-rem-no"
-          >
-          <label for="m-rem-yes">No</label>
-        {% else %}
-          <input 
-            type="radio" 
-            name="med-reminders-input" 
-            value="yes" 
-            id="m-rem-yes"
-          >
-          <label for="m-rem-yes">Yes</label>
-          <input 
-            type="radio" 
-            name="med-reminders-input" 
-            value="no" 
-            id="m-rem-no"
-            checked
-          >
-          <label for="m-rem-yes">No</label>
-        {% endif %}
+            <div id="med-tracking">
+              <h4>Med Tracking</h4>
+              <p class="radio-pref">{{ med_tracking }}</p>
+              {% if med_tracking == "yes" %}
+                <input 
+                  type="radio" 
+                  name="med-tracking-input" 
+                  value="yes" 
+                  id="med-track-yes" 
+                  checked
+                >
+                <label for="med-track-yes">Yes</label>
+                <input 
+                  type="radio" 
+                  name="med-tracking-input" 
+                  value="no" 
+                  id="med-track-no"
+                >
+                <label for="med-track-no">No</label>
+              {% else %}
+                <input 
+                  type="radio" 
+                  name="med-tracking-input" 
+                  value="yes" 
+                  id="med-track-yes"
+                >
+                <label for="med-track-yes">Yes</label>
+                <input 
+                  type="radio" 
+                  name="med-tracking-input" 
+                  value="no" 
+                  id="med-track-no"
+                  checked
+                >
+                <label for="med-track-no">No</label>
+              {% endif %}
+            </div>
+
+            <div id="med-reminders">
+              <h4>Med Reminders</h4>
+              <p class="radio-pref">{{ med_reminders }}</p>
+              {% if med_reminders == "yes" %}
+                <input 
+                  type="radio" 
+                  name="med-reminders-input" 
+                  value="yes" 
+                  id="m-rem-yes" 
+                  checked
+                >
+                <label for="m-rem-yes">Yes</label>
+                <input 
+                  type="radio" 
+                  name="med-reminders-input" 
+                  value="no" 
+                  id="m-rem-no"
+                >
+                <label for="m-rem-yes">No</label>
+              {% else %}
+                <input 
+                  type="radio" 
+                  name="med-reminders-input" 
+                  value="yes" 
+                  id="m-rem-yes"
+                >
+                <label for="m-rem-yes">Yes</label>
+                <input 
+                  type="radio" 
+                  name="med-reminders-input" 
+                  value="no" 
+                  id="m-rem-no"
+                  checked
+                >
+                <label for="m-rem-yes">No</label>
+              {% endif %}
+            </div>
+            
+            <div id="save-changes-button">
+              <input type="submit" value="Save Changes">
+            </div>
+          </form>
+        </div>
       </div>
-      
-      <div id="submit-button">
-        <input type="submit" value="Save Changes">
-      </div>
-    </form>
+    </div>
   </div>
 {% endblock %}
 
