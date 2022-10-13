@@ -3,11 +3,11 @@
 {% block title %}Settings{% endblock %}
 
 {% block body %}
-  <div class="container-fluid h-100">
+  <div class="container-fluid whole-page">
 
     <div class="row justify-content-center h-100" id="settings-row">
       <div 
-        class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4" 
+        class="col-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4" 
         id="settings-col"
       >
         <h1 class="text-center">Settings</h1>
@@ -253,7 +253,11 @@
             </div>
             
             <div id="save-changes-button">
-              <input type="submit" value="Save Changes">
+              <input 
+                class="btn btn-sm" 
+                type="submit" 
+                value="Save Changes"
+              >
             </div>
           </form>
         </div>
