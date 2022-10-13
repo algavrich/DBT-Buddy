@@ -3,74 +3,152 @@
 {% block title %}New Diary Entry{% endblock %}
 
 {% block body %}
-<h1>New Diary Entry</h1>
+<div class="container-fluid whole-page">
 
-<form action="/new-diary-entry/{{ user_id }}" method="POST">
-  <fieldset>
-    <legend>Rank how intensely you felt the following emotions today</legend>
-    <p>Rank each emotion from 0 (least intense) to 5 (most intense)</p>
-    <!-- TODO make DRYer with JS array/DOM manipulation -->
-    <label for="sad">Sadness</label>
-    <input type="number" name="sad" id="sad" min="0" max="5">
-    <label for="angry">Anger</label>
-    <input type="number" name="angry" id="angry" min="0" max="5">
-    <label for="fear">Fear</label>
-    <input type="number" name="fear" id="fear" min="0" max="5">
-    <label for="happy">Happiness</label>
-    <input type="number" name="happy" id="happy" min="0" max="5">
-    <label for="shame">Shame</label>
-    <input type="number" name="shame" id="shame" min="0" max="5">
-  </fieldset>
+  <div class="row h-100 justify-content-center" id="new-entry-row">
+    <div 
+      class="col-12 col-md-10 col-lg-8 col-xl-6 col-xxl-5" 
+      id="new-entry-col"
+    >
+      <h1 class="text-center">New Diary Entry</h1>
 
-  <fieldset>
-    <legend>Rank how intensely you felt the following urges today</legend>
-    <p>Rank each urge from 0 (least intense) to 5 (most intense)</p>
-    <label for="urge-1">{{ user_urges[0] }}</label>
-    <input type="number" name="urge-1" id="urge-1" min="0" max="5">
-    <label for="urge-2">{{ user_urges[1] }}</label>
-    <input type="number" name="urge-2" id="urge-2" min="0" max="5">
-    <label for="urge-3">{{ user_urges[2] }}</label>
-    <input type="number" name="urge-3" id="urge-3" min="0" max="5">
-  </fieldset>
+      <form action="/new-diary-entry/{{ user_id }}" method="POST">
+        <fieldset id="mood-inputs">
+          <legend>Rank how intensely you felt the following emotions today</legend>
+          <p>Rank each emotion from 0 (least intense) to 5 (most intense)</p>
+          <!-- TODO make DRYer with JS array/DOM manipulation -->
+          <label for="sad" hidden>Sadness</label>
+          <input 
+            type="number" 
+            name="sad" 
+            placeholder="Sadness" 
+            id="sad" 
+            min="0" 
+            max="5"
+          >
+          <label for="angry" hidden>Anger</label>
+          <input 
+            type="number" 
+            name="angry" 
+            placeholder="Anger"
+            id="angry" 
+            min="0" 
+            max="5"
+          >
+          <label for="fear" hidden>Fear</label>
+          <input
+            type="number" 
+            name="fear"
+            placeholder="Fear" 
+            id="fear"
+            min="0" 
+            max="5"
+          >
+          <label for="happy" hidden>Happiness</label>
+          <input
+            type="number"
+            name="happy"
+            placeholder="Happiness"
+            id="happy"
+            min="0"
+            max="5"
+          >
+          <label for="shame" hidden>Shame</label>
+          <input
+          type="number"
+          name="shame"
+          placeholder="Shame"
+          id="shame"
+          min="0"
+          max="5"
+        >
+        </fieldset>
 
-  <fieldset>
-    <legend>Indicate if you did each of the following actions today</legend>
-    <label for="action-1">{{ user_actions[0] }}</label>
-    <div id="action-1">
-      <input type="radio" name="action-1" value="yes" id="action-1-yes">
-      <label for="action-1-yes">Yes</label>
-      <input type="radio" name="action-1" value="no" id="action-1-no" checked>
-      <label for="action-1-no">No</label>
+        <fieldset id="urge-inputs">
+          <legend>Rank how intensely you felt the following urges today</legend>
+          <p>Rank each urge from 0 (least intense) to 5 (most intense)</p>
+          <label for="urge-1" hidden>{{ user_urges[0] }}</label>
+          <input
+            type="number"
+            name="urge-1"
+            placeholder="{{ user_urges[0] }}"
+            id="urge-1"
+            min="0"
+            max="5"
+          >
+          <label for="urge-2" hidden>{{ user_urges[1] }}</label>
+          <input
+            type="number"
+            name="urge-2"
+            placeholder="{{ user_urges[1] }}"
+            id="urge-2"
+            min="0"
+            max="5"
+          >
+          <label for="urge-3" hidden>{{ user_urges[2] }}</label>
+          <input
+            type="number"
+            name="urge-3"
+            placeholder="{{ user_urges[2] }}"
+            id="urge-3"
+            min="0"
+            max="5"
+          >
+        </fieldset>
+
+        <fieldset id="action-inputs">
+          <legend>Indicate if you did each of the following actions today</legend>
+          <label for="action-1">{{ user_actions[0] }}</label>
+          <div id="action-1">
+            <input type="radio" name="action-1" value="yes" id="action-1-yes">
+            <label for="action-1-yes">Yes</label>
+            <input type="radio" name="action-1" value="no" id="action-1-no" checked>
+            <label for="action-1-no">No</label>
+          </div>
+
+          <label for="action-2">{{ user_actions[1] }}</label>
+          <div id="action-2">
+            <input type="radio" name="action-2" value="yes" id="action-2-yes">
+            <label for="action-2-yes">Yes</label>
+            <input type="radio" name="action-2" value="no" id="action-2-no" checked>
+            <label for="action-2-no">No</label>
+          </div>
+        </fieldset>
+
+        <fieldset id="used-skills-inputs">
+          <legend>Rank if you used skills today and if they helped</legend>
+          <div id="used-skills-guide">
+            <p>0 = Not thought about or used</p>
+            <p>1 = Thought about, not used, didn't want to</p>
+            <p>2 = Thought about, not used, wanted to</p>
+            <p>3 = Tried but couldn't use them</p>
+            <p>4 = Tried, could use them but they didn't help</p>
+            <p>5 = Tried, could use them, helped</p>
+            <p>6 = Didn't try, used them, didn't help</p>
+            <p>7 = Didn't try, used them, helped</p>
+          </div>
+          <label for="used-skills" hidden>Used Skills</label>
+          <input
+            type="number"
+            name="used-skills"
+            placeholder="Used Skills"
+            id="used-skills"
+            min="0"
+            max="7"
+          >
+        </fieldset>
+        
+        <div>
+          <label for="submit-button" hidden>Create Entry</label>
+          <input
+            class="btn btn-sm"
+            type="submit"
+            value="Create Entry"
+            id="submit-button"
+          >
+        </div>
+      </form>
     </div>
-
-    <label for="action-2">{{ user_actions[1] }}</label>
-    <div id="action-2">
-      <input type="radio" name="action-2" value="yes" id="action-2-yes">
-      <label for="action-2-yes">Yes</label>
-      <input type="radio" name="action-2" value="no" id="action-2-no" checked>
-      <label for="action-2-no">No</label>
-    </div>
-  </fieldset>
-
-  <fieldset>
-    <legend>Rank if you used skills today and if they helped</legend>
-    <div id="used-skills-guide">
-      <span>0 = Not thought about or used</span>
-      <span>1 = Thought about, not used, didn't want to</span>
-      <span>2 = Thought about, not used, wanted to</span>
-      <span>3 = Tried but couldn't use them</span><br>
-      <span>4 = Tried, could use them but they didn't help</span>
-      <span>5 = Tried, could use them, helped</span>
-      <span>6 = Didn't try, used them, didn't help</span>
-      <span>7 = Didn't try, used them, helped</span>
-    </div>
-    <label for="used-skills">Used Skills</label>
-    <input type="number" name="used-skills" id="used-skills" min="0" max="7">
-  </fieldset>
-  
-  <div>
-    <label for="submit-button" hidden>Create Entry</label>
-    <input type="submit" value="Create Entry" id="submit-button">
   </div>
-</form>
+</div>
 {% endblock %}
