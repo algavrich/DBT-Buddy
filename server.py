@@ -284,17 +284,19 @@ def get_given_week():
     
     if helpers.check_for_entry_in_week(entries):
         entries_as_dicts = helpers.make_entries_jsonifiable(entries)
+        actions = None
+        urges = None
 
     else:
         entries_as_dicts = helpers.given_week_dates(week_start_date_string)
 
-    actions = []
-    for action in crud.get_actions_by_user_id(current_user_id):
-        actions.append(action.description)
+        actions = []
+        for action in crud.get_actions_by_user_id(current_user_id):
+            actions.append(action.description)
 
-    urges = []
-    for urge in crud.get_urges_by_user_id(current_user_id):
-        urges.append(urge.description)
+        urges = []
+        for urge in crud.get_urges_by_user_id(current_user_id):
+            urges.append(urge.description)
 
     return jsonify({
         "entries": entries_as_dicts,
