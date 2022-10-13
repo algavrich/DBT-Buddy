@@ -367,9 +367,9 @@ def get_urge_desc_by_id(urge_id: int) -> str:
     """Return urge description when given it's ID."""
 
     return db.session.query(
-        Urge.description
+        Urge.description,
     ).filter(
-        Urge.urge_id == urge_id
+        Urge.urge_id == urge_id,
     ).first()[0]
 
 
@@ -377,9 +377,9 @@ def get_action_desc_by_id(action_id: int) -> str:
     """Return action description when given it's ID."""
 
     return db.session.query(
-        Action.description
+        Action.description,
     ).filter(
-        Action.action_id == action_id
+        Action.action_id == action_id,
     ).first()[0]
 
 
@@ -521,9 +521,9 @@ def get_dict_for_weeks(user_id: int) -> dict:
     """
     
     oldest_entry = DiaryEntry.query.filter(
-        DiaryEntry.user_id == user_id
+        DiaryEntry.user_id == user_id,
     ).order_by(
-        DiaryEntry.dt
+        DiaryEntry.dt,
     ).first()
     todays_date = date.today()
 
