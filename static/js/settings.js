@@ -2,6 +2,10 @@
 
 // DRYer???
 
+const saveChangesButton = document.querySelector(
+    '#save-changes-button input'
+);
+
 const textPrefPs = document.querySelectorAll('.text-pref');
 
  for (const textPrefP of textPrefPs) {
@@ -10,7 +14,7 @@ const textPrefPs = document.querySelectorAll('.text-pref');
         if (inputField.style.display !== 'inline-block') {
             inputField.style.display = 'inline-block';
             evt.target.style.display = 'none';
-            document.querySelector('#submit-button input').style.display = 'block';
+            saveChangesButton.style.display = 'block';
         }
     });
 }
@@ -27,7 +31,7 @@ const radioPrefPs = document.querySelectorAll('.radio-pref');
                 inputFields[i].style.display = 'inline-block';
                 labels[i].style.display = 'inline-block';
                 evt.target.style.display = 'none';
-                document.querySelector('#submit-button input').style.display = 'block';
+                saveChangesButton.style.display = 'block';
             }
         }
     });
@@ -108,9 +112,9 @@ document.querySelector('#preferences form')
     .then((resData) => {
         console.log(resData);
         if (resData.success === true) {
-            window.location.href = "/settings";
+            window.location.href = '/settings';
         } else {
-            window.scrollTo(0, 0);
+            window.location.href = '/settings';
         }
     });
 });
