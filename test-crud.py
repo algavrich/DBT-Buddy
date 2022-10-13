@@ -1,10 +1,11 @@
 """Unit tests for CRUD functions"""
 
+import unittest
+from datetime import date, timedelta
+
 from model import (ActionEntry, UrgeEntry, connect_to_db, db,
                    User, Urge, Action, DiaryEntry, SentReminder)
 import crud
-import unittest
-from datetime import date, timedelta
 
 class InitializeUserTestCase(unittest.TestCase):
     """Unit test for function that initializes a user."""
@@ -25,12 +26,22 @@ class InitializeUserTestCase(unittest.TestCase):
         """Test create_account_helper."""
 
         crud.create_account_helper(
-            "Test2", "test2@test.test", "testpassword", "1234567890", True,
-            True, True, "Urge1", "Urge2", "Urge3", "Action1", "Action2"
+            "Test2",
+            "test2@test.test",
+            "testpassword",
+            "1234567890",
+            True,
+            True,
+            True,
+            "Urge1",
+            "Urge2",
+            "Urge3",
+            "Action1",
+            "Action2",
         )
 
         test_user = User.query.filter(
-            User.email == "test2@test.test"
+            User.email == "test2@test.test",
         ).first()
 
         test_user_urges = []
@@ -63,14 +74,15 @@ class InitializeEntriesTestCase(unittest.TestCase):
             phone_number="1234567890",
             entry_reminders=True,
             med_tracking=True,
-            med_reminders=True
+            med_reminders=True,
         )
         db.session.add(test_user)
         db.session.commit()
 
         test_user = User.query.filter(
-            User.email == "test@test.test"
+            User.email == "test@test.test",
         ).first()
+
         new_urges = []
         urge_names = ["Urge1", "Urge2", "Urge3"]
         for urge_name in urge_names:
@@ -78,9 +90,10 @@ class InitializeEntriesTestCase(unittest.TestCase):
                 Urge(
                     user_id=test_user.user_id,
                     description=urge_name,
-                    active=True
+                    active=True,
                 )
             )
+
         new_actions = []
         action_names = ["Action1", "Action2"]
         for action_name in action_names:
@@ -88,9 +101,10 @@ class InitializeEntriesTestCase(unittest.TestCase):
                 Action(
                     user_id=test_user.user_id,
                     description=action_name,
-                    active=True
+                    active=True,
                 )
             )
+
         db.session.add_all(new_urges)
         db.session.add_all(new_actions)     
 
@@ -105,15 +119,26 @@ class InitializeEntriesTestCase(unittest.TestCase):
         """Test create_d_u_a_entries_helper."""
 
         test_user = User.query.filter(
-            User.email == "test@test.test"
+            User.email == "test@test.test",
         ).first()
 
         crud.create_d_u_a_entries_helper(
-            test_user.user_id, 5, 4, 3, 2, 1, 1, 2, 3, True, False, 7
+            test_user.user_id,
+            5,
+            4,
+            3,
+            2,
+            1,
+            1,
+            2,
+            3,
+            True,
+            False,
+            7,
         )
 
         test_diary_entry = DiaryEntry.query.filter(
-            DiaryEntry.user == test_user
+            DiaryEntry.user == test_user,
         ).first()
 
         self.assertIsInstance(test_diary_entry, DiaryEntry)
@@ -140,7 +165,7 @@ class RemindersTestCase(unittest.TestCase):
             phone_number="1234567890",
             entry_reminders=True,
             med_tracking=True,
-            med_reminders=True
+            med_reminders=True,
         )
         db.session.add(test_user)
         db.session.commit()
@@ -156,13 +181,13 @@ class RemindersTestCase(unittest.TestCase):
         """Test add_new_rem_to_db."""
 
         test_user = User.query.filter(
-            User.email == "test@test.test"
+            User.email == "test@test.test",
         ).first()
 
         crud.add_new_rem_to_db(test_user.user_id)
 
         test_rem = SentReminder.query.filter(
-            SentReminder.user_id == test_user.user_id
+            SentReminder.user_id == test_user.user_id,
         ).first()
 
         self.assertIsInstance(test_rem, SentReminder)
@@ -185,7 +210,7 @@ class GetWeekTestCase(unittest.TestCase):
         start_date = date.today() - timedelta(days = 13)
         lucy_week = crud.get_given_week_for_user(
             lucy.user_id,
-            start_date
+            start_date,
         )
 
         self.assertIsInstance(lucy_week, list)
