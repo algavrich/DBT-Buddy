@@ -1,12 +1,15 @@
 """CRUD functions."""
 
-from model import (SentMedReminder, SentReminder, db, connect_to_db, User, Urge, Action,
-                   DiaryEntry, UrgeEntry, ActionEntry, MedEntry)
-import helpers
 from datetime import date, datetime, timedelta
-from sqlalchemy import cast, DATE
 from random import randint, choice
 import math
+
+from sqlalchemy import cast, DATE
+
+from model import (db, connect_to_db, User, Urge, Action,
+                   DiaryEntry, UrgeEntry, ActionEntry, MedEntry,
+                   SentMedReminder, SentReminder)
+import helpers
 
 # CREATE
 
@@ -29,7 +32,7 @@ def create_user(
         entry_reminders=entry_reminders, 
         med_tracking=med_tracking, 
         med_reminders=med_reminders,
-        init_dt=init_dt
+        init_dt=init_dt,
     )
 
     return user
@@ -48,7 +51,7 @@ def create_urge(user_id: int, description: str, position: int) -> Urge:
         user_id=user_id, 
         description=description,
         active = True,
-        position = position
+        position = position,
 
     )
 
@@ -68,7 +71,7 @@ def create_action(user_id: int, description: str, position: int) -> Action:
         user_id=user_id, 
         description=description,
         active = True,
-        position = position
+        position = position,
     )
 
     return action
@@ -131,7 +134,7 @@ def create_diary_entry(
         fear_score=fear_score, 
         happy_score=happy_score, 
         shame_score=shame_score, 
-        skills_used=skills_used
+        skills_used=skills_used,
     )
 
     return d_entry
@@ -152,7 +155,7 @@ def create_urge_entry(
         d_entry_id=d_entry_id,
         user_id=user_id, 
         dt=dt,
-        score=score
+        score=score,
     )
 
     return u_entry
@@ -173,7 +176,7 @@ def create_action_entry(
         d_entry_id=d_entry_id, 
         user_id=user_id, 
         dt=dt,
-        score=score
+        score=score,
     )
 
     return a_entry
@@ -201,39 +204,43 @@ def create_d_u_a_entries_helper(
         fear_score,
         happy_score,
         shame_score,
-        used_skills
+        used_skills,
     )
 
     db.session.add(new_d_entry)
     db.session.commit()
 
     new_d_entry = get_diary_entry_by_user_date(
-        user_id, 
-        date.today()
+        user_id,
+        date.today(),
     )
 
     user_urges = get_urges_by_user_id(user_id)
     urge_scores = [urge_1_score, urge_2_score, urge_3_score]
     new_entries = []
     for i in range(3):
-        new_entries.append(create_urge_entry(
-            user_urges[i].urge_id, 
-            new_d_entry.entry_id, 
-            user_id,
-            datetime.now(),
-            urge_scores[i]
-        ))
+        new_entries.append(
+            create_urge_entry(
+                user_urges[i].urge_id, 
+                new_d_entry.entry_id, 
+                user_id,
+                datetime.now(),
+                urge_scores[i],
+            )
+        )
 
     user_actions = get_actions_by_user_id(user_id)
     action_scores = [action_1, action_2]
     for i in range(2):
-        new_entries.append(create_action_entry(
-            user_actions[i].action_id,
-            new_d_entry.entry_id,
-            user_id,
-            datetime.now(),
-            action_scores[i]
-        ))
+        new_entries.append(
+            create_action_entry(
+                user_actions[i].action_id,
+                new_d_entry.entry_id,
+                user_id,
+                datetime.now(),
+                action_scores[i]
+            )
+        )
 
     db.session.add_all(new_entries)
     db.session.commit()
@@ -244,7 +251,7 @@ def add_med_entry_to_db(user_id: int) -> None:
 
     m_entry = MedEntry(
         user_id=user_id, 
-        dt=datetime.now()
+        dt=datetime.now(),
     )
 
     db.session.add(m_entry)
@@ -262,7 +269,7 @@ def add_new_rem_to_db(user_id: int) -> None:
 
     new_reminder = SentReminder(
         user_id=user_id,
-        dt=datetime.now()
+        dt=datetime.now(),
     )
 
     db.session.add(new_reminder)
@@ -280,7 +287,7 @@ def add_new_med_rem_to_db(user_id: int) -> None:
 
     new_med_reminder = SentMedReminder(
         user_id=user_id,
-        dt=datetime.now()
+        dt=datetime.now(),
     )
 
     db.session.add(new_med_reminder)
@@ -318,27 +325,6 @@ def get_med_tracking_for_user(user_id: int) -> bool:
     return User.query.get(user_id).med_tracking
 
 
-# def get_diary_entries_by_user_id(user_id: int) -> list[DiaryEntry]:
-#     """Return list of user's diary entries when given their ID.
-    
-#     Takes in a user's ID,
-#     returns a list of all of that user's DiaryEntry objects.
-    
-#     """
-
-#     user = get_user_by_id(user_id)
-    
-#     return user.diary_entries
-
-
-# def get_med_entries_by_user_id(user_id):
-#     """Return list of user's med entries when given their ID."""
-
-#     user = get_user_by_id(user_id)
-    
-#     return user.med_entries
-
-
 def get_urges_by_user_id(user_id: int) -> list[Urge]:
     """Return a list of user's urges when given their ID."""
 
@@ -355,9 +341,8 @@ def get_urges_by_user_id(user_id: int) -> list[Urge]:
             urge_2 = urge
         else:
             urge_3 = urge
-    ordered_urges = [urge_1, urge_2, urge_3]
 
-    return ordered_urges
+    return [urge_1, urge_2, urge_3]
 
 
 def get_actions_by_user_id(user_id: int) -> list[Action]:
@@ -374,9 +359,8 @@ def get_actions_by_user_id(user_id: int) -> list[Action]:
             action_1 = action
         else:
             action_2 = action
-    ordered_actions = [action_1, action_2]
 
-    return ordered_actions
+    return [action_1, action_2]
 
 
 def get_urge_desc_by_id(urge_id: int) -> str:
@@ -416,7 +400,7 @@ def get_diary_entry_by_user_date(user_id: int, q_date: date) -> DiaryEntry:
 
     return DiaryEntry.query.filter(
         DiaryEntry.user_id == user_id,
-        cast(DiaryEntry.dt, DATE) == q_date
+        cast(DiaryEntry.dt, DATE) == q_date,
     ).first()
 
 
@@ -432,7 +416,7 @@ def get_given_week_for_user(
         if diary_entry:
             entries.append(diary_entry)
         else:
-            entries.append({"date": date.strftime(date_get, "%A %-d")})
+            entries.append({"date": date.strftime(date_get, "%a %-d")})
 
     return entries
 
@@ -447,7 +431,8 @@ def get_this_week_for_user(user_id: int) -> list[DiaryEntry]:
     """
 
     return get_given_week_for_user(
-        user_id, (date.today() - timedelta(days=6))
+        user_id,
+        (date.today() - timedelta(days=6)),
     )
 
 
@@ -465,7 +450,7 @@ def check_entry_past_24(user_id: int) -> bool:
 
     if DiaryEntry.query.filter(
         DiaryEntry.user_id == user_id,
-        DiaryEntry.dt > (datetime.now() - timedelta(days=1))
+        DiaryEntry.dt > (datetime.now() - timedelta(days=1)),
     ).first():
         return True
 
@@ -477,7 +462,7 @@ def check_med_entry_today(user_id: int) -> bool:
 
     if MedEntry.query.filter(
         MedEntry.user_id == user_id,
-        cast(MedEntry.dt, DATE) == date.today()
+        cast(MedEntry.dt, DATE) == date.today(),
     ).first():
         return True
 
@@ -489,7 +474,7 @@ def check_med_entry_past_24(user_id: int) -> bool:
 
     if MedEntry.query.filter(
         MedEntry.user_id == user_id,
-        MedEntry.dt > (datetime.now() - timedelta(days=1))
+        MedEntry.dt > (datetime.now() - timedelta(days=1)),
     ).first():
         return True
 
@@ -501,7 +486,7 @@ def check_for_reminder(user_id: int) -> bool:
 
     if SentReminder.query.filter(
         SentReminder.user_id == user_id,
-        SentReminder.dt > (datetime.now() - timedelta(days=1))
+        SentReminder.dt > (datetime.now() - timedelta(days=1)),
     ).first():
         return True
 
@@ -513,7 +498,7 @@ def check_for_med_reminder(user_id: int) -> bool:
 
     if SentMedReminder.query.filter(
         SentMedReminder.user_id == user_id,
-        SentMedReminder.dt > (datetime.now() - timedelta(days=1))
+        SentMedReminder.dt > (datetime.now() - timedelta(days=1)),
     ).first():
         return True
 
@@ -546,11 +531,11 @@ def get_dict_for_weeks(user_id: int) -> dict:
         week_start_date = (todays_date - timedelta(days=6))
         start_date_string1 = date.strftime(
             week_start_date,
-            "%d_%m_%Y"
+            "%d_%m_%Y",
         )
         start_date_string2 = date.strftime(
             week_start_date,
-            "%b %-d"
+            "%b %-d",
         )
 
         return {
@@ -568,11 +553,11 @@ def get_dict_for_weeks(user_id: int) -> dict:
             week_start_date = (todays_date - timedelta(weeks=(i), days=6))
             start_date_string1 = date.strftime(
                 week_start_date,
-                "%d_%m_%Y"
+                "%d_%m_%Y",
             )
             start_date_string2 = date.strftime(
                 week_start_date,
-                "%b %-d"
+                "%b %-d",
             )
             weeks[start_date_string1] = f"Week of {start_date_string2}"
 
@@ -603,13 +588,13 @@ def update_today_entry(
     
     current_d_entry = get_diary_entry_by_user_date(
         current_user_id, 
-        date.today()
+        date.today(),
     )
 
     new_u_scores = [
         urge_1_score,
         urge_2_score,
-        urge_3_score
+        urge_3_score,
     ]
     current_u_entries = helpers.order_urge_entries(
         current_d_entry.urge_entries
@@ -617,7 +602,7 @@ def update_today_entry(
 
     new_a_scores = [
         action_1,
-        action_2
+        action_2,
     ]
     current_a_entries = helpers.order_action_entries(
         current_d_entry.action_entries
@@ -635,7 +620,9 @@ def update_today_entry(
         current_u_entries[i].score = new_u_scores[i]
 
     for i in range(2):
-        current_a_entries[i].score = helpers.convert_radio_to_bool(new_a_scores[i])
+        current_a_entries[i].score = helpers.convert_radio_to_bool(
+            new_a_scores[i]
+        )
 
     db.session.commit()
 
@@ -665,7 +652,9 @@ def update_urge(user_id: int, old_urge_id: int, new_urge_desc: str) -> None:
 
     if old_urge_record.description != new_urge_desc:
         new_urge_record = create_urge(
-            user_id, new_urge_desc, old_urge_record.position
+            user_id,
+            new_urge_desc,
+            old_urge_record.position,
         )
         old_urge_record.active = False
         db.session.add(new_urge_record)
@@ -680,7 +669,9 @@ def update_action(
 
     if old_action_record.description != new_action_desc:
         new_action_record = create_action(
-            user_id, new_action_desc, old_action_record.position
+            user_id,
+            new_action_desc,
+            old_action_record.position,
         )
         old_action_record.active = False
         db.session.add(new_action_record)
@@ -695,12 +686,13 @@ def update_password(user_id: int, new_password: str) -> None:
     db.session.commit()
 
 
-def rehash_if_needed(hash, pw, user):
-    """Rehash a password if needed."""
+# Forgot to implement this, call in update-password route after demo day
+# def rehash_if_needed(hash, pw, user):
+#     """Rehash a password if needed."""
 
-    if helpers.ph.check_needs_rehash(hash):
-        user.pw_hash = helpers.ph.hash(pw)
-        db.session.commit()
+#     if helpers.ph.check_needs_rehash(hash):
+#         user.pw_hash = helpers.ph.hash(pw)
+#         db.session.commit()
 
 # POPULATE TEST DATABASE
 
@@ -708,8 +700,15 @@ def example_data() -> None:
     """Add example data to DB for Lucy's user."""
 
     lucy = create_user(
-    "Lucy", "annalgav@gmail.com", helpers.hash_pw("Password1!"),
-    "5108469189", True, True, True, datetime.now())
+        "Lucy",
+        "annalgav@gmail.com",
+        helpers.hash_pw("Password1!"),
+        "5108469189",
+        True,
+        True,
+        True,
+        datetime.now(),
+    )
     db.session.add(lucy)
     db.session.commit()
 
@@ -721,6 +720,7 @@ def example_data() -> None:
     actions = []
     for j in range(2):
         actions.append(create_action(1, f"Action {j+1}", j+1))
+
     db.session.add_all(actions)
     db.session.commit()
 
@@ -728,19 +728,31 @@ def example_data() -> None:
         dt = datetime.now() - timedelta(days=(k - 1))
 
         diary_entry = create_diary_entry(
-            1, dt, randint(0, 5), randint(0, 5), randint(0, 5),
-            randint(0, 5), randint(0, 5), randint(0, 5))
+            1,
+            dt,
+            randint(0, 5),
+            randint(0, 5),
+            randint(0, 5),
+            randint(0, 5),
+            randint(0, 5),
+            randint(0, 5)
+        )
         db.session.add(diary_entry)
         db.session.commit()
 
         current_date = dt.date()
         diary_entry = get_diary_entry_by_user_date(1, current_date)
         d_entry_id = diary_entry.entry_id
+
         urge_entries = []
         for m in range(3):
             urge_entries.append(
                 create_urge_entry(
-                    (m + 1), d_entry_id, 1, dt, randint(0, 5)
+                    (m + 1),
+                    d_entry_id,
+                    1,
+                    dt,
+                    randint(0, 5),
                 )
             )
         db.session.add_all(urge_entries)
@@ -749,12 +761,15 @@ def example_data() -> None:
         for n in range(2):
             action_entries.append(
                 create_action_entry(
-                    (n + 1), d_entry_id, 1, dt, choice([True, False])
+                    (n + 1),
+                    d_entry_id,
+                    1,
+                    dt,
+                    choice([True, False]),
                 )
             )
         db.session.add_all(action_entries)
         db.session.commit()
-
 
 
 if __name__ == '__main__':
