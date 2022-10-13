@@ -1,7 +1,9 @@
 """Sends reminders to DBT Buddy users."""
 
 import os
+
 from twilio.rest import Client
+
 import crud
 
 account_sid = os.environ["TWILIO_ACCOUNT_SID"]
@@ -28,7 +30,7 @@ def reminders():
             client.api.account.messages.create(
                 to=f"+1{user.phone_number}",
                 from_="+19855895115",
-                body=message
+                body=message,
             )
             # Threading, queue
             crud.add_new_rem_to_db(user.user_id)
@@ -54,7 +56,7 @@ def med_reminders():
             client.api.account.messages.create(
                 to=f"+1{user.phone_number}",
                 from_="+19855895115",
-                body=message
+                body=message,
             )
             # Threading, queue
             crud.add_new_med_rem_to_db(user.user_id)
