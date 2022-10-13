@@ -27,8 +27,11 @@
 
   <div class="container-fluid d-flex h-100 justify-content-center">
 
-    <div class="row h-100" id="login-content-row">
-      <div class="col-12 align-self-center" id="login-content">
+    <div class="row h-100 w-100 justify-content-center" id="login-content-row">
+      <div 
+        class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-3 align-self-center" 
+        id="login-content"
+      >
         
         <div class="row" id="header-row">
           <div class="col-12" id="header-col">
@@ -42,6 +45,7 @@
               <div class="spaced-input">
                 <label for="email" hidden>Email</label>
                 <input
+                  class="w-100"
                   type="text" 
                   name="email" 
                   placeholder="Email" 
@@ -53,6 +57,7 @@
               <div>
                 <label for="password" hidden>Password</label>
                 <input
+                  class="w-100"
                   type="password" 
                   name="password" 
                   placeholder="Password" 
@@ -62,12 +67,12 @@
               </div>
 
               <div>
-                <label for="submit-button" hidden>Log In</label>
+                <label for="login-button" hidden>Log In</label>
                 <input
                   class="btn btn-sm" 
                   type="submit" 
                   value="Log In" 
-                  id="submit-button"
+                  id="login-button"
                 >
               </div>
             </form>
