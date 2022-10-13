@@ -3,17 +3,19 @@
 {% block title %}Settings{% endblock %}
 
 {% block body %}
-  <!-- Labels for inputs!!! -->
   <h1>Settings</h1>
+
   <p>
     Click on a value to edit it<br>
     Click "Save Changes" when you're done
   </p>
+
   <div id="preferences">
     <form>
       <div id="fname">
         <h4>First Name</h4>
         <p class="text-pref">{{ user.fname }}</p>
+        <label for="fname-input" hidden>Edit First Name</label>
         <input 
           type="text" 
           name="fname"
@@ -22,9 +24,11 @@
           maxlength="50"
         >
       </div>
+
       <div id="email">
         <h4>Email</h4>
         <p class="text-pref">{{ user.email }}</p>
+        <label for="email-input" hidden>Edit Email</label>
         <input 
           type="email" 
           name="email"
@@ -33,13 +37,16 @@
           maxlength="50"
         >
       </div>
+
       <div id="password">
         <h4>Password</h4>
         <a href="/change-password">Change password</a>
       </div>
+
       <div id="phone-number">
         <h4>Phone Number</h4>
         <p class="text-pref">{{ user.phone_number }}</p>
+        <label for="phone-number-input" hidden>Edit Phone Number</label>
         <input 
           type="tel" 
           name="phone-number"
@@ -48,9 +55,11 @@
           pattern="^[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$"
         >
       </div>
+
       <div id="urge-1">
         <h4>Urge 1</h4>
         <p class="text-pref">{{ active_urges[0].description }}</p>
+        <label for="urge-1-input" hidden>Edit Urge 1 Name</label>
         <input 
           type="text" 
           name="urge-1"
@@ -61,9 +70,11 @@
           maxlength="50"
         >
       </div>
+
       <div id="urge-2">
         <h4>Urge 2</h4>
         <p class="text-pref">{{ active_urges[1].description }}</p>
+        <label for="urge-2-input" hidden>Edit Urge 2 Name</label>
         <input 
           type="text" 
           name="urge-2"
@@ -74,9 +85,11 @@
           maxlength="50"
         >
       </div>
+
       <div id=urge-3>
       <h4>Urge 3</h4>
       <p class="text-pref">{{ active_urges[2].description }}</p>
+      <label for="urge-3-input" hidden>Edit Urge 3 Name</label>
       <input 
           type="text" 
           name="urge-3"
@@ -87,9 +100,11 @@
           maxlength="50"
         >
       </div>
+
       <div id="action-1">
         <h4>Action 1</h4>
         <p class="text-pref">{{ active_actions[0].description }}</p>
+        <label for="action-1-input" hidden>Edit Action 1 Name</label>
         <input 
           type="text" 
           name="action-1"
@@ -100,9 +115,11 @@
           maxlength="50"
         >
       </div>
+
       <div id="action-2">
         <h4>Action 2</h4>
         <p class="text-pref">{{ active_actions[1].description }}</p>
+        <label for="action-2-input" hidden>Edit Action 2 Name</label>
         <input 
           type="text" 
           name="action-2"
@@ -113,6 +130,7 @@
           maxlength="50"
         >
       </div>
+
       <div id="entry-reminders">
         <h4>Entry Reminders</h4>
         <p class="radio-pref">{{ entry_reminders }}</p>
@@ -150,6 +168,7 @@
           <label for="e-rem-no">No</label>
         {% endif %}
       </div>
+
       <div id="med-tracking">
         <h4>Med Tracking</h4>
         <p class="radio-pref">{{ med_tracking }}</p>
@@ -187,6 +206,7 @@
           <label for="med-track-no">No</label>
         {% endif %}
       </div>
+
       <div id="med-reminders">
         <h4>Med Reminders</h4>
         <p class="radio-pref">{{ med_reminders }}</p>
@@ -224,6 +244,7 @@
           <label for="m-rem-yes">No</label>
         {% endif %}
       </div>
+      
       <div id="submit-button">
         <input type="submit" value="Save Changes">
       </div>
