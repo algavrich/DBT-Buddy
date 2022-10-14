@@ -388,7 +388,8 @@ updateWeek(currentDateString);
 const editTodayButton = document.querySelector('#edit-today');
 const todayEntryTDs = document.querySelectorAll('.day6');
 const editTodayForm = document.querySelector('#edit-today-form');
-let clicked = false
+const tableColumn = document.querySelector('#table-col');
+let clicked = false;
 
 if (editTodayButton) {
     editTodayButton.addEventListener('click', () => {
@@ -398,6 +399,8 @@ if (editTodayButton) {
                 el.style.display = '';
             }
             editTodayForm.style.display = 'none';
+            tableColumn.classList.remove('col-4');
+            tableColumn.classList.add('col-6');
             editTodayButton.innerHTML = 'Edit Today\'s Entry';
         } else {
             clicked = true;
@@ -405,6 +408,8 @@ if (editTodayButton) {
                 el.style.display = 'none';
             }
             editTodayForm.style.display = 'inline-block';
+            tableColumn.classList.remove('col-6');
+            tableColumn.classList.add('col-4');
             editTodayButton.innerHTML = 'Cancel';
         }
     });
@@ -460,6 +465,8 @@ if (editTodayButton) {
                 el.style.display = '';
             }
             editTodayForm.style.display = 'none';
+            tableColumn.classList.remove('col-4');
+            tableColumn.classList.add('col-6');
             editTodayButton.innerHTML = 'Edit Today\'s Entry';
             todayEntryTDs[1]
             .innerHTML = `${resData['sad score']}`;
