@@ -6,7 +6,7 @@
 <div class="container-fluid whole-page">
 
   <div class="row h-100 justify-content-center" id="dash-contents">
-    <div class="col-12" id="dash-contents-col">
+    <div class="col-12 h-100" id="dash-contents-col">
 
       <div class="row" id="greeting-row">
         <div class="col-12" id="greeting-col">
@@ -132,7 +132,6 @@
             </table>
           </div>
         </div>
-
         
         {% if show_edit %}
         <div class="col-2" id="edit-today-form">
@@ -239,7 +238,7 @@
               </div>
             </fieldset>
 
-            <fieldset>
+            <fieldset id="edit-entry-actions">
               <legend hidden>Actions</legend>
               <div id="action-1">
                 <label for="action-1">{{ entries[6]["action1 name"] }}: </label>
