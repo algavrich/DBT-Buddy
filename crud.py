@@ -700,9 +700,9 @@ def example_data() -> None:
 
     lucy = create_user(
         "Lucy",
-        "annalgav@gmail.com",
+        "test@test.test",
         helpers.hash_pw("Password1!"),
-        "5108469189",
+        "1234567890",
         True,
         True,
         True,
@@ -723,7 +723,7 @@ def example_data() -> None:
     db.session.add_all(actions)
     db.session.commit()
 
-    for k in range(30, 0, -1):
+    for k in range(30, 1, -1):
         dt = datetime.now() - timedelta(days=(k - 1))
 
         diary_entry = create_diary_entry(
