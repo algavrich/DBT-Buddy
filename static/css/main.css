@@ -117,7 +117,7 @@ input, option, select {
 }
 
 .make-entry-button {
-    display: block;
+    display: inline-block;
 }
 
 /* Charts */
@@ -169,7 +169,7 @@ canvas {
 }
 
 #dash-row {
-    height: calc(65% - 56px);
+    height: calc(82% - 56px);
     min-height: 326px;
 }
 
@@ -215,8 +215,8 @@ td {
 
 #edit-today-form {
     display: none;
-    width: 160px;
     background-color: #ff9665;
+    min-width: 170px;
 }
 
 #preferences input, #preferences label {
