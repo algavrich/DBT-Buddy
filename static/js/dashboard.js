@@ -22,7 +22,21 @@ let action2Yes = 0;
 
 const usedSkillsScores = [];
 
+// Hide canvases
+
+
+const moodChartDiv = document.querySelector('#show-mood-chart');
+const urgeChartDiv = document.querySelector('#show-urge-chart');
+const actionChartDiv = document.querySelector('#show-action-chart');
+const SkillsChartDiv = document.querySelector('#show-skills-chart');
+
+urgeChartDiv.style.display = 'none';
+actionChartDiv.style.display = 'none';
+SkillsChartDiv.style.display = 'none';
+
 // Instantiate empty charts
+
+Chart.defaults.color = '#3b1605';
 
 const moodChart = new Chart(
     document.querySelector('#mood-chart'),
@@ -71,6 +85,7 @@ const moodChart = new Chart(
                 max: 5,
             },
         },
+        maintainAspectRatio: false,
       },
     },
 );
@@ -110,6 +125,7 @@ const urgeChart = new Chart(
                 max: 5,
             },
         },
+        maintainAspectRatio: false,
       },
     },
 );
@@ -137,6 +153,7 @@ const actionChart = new Chart(
                 max: 7,
             },
         },
+        maintainAspectRatio: false,
       },
     },
 );
@@ -163,6 +180,7 @@ const skillsChart = new Chart(
                 max: 7,
             },
         },
+        maintainAspectRatio: false,
       },
     },
 );
@@ -473,8 +491,7 @@ if (editTodayButton) {
 
 // View past weeks
 
-const selectWeekMenu = document.querySelector('#select-week')
-const diaryDays = document.querySelectorAll('.diary-day')
+const selectWeekMenu = document.querySelector('#select-week');
 
 selectWeekMenu.addEventListener('change', (evt) => {
     evt.preventDefault();
@@ -520,6 +537,34 @@ selectWeekMenu.addEventListener('change', (evt) => {
 
         updateWeek(evt.target.value);
     });
+});
+
+// Select chart
+
+const selectChartMenu = document.querySelector('#select-chart');
+
+selectChartMenu.addEventListener('change', (evt) => {
+    if (evt.target.value == 'mood-chart') {
+        moodChartDiv.style.display = '';
+        urgeChartDiv.style.display = 'none';
+        actionChartDiv.style.display = 'none';
+        SkillsChartDiv.style.display = 'none';
+    } else if (evt.target.value == 'urge-chart'){
+        moodChartDiv.style.display = 'none';
+        urgeChartDiv.style.display = '';
+        actionChartDiv.style.display = 'none';
+        SkillsChartDiv.style.display = 'none';
+    } else if (evt.target.value == 'action-chart') {
+        moodChartDiv.style.display = 'none';
+        urgeChartDiv.style.display = 'none';
+        actionChartDiv.style.display = '';
+        SkillsChartDiv.style.display = 'none';
+    } else {
+        moodChartDiv.style.display = 'none';
+        urgeChartDiv.style.display = 'none';
+        actionChartDiv.style.display = 'none';
+        SkillsChartDiv.style.display = '';
+    }
 });
 
 // Handle med entry click
