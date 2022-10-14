@@ -1,3 +1,7 @@
+/* Main Stylesheet for DBT Buddy */
+
+/* Whole page/background */
+
 html, body {
     background-color: #FFFFFF;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cpattern id='p' width='100' height='100' patternUnits='userSpaceOnUse' patternTransform='scale(1.33)'%3E%3Cpath data-color='fill' fill='none' stroke='%23DD7D50' stroke-width='3.42' d='M50 0C22.4 0 0 22.4 0 50c27.6 0 50-22.4 50-50zM0 50c0 27.6 22.4 50 50 50 0-27.6-22.4-50-50-50zM100 50c-27.6 0-50 22.4-50 50 27.6 0 50-22.4 50-50zM100 50c0-27.6-22.4-50-50-50 0 27.6 22.4 50 50 50z'%3E%3C/path%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23p)' width='100%25' height='100%25'%3E%3C/rect%3E%3C/svg%3E");
@@ -16,34 +20,27 @@ nav {
     background-color: #864d32;
 }
 
+/* Text and text-like elements */
+
 h1, h3, h4, p, li, legend, label, td {
     font-family: 'Arial', sans-serif;
     color: #3b1605 !important;
 }
 
-p {
-    margin-bottom: 10px;
+#preferences h4, .text-pref, .radio-pref {
+    display: inline-block;
 }
 
-#used-skills-guide p {
-    margin: 0;
+#dbt-buddy {
+    margin-bottom: 50px;
 }
 
-ul {
-    margin-bottom: 10px;
+#welcome, #change-pw-header {
+    margin-bottom: 20px;
 }
 
-legend {
-    font-size: 22px;
-}
-
-#new-entry-col legend {
-    margin: 10px 0px 0px;
-}
-
-#mood-inputs input, #urge-inputs input, #used-skills-inputs input {
-    margin-right: 10px;
-    width: 93px;
+.smaller-text, td, #edit-today-form label {
+    font-size: 14px;
 }
 
 a {
@@ -55,21 +52,90 @@ a:hover {
     color: #b34512;
 }
 
+p {
+    margin-bottom: 10px;
+}
+
+#used-skills-guide p {
+    margin: 0;
+}
+
+#pw-prompt {
+    margin: 10px 0px 0px;
+}
+
+legend {
+    font-size: 22px;
+}
+
+.smaller-legend {
+    font-size: 18px;
+    margin: 0;
+}
+
+#new-entry-col legend {
+    margin: 10px 0px 0px;
+}
+
+ul {
+    margin-bottom: 10px;
+}
+
+/* Inputs, buttons, and the like */
+
 input, button, option, select {
     border-radius: 5px !important;
     border-width: 0;
     background-color: #fffede;
 }
 
+input, option, select {
+    height: 24px;
+}
+
+.spaced-input {
+    margin-bottom: 10px;
+}
+
+#mood-inputs input, #urge-inputs input, #used-skills-inputs input {
+    margin-right: 10px;
+    width: 93px;
+}
+
+#change-pw-form input {
+    display: block;
+}
+
 .btn {
     background-color: #fffede !important;
+    height: 30px;
     margin: 10px 0px;
 }
 
-canvas {
-    border-radius: 10px;
-    background-color: #fffede;
+#make-entry-buttons {
+    display: inline-block;
 }
+
+.make-entry-button {
+    display: block;
+}
+
+/* Charts */
+
+.visual-data {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    min-width: 300px;
+}
+
+canvas {
+    border-radius: 5px;
+    background-color: #fffede;
+    height: 100% !important;
+}
+
+/* Alerts */
 
 .flash-msg {
     margin: 0;
@@ -84,10 +150,7 @@ canvas {
     background-color: #feae62 !important;
 }
 
-#login-content-row {
-    width: 500px;
-
-}
+/* Solid color content backgrounds */
 
 #login-content, #create-account-content, #change-pw-col {
     border-radius: 10px;
@@ -95,39 +158,56 @@ canvas {
     background-color: #dd7d50;
 }
 
+#settings-col, #new-entry-col, #dash-contents-col {
+    background-color: #dd7d50;
+}
+
+
 #dash-contents-col {
     width: calc(100% - 100px);
-    background-color: #dd7d50;
+    min-width: 700px;
 }
 
-#settings-col, #new-entry-col {
-    background-color: #dd7d50;
+#dash-row {
+    height: calc(65% - 56px);
+    min-height: 326px;
 }
 
-#dbt-buddy {
-    margin-bottom: 50px;
+#table-col, #chart-col {
+    height: 100%;
 }
 
-#welcome, #change-pw-header {
-    margin-bottom: 20px;
+/* Weekly diary card table */
+
+#view-week {
+    display: inline-block;
+    padding: 10px;
+    background-color: #fffede;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    min-width: 300px;
 }
 
-.spaced-input {
-    margin-bottom: 10px;
+table, td {
+    border-width: 1px;
 }
 
-#pw-prompt {
-    margin: 10px 0px 0px;
+table {
+    width: 100%;
+    height: 100%;
 }
 
-.smaller-legend {
-    font-size: 18px;
-    margin: 0;
+td {
+    width: calc(100% / 10);
+    height: calc(100% / 12);
 }
 
-.smaller-text {
-    font-size: 14px;
+.score-name {
+    min-width: 75px !important;
 }
+
+/* Stuff that is hidden by default */
 
 #show-med-rem {
     display: none;
@@ -141,45 +221,4 @@ canvas {
 
 #preferences input, #preferences label {
     display: none;
-}
-
-.visual-data {
-    display: inline-block;
-    position: relative;
-    width: 49%;
-}
-
-#view-week {
-    display: inline-block;
-    padding: 10px;
-    background-color: #fffede;
-    border-radius: 5px;
-}
-
-table, td {
-    border-width: 1px;
-}
-
-td {
-    width: 60px;
-}
-
-.score-name {
-    width: 90px;
-}
-
-#make-entry-buttons {
-    display: inline-block;
-}
-
-.make-entry-button {
-    display: block;
-}
-
-#preferences h4, .text-pref, .radio-pref {
-    display: inline-block;
-}
-
-#change-pw-form input {
-    display: block;
 }
