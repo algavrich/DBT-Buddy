@@ -131,221 +131,222 @@
               </tr>
             </table>
           </div>
+        </div>
 
-          {% if show_edit %}
-          <div id="edit-today-form">
-            <form>
-              <fieldset>
-                <legend hidden>Emotions</legend>
-                <div>
-                  <label for="sad">Sadness: </label>
-                  <input 
-                    type="number" 
-                    name="sad"
-                    value="{{ entries[6]['sad score'] }}" 
-                    id="sad" 
-                    min="0" 
-                    max="5"
-                  >
-                </div>
-
-                <div>
-                  <label for="angry">Anger: </label>
-                  <input 
-                    type="number" 
-                    name="angry" 
-                    value="{{ entries[6]['angry score'] }}" 
-                    id="angry" 
-                    min="0" 
-                    max="5"
-                  >
-                </div>
-
-                <div>
-                  <label for="fear">Fear: </label>
-                  <input 
-                    type="number" 
-                    name="fear" 
-                    value="{{ entries[6]['fear score'] }}" 
-                    id="fear" 
-                    min="0" 
-                    max="5"
-                  >
-                </div>
-
-                <div>
-                  <label for="happy">Happiness: </label>
-                  <input 
-                    type="number" 
-                    name="happy" 
-                    value="{{ entries[6]['happy score'] }}" 
-                    id="happy" 
-                    min="0" 
-                    max="5"
-                  >
-                </div>
-
-                <div>
-                  <label for="shame">Shame: </label>
-                  <input 
-                    type="number" 
-                    name="shame" 
-                    value="{{ entries[6]['shame score'] }}" 
-                    id="shame" 
-                    min="0" 
-                    max="5"
-                  >
-                </div>
-              </fieldset>
-
-              <fieldset>
-                <legend hidden>Urges</legend>
-                <div>
-                  <label for="urge-1">{{ entries[6]["urge1 name"] }}: </label>
-                  <input 
-                    type="number" 
-                    name="urge-1" 
-                    value="{{ entries[6]['urge1 score'] }}" 
-                    id="urge-1" 
-                    min="0" 
-                    max="5"
-                  >
-                </div>
-
-                <div>
-                  <label for="urge-2">{{ entries[6]["urge2 name"] }}: </label>
-                  <input 
-                    type="number" 
-                    name="urge-2" 
-                    value="{{ entries[6]['urge2 score'] }}" 
-                    id="urge-2" 
-                    min="0" 
-                    max="5"
-                  >
-                </div>
-
-                <div>
-                  <label for="urge-3">{{ entries[6]["urge3 name"] }}: </label>
-                  <input 
-                    type="number" 
-                    name="urge-3" 
-                    value="{{ entries[6]['urge3 score'] }}" 
-                    id="urge-3" 
-                    min="0" 
-                    max="5"
-                  >
-                </div>
-              </fieldset>
-
-              <fieldset>
-                <legend hidden>Actions</legend>
-                <div id="action-1">
-                  <label for="action-1">{{ entries[6]["action1 name"] }}: </label>
-                  {% if entries[6]["action1 score"] == "yes" %}
-                  <input 
-                    type="radio" 
-                    name="action-1" 
-                    value="yes" 
-                    id="action-1-yes"
-                    checked
-                  >
-                  <label for="action-1-yes">Yes</label>
-                  <input 
-                    type="radio" 
-                    name="action-1" 
-                    value="no" 
-                    id="action-1-no"
-                  >
-                  <label for="action-1-no">No</label>
-                  {% else %}
-                  <input 
-                    type="radio" 
-                    name="action-1" 
-                    value="yes" 
-                    id="action-1-yes"
-                  >
-                  <label for="action-1-yes">Yes</label>
-                  <input 
-                    type="radio" 
-                    name="action-1" 
-                    value="no" 
-                    id="action-1-no"
-                    checked
-                  >
-                  <label for="action-1-no">No</label>
-                  {% endif %}
-                </div>
-
-                <div id="action-2">
-                  <label for="action-2">{{ entries[6]["action2 name"] }}: </label>
-                  {% if entries[6]["action2 score"] == "yes" %}
-                  <input 
-                    type="radio" 
-                    name="action-2" 
-                    value="yes" 
-                    id="action-2-yes"
-                    checked
-                  >
-                  <label for="action-2-yes">Yes</label>
-                  <input 
-                    type="radio" 
-                    name="action-2" 
-                    value="no"
-                    id="action-2-no"
-                  >
-                  <label for="action-2-no">No</label>
-                  {% else %}
-                  <input 
-                    type="radio" 
-                    name="action-2" 
-                    value="yes" 
-                    id="action-2-yes"
-                  >
-                  <label for="action-2-yes">Yes</label>
-                  <input 
-                    type="radio" 
-                    name="action-2" 
-                    value="no"
-                    id="action-2-no"
-                    checked
-                  >
-                  <label for="action-2-no">No</label>
-                  {% endif %}
-                </div>
-              </fieldset>
-
-              <fieldset>
-                <legend hidden>Used Skills</legend>
-                <div id="used-skills-guide" hidden>
-                  <span>0 = Not thought about or used</span><br>
-                  <span>1 = Thought about, not used, didn't want to</span><br>
-                  <span>2 = Thought about, not used, wanted to</span><br>
-                  <span>3 = Tried but couldn't use them</span><br>
-                  <span>4 = Tried, could use them but they didn't help</span><br>
-                  <span>5 = Tried, could use them, helped</span><br>
-                  <span>6 = Didn't try, used them, didn't help</span><br>
-                  <span>7 = Didn't try, used them, helped</span><br>
-                </div>
-                <div>
-                  <label for="used-skills">Used Skills: </label>
-                  <input 
-                    type="number" 
-                    name="used-skills" 
-                    value="{{ entries[6]['skills used'] }}" 
-                    id="used-skills" 
-                    min="0" 
-                    max="7"
-                  >
-                </div>
-              </fieldset>
+        
+        {% if show_edit %}
+        <div class="col-2" id="edit-today-form">
+          <form>
+            <fieldset>
+              <legend hidden>Emotions</legend>
+              <div>
+                <label for="sad">Sadness: </label>
+                <input 
+                  type="number" 
+                  name="sad"
+                  value="{{ entries[6]['sad score'] }}" 
+                  id="sad" 
+                  min="0" 
+                  max="5"
+                >
+              </div>
 
               <div>
-                <input type="submit">
+                <label for="angry">Anger: </label>
+                <input 
+                  type="number" 
+                  name="angry" 
+                  value="{{ entries[6]['angry score'] }}" 
+                  id="angry" 
+                  min="0" 
+                  max="5"
+                >
               </div>
-            </form>
-          </div>
-          {% endif %}
+
+              <div>
+                <label for="fear">Fear: </label>
+                <input 
+                  type="number" 
+                  name="fear" 
+                  value="{{ entries[6]['fear score'] }}" 
+                  id="fear" 
+                  min="0" 
+                  max="5"
+                >
+              </div>
+
+              <div>
+                <label for="happy">Happiness: </label>
+                <input 
+                  type="number" 
+                  name="happy" 
+                  value="{{ entries[6]['happy score'] }}" 
+                  id="happy" 
+                  min="0" 
+                  max="5"
+                >
+              </div>
+
+              <div>
+                <label for="shame">Shame: </label>
+                <input 
+                  type="number" 
+                  name="shame" 
+                  value="{{ entries[6]['shame score'] }}" 
+                  id="shame" 
+                  min="0" 
+                  max="5"
+                >
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend hidden>Urges</legend>
+              <div>
+                <label for="urge-1">{{ entries[6]["urge1 name"] }}: </label>
+                <input 
+                  type="number" 
+                  name="urge-1" 
+                  value="{{ entries[6]['urge1 score'] }}" 
+                  id="urge-1" 
+                  min="0" 
+                  max="5"
+                >
+              </div>
+
+              <div>
+                <label for="urge-2">{{ entries[6]["urge2 name"] }}: </label>
+                <input 
+                  type="number" 
+                  name="urge-2" 
+                  value="{{ entries[6]['urge2 score'] }}" 
+                  id="urge-2" 
+                  min="0" 
+                  max="5"
+                >
+              </div>
+
+              <div>
+                <label for="urge-3">{{ entries[6]["urge3 name"] }}: </label>
+                <input 
+                  type="number" 
+                  name="urge-3" 
+                  value="{{ entries[6]['urge3 score'] }}" 
+                  id="urge-3" 
+                  min="0" 
+                  max="5"
+                >
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend hidden>Actions</legend>
+              <div id="action-1">
+                <label for="action-1">{{ entries[6]["action1 name"] }}: </label>
+                {% if entries[6]["action1 score"] == "yes" %}
+                <input 
+                  type="radio" 
+                  name="action-1" 
+                  value="yes" 
+                  id="action-1-yes"
+                  checked
+                >
+                <label for="action-1-yes">Yes</label>
+                <input 
+                  type="radio" 
+                  name="action-1" 
+                  value="no" 
+                  id="action-1-no"
+                >
+                <label for="action-1-no">No</label>
+                {% else %}
+                <input 
+                  type="radio" 
+                  name="action-1" 
+                  value="yes" 
+                  id="action-1-yes"
+                >
+                <label for="action-1-yes">Yes</label>
+                <input 
+                  type="radio" 
+                  name="action-1" 
+                  value="no" 
+                  id="action-1-no"
+                  checked
+                >
+                <label for="action-1-no">No</label>
+                {% endif %}
+              </div>
+
+              <div id="action-2">
+                <label for="action-2">{{ entries[6]["action2 name"] }}: </label>
+                {% if entries[6]["action2 score"] == "yes" %}
+                <input 
+                  type="radio" 
+                  name="action-2" 
+                  value="yes" 
+                  id="action-2-yes"
+                  checked
+                >
+                <label for="action-2-yes">Yes</label>
+                <input 
+                  type="radio" 
+                  name="action-2" 
+                  value="no"
+                  id="action-2-no"
+                >
+                <label for="action-2-no">No</label>
+                {% else %}
+                <input 
+                  type="radio" 
+                  name="action-2" 
+                  value="yes" 
+                  id="action-2-yes"
+                >
+                <label for="action-2-yes">Yes</label>
+                <input 
+                  type="radio" 
+                  name="action-2" 
+                  value="no"
+                  id="action-2-no"
+                  checked
+                >
+                <label for="action-2-no">No</label>
+                {% endif %}
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend hidden>Used Skills</legend>
+              <div id="used-skills-guide" hidden>
+                <span>0 = Not thought about or used</span><br>
+                <span>1 = Thought about, not used, didn't want to</span><br>
+                <span>2 = Thought about, not used, wanted to</span><br>
+                <span>3 = Tried but couldn't use them</span><br>
+                <span>4 = Tried, could use them but they didn't help</span><br>
+                <span>5 = Tried, could use them, helped</span><br>
+                <span>6 = Didn't try, used them, didn't help</span><br>
+                <span>7 = Didn't try, used them, helped</span><br>
+              </div>
+              <div>
+                <label for="used-skills">Used Skills: </label>
+                <input 
+                  type="number" 
+                  name="used-skills" 
+                  value="{{ entries[6]['skills used'] }}" 
+                  id="used-skills" 
+                  min="0" 
+                  max="7"
+                >
+              </div>
+            </fieldset>
+
+            <div>
+              <input type="submit">
+            </div>
+          </form>
         </div>
+        {% endif %}
 
         <div class="col-6" id="chart-col">
           <div class="h-100" id="charts">
