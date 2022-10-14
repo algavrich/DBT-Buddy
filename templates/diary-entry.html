@@ -14,7 +14,9 @@
 
       <form action="/new-diary-entry/{{ user_id }}" method="POST">
         <fieldset id="mood-inputs">
-          <legend>Rank how intensely you felt the following emotions today</legend>
+          <legend>
+            Rank how intensely you felt the following emotions today
+          </legend>
           <p>Rank each emotion from 0 (least intense) to 5 (most intense)</p>
           <!-- TODO make DRYer with JS array/DOM manipulation -->
           <label for="sad" hidden>Sadness</label>
@@ -65,7 +67,9 @@
         </fieldset>
 
         <fieldset id="urge-inputs">
-          <legend>Rank how intensely you felt the following urges today</legend>
+          <legend>
+            Rank how intensely you felt the following urges today
+          </legend>
           <p>Rank each urge from 0 (least intense) to 5 (most intense)</p>
           <label for="urge-1" hidden>{{ user_urges[0] }}</label>
           <input
@@ -97,20 +101,44 @@
         </fieldset>
 
         <fieldset id="action-inputs">
-          <legend>Indicate if you did each of the following actions today</legend>
-          <label for="action-1">{{ user_actions[0] }}</label>
+          <legend>
+            Indicate if you did each of the following actions today
+          </legend>
           <div id="action-1">
-            <input type="radio" name="action-1" value="yes" id="action-1-yes">
+            <label for="action-1">{{ user_actions[0] }}: </label>
+            <input 
+              type="radio" 
+              name="action-1" 
+              value="yes" 
+              id="action-1-yes"
+            >
             <label for="action-1-yes">Yes</label>
-            <input type="radio" name="action-1" value="no" id="action-1-no" checked>
+            <input 
+              type="radio" 
+              name="action-1" 
+              value="no" 
+              id="action-1-no" 
+              checked
+            >
             <label for="action-1-no">No</label>
           </div>
 
-          <label for="action-2">{{ user_actions[1] }}</label>
           <div id="action-2">
-            <input type="radio" name="action-2" value="yes" id="action-2-yes">
+            <label for="action-2">{{ user_actions[1] }}: </label>
+            <input 
+              type="radio" 
+              name="action-2" 
+              value="yes" 
+              id="action-2-yes"
+            >
             <label for="action-2-yes">Yes</label>
-            <input type="radio" name="action-2" value="no" id="action-2-no" checked>
+            <input 
+              type="radio" 
+              name="action-2" 
+              value="no" 
+              id="action-2-no" 
+              checked
+            >
             <label for="action-2-no">No</label>
           </div>
         </fieldset>
