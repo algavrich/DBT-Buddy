@@ -39,7 +39,10 @@ h1, h3, h4, p, li, legend, label, td {
     margin-bottom: 20px;
 }
 
-.smaller-text, td, #edit-today-form label {
+.smaller-text,
+td,
+#edit-today-form label,
+#used-skills-guide p {
     font-size: 14px;
 }
 
@@ -97,13 +100,26 @@ input, option, select {
     margin-bottom: 10px;
 }
 
-#mood-inputs input, #urge-inputs input, #used-skills-inputs input {
+#mood-inputs input,
+#urge-inputs input,
+#used-skills-inputs input {
     margin-right: 10px;
     width: 93px;
 }
 
 #change-pw-form input {
     display: block;
+}
+
+#action-inputs div {
+    margin-right: 10px;
+    display: inline-block;
+}
+
+#action-inputs input,
+#edit-entry-actions input,
+#create-acct-radio-pref input {
+    vertical-align: middle;
 }
 
 .btn {
