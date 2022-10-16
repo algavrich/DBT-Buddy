@@ -185,7 +185,7 @@ canvas {
 }
 
 #dash-row {
-    height: calc(82% - 56px);
+    height: calc(80% - 56px);
     min-height: 326px;
 }
 
@@ -223,16 +223,23 @@ td {
     min-width: 75px !important;
 }
 
-/* Stuff that is hidden by default */
-
-#show-med-rem {
-    display: none;
-}
+/* Edit today form */
 
 #edit-today-form {
     display: none;
     background-color: #ff9665;
-    min-width: 170px;
+    border-radius: 5px;
+    padding: 10px
+}
+
+#edit-today-form div {
+    height: 5.1vh !important;
+}
+
+/* Stuff that is hidden by default */
+
+#show-med-rem {
+    display: none;
 }
 
 #preferences input, #preferences label {
