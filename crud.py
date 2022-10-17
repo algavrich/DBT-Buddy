@@ -712,19 +712,20 @@ def example_data() -> None:
     db.session.commit()
 
     urges = []
-    for i in range(3):
-            urges.append(create_urge(1, f"Urge {i+1}", i+1))
+    urges.append(create_urge(1, "Self Harm", 1))
+    urges.append(create_urge(1, "Suicide", 2))
+    urges.append(create_urge(1, f"Use", 3))
     db.session.add_all(urges)
 
     actions = []
-    for j in range(2):
-        actions.append(create_action(1, f"Action {j+1}", j+1))
-
+    actions.append(create_action(1, "Self Harm", 1))
+    actions.append(create_action(1, "Use", 2))
     db.session.add_all(actions)
+
     db.session.commit()
 
-    for k in range(30, 1, -1):
-        dt = datetime.now() - timedelta(days=(k - 1))
+    for i in range(30, 1, -1):
+        dt = datetime.now() - timedelta(days=(i - 1))
 
         diary_entry = create_diary_entry(
             1,
@@ -770,6 +771,32 @@ def example_data() -> None:
         db.session.add_all(action_entries)
         db.session.commit()
 
+
+def set_scores(day, sad, angry, fear, happy, shame, urge1,
+               urge2, urge3, action1, action2, skills):
+    day.sad_score = sad
+    day.angry_score = angry
+    day.fear_score = fear
+    day.happy_score = happy
+    day.shame_score = shame
+    day.skills_used = skills
+
+    for urge_entry in day.urge_entries:
+        if urge_entry.urge.position == 1:
+            urge_entry.score = urge1
+        elif urge_entry.urge.position == 2:
+            urge_entry.score = urge2
+        else:
+            urge_entry.score = urge3
+
+    for action_entry in day.action_entries:
+        if action_entry.action.position == 1:
+            action_entry.score = action1
+        else:
+            action_entry.score = action2
+    
+    db.session.commit()
+    
 
 if __name__ == '__main__':
     from server import app
