@@ -4,6 +4,8 @@ DBT Buddy is a full-stack web app for patients of Dialectical Behavioral Therapy
 ### Technologies
 PostgreSQL, SQLAlchemy, cron, Python, Argon 2, Flask, Jinja, JavaScript, Chart.js, Bootstrap
 
-![DBT Buddy dashboard](static/images/dashboard.png, "DBT Buddy Dashboard")
+<!-- ![DBT Buddy dashboard](static/images/dashboard.png, "DBT Buddy Dashboard")
+ -->
+![DBT Buddy dashboard](static/images/dashboard.png?raw=true "Title")
 
 ### Features
