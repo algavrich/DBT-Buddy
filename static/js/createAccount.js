@@ -22,11 +22,11 @@ createAccountForm.addEventListener('submit', (evt) => {
     const password2 = document.querySelector('#password-2').value;
 
     if (password1 === password2) {
-        if (password1.match(/[A-Z]/) 
-        && password1.match(/[a-z]/) 
-        && password1.match(/[0-9]/)
-        && password1.match(/[!@#$%\^&\*\(\)-_=\+\[\]\{\}\\\|;:'"\,<\.>\/\?~`]/)
-        && password1.length >= 8) {
+        if (password1.match(/[A-Z]/)
+            && password1.match(/[a-z]/)
+            && password1.match(/[0-9]/)
+            && password1.match(/[!@#$%\^&\*\(\)-_=\+\[\]\{\}\\\|;:'"\,<\.>\/\?~`]/)
+            && password1.length >= 8) {
             const fName = document.querySelector('#fname').value;
             const email = document.querySelector('#email').value;
             const phoneNumber = document.querySelector('#phone-number').value;
@@ -85,14 +85,15 @@ createAccountForm.addEventListener('submit', (evt) => {
                     'Content-Type': 'application/json',
                 },
             })
-            .then((res) => res.json())
-            .then((resData) => {
-                if (resData.success === true) {
-                    window.location.href = "/";
-                } else {
-                    window.location.href = "/create-account";
-                }
-            });
+                .then((res) => res.json())
+                .then((resData) => {
+                    if (resData.success === true) {
+                        window.location.href = "/";
+                    } else {
+                        alert('That email is already associated with an account');
+                        window.location.href = "/create-account";
+                    }
+                });
         } else {
             alert('Password doesn\'t meet requirements');
         }
