@@ -22,7 +22,7 @@ def index():
     """Render homepage."""
 
     current_user_id = session.get("user_id")
-    
+
     if current_user_id:
         return redirect(f"/dashboard/{current_user_id}")
 
@@ -48,7 +48,6 @@ def login():
             crud.rehash_if_needed(user.pw_hash, password, user)
             session["user_id"] = user.user_id
             session["fname"] = user.fname
-            flash(f"Successfully logged in as {user.fname}")
             return redirect(f"/dashboard/{user.user_id}")
 
         else:
@@ -65,10 +64,10 @@ def create_account_form():
     """Render create account page."""
 
     current_user_id = session.get("user_id")
-    
+
     if current_user_id:
         return redirect(f"/dashboard/{current_user_id}")
-    
+
     return render_template("create-account.html")
 
 
@@ -96,7 +95,7 @@ def create_account():
     med_reminders = helpers.convert_radio_to_bool(
         request.json.get("med_reminders"),
     )
-    
+
     if not crud.get_user_by_email(email):
         crud.create_account_helper(
             fname,
@@ -113,12 +112,10 @@ def create_account():
             action_2,
         )
 
-        flash("Successfully created account")
         return jsonify({
             "success": True,
         })
 
-    flash("That email is already associated with an account")
     return jsonify({
         "success": False,
     })
@@ -130,7 +127,7 @@ def dashboard(user_id):
 
     if not session.get("user_id"):
         return redirect("/")
-    
+
     weeks = crud.get_dict_for_weeks(user_id)
 
     this_week = crud.get_this_week_for_user(user_id)
@@ -161,7 +158,7 @@ def new_diary_entry(user_id):
     if crud.check_entry_today(user_id):
         flash("You've already made an entry today. Try editing it!")
         return redirect(f"/dashboard/{user_id}")
-    
+
     user_urges = helpers.get_descs_from_object_list(
         crud.get_urges_by_user_id(
             user_id,
@@ -215,7 +212,7 @@ def create_new_diary_entry(user_id):
         action_2,
         used_skills,
     )
-        
+
     flash("Entry successfully added")
     return redirect(f"/dashboard/{user_id}")
 
@@ -281,7 +278,7 @@ def get_given_week():
         current_user_id,
         week_start_date_string,
     )
-    
+
     if helpers.check_for_entry_in_week(entries):
         entries_as_dicts = helpers.make_entries_jsonifiable(entries)
         actions = None
@@ -308,7 +305,7 @@ def get_given_week():
 @app.route("/api/new-med-entry", methods=["POST"])
 def make_med_entry():
     """Create new med entry for user from AJAX request."""
-    
+
     current_user_id = session.get("user_id")
 
     if not current_user_id:
@@ -472,7 +469,7 @@ def update_password():
 @app.route("/logout")
 def logout():
     """Log user out."""
-    
+
     if session.get("user_id"):
         session.pop("user_id")
         session.pop("fname")
