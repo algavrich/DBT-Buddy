@@ -2,12 +2,12 @@
 
 /* Whole page/background */
 
-html, body {
-    background-color: #FFFFFF;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cpattern id='p' width='100' height='100' patternUnits='userSpaceOnUse' patternTransform='scale(1.33)'%3E%3Cpath data-color='fill' fill='none' stroke='%23DD7D50' stroke-width='3.42' d='M50 0C22.4 0 0 22.4 0 50c27.6 0 50-22.4 50-50zM0 50c0 27.6 22.4 50 50 50 0-27.6-22.4-50-50-50zM100 50c-27.6 0-50 22.4-50 50 27.6 0 50-22.4 50-50zM100 50c0-27.6-22.4-50-50-50 0 27.6 22.4 50 50 50z'%3E%3C/path%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23p)' width='100%25' height='100%25'%3E%3C/rect%3E%3C/svg%3E");
-    background-size: cover;
+html,
+body {
+    background-color: #ececf6;
+    background-image: url("data:image/svg+xml,%3Csvg width='64' height='52' viewBox='0 0 32 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 0v3.994C14 7.864 10.858 11 7 11c-3.866 0-7-3.138-7-7.006V0h2v4.005C2 6.765 4.24 9 7 9c2.756 0 5-2.236 5-4.995V0h2zm0 26v-5.994C14 16.138 10.866 13 7 13c-3.858 0-7 3.137-7 7.006V26h2v-6.005C2 17.235 4.244 15 7 15c2.76 0 5 2.236 5 4.995V26h2zm2-18.994C16 3.136 19.142 0 23 0c3.866 0 7 3.138 7 7.006v9.988C30 20.864 26.858 24 23 24c-3.866 0-7-3.138-7-7.006V7.006zm2-.01C18 4.235 20.244 2 23 2c2.76 0 5 2.236 5 4.995v10.01C28 19.765 25.756 22 23 22c-2.76 0-5-2.236-5-4.995V6.995z' fill='%234c5860' fill-opacity='0.27' fill-rule='evenodd'/%3E%3C/svg%3E");
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-attachment: fixed;
     height: 100%;
 }
@@ -17,17 +17,26 @@ html, body {
 }
 
 nav {
-    background-color: #864d32;
+    background-color: #b2b0b8;
 }
 
 /* Text and text-like elements */
 
-h1, h3, h4, p, li, legend, label, td {
+h1,
+h3,
+h4,
+p,
+li,
+legend,
+label,
+td {
     font-family: 'Arial', sans-serif;
-    color: #3b1605 !important;
+    color: #292929 !important;
 }
 
-#preferences h4, .text-pref, .radio-pref {
+#preferences h4,
+.text-pref,
+.radio-pref {
     display: inline-block;
 }
 
@@ -35,7 +44,8 @@ h1, h3, h4, p, li, legend, label, td {
     margin-bottom: 50px;
 }
 
-#welcome, #change-pw-header {
+#welcome,
+#change-pw-header {
     margin-bottom: 20px;
 }
 
@@ -48,11 +58,11 @@ td,
 
 a {
     font-family: 'Arial', sans-serif;
-    color: #3b1605;
+    color: #292929;
 }
 
 a:hover {
-    color: #b34512;
+    color: #3c3b3e;
 }
 
 p {
@@ -86,13 +96,18 @@ ul {
 
 /* Inputs, buttons, and the like */
 
-input, button, option, select {
+input,
+button,
+option,
+select {
     border-radius: 5px !important;
     border-width: 0;
-    background-color: #fffede;
+    background-color: #ececf6;
 }
 
-input, option, select {
+input,
+option,
+select {
     height: 24px;
 }
 
@@ -123,7 +138,7 @@ input, option, select {
 }
 
 .btn {
-    background-color: #fffede !important;
+    background-color: #ececf6 !important;
     height: 30px;
     margin: 10px 0px;
 }
@@ -147,7 +162,7 @@ input, option, select {
 
 canvas {
     border-radius: 5px;
-    background-color: #fffede;
+    background-color: #ececf6;
     height: 100% !important;
 }
 
@@ -163,19 +178,23 @@ canvas {
 
 .alert-primary {
     margin: 0 !important;
-    background-color: #feae62 !important;
+    background-color: #78767b !important;
 }
 
 /* Solid color content backgrounds */
 
-#login-content, #create-account-content, #change-pw-col {
+#login-content,
+#create-account-content,
+#change-pw-col {
     border-radius: 10px;
     padding: 35px 50px;
-    background-color: #dd7d50;
+    background-color: #b2b0b8;
 }
 
-#settings-col, #new-entry-col, #dash-contents-col {
-    background-color: #dd7d50;
+#settings-col,
+#new-entry-col,
+#dash-contents-col {
+    background-color: #b2b0b8;
 }
 
 
@@ -189,7 +208,8 @@ canvas {
     min-height: 326px;
 }
 
-#table-col, #chart-col {
+#table-col,
+#chart-col {
     height: 100%;
 }
 
@@ -198,14 +218,15 @@ canvas {
 #view-week {
     display: inline-block;
     padding: 10px;
-    background-color: #fffede;
+    background-color: #ececf6;
     border-radius: 5px;
     width: 100%;
     height: 100%;
     min-width: 300px;
 }
 
-table, td {
+table,
+td {
     border-width: 1px;
 }
 
@@ -227,7 +248,7 @@ td {
 
 #edit-today-form {
     display: none;
-    background-color: #ff9665;
+    background-color: #b2b0b8;
     border-radius: 5px;
     padding: 10px
 }
@@ -242,6 +263,7 @@ td {
     display: none;
 }
 
-#preferences input, #preferences label {
+#preferences input,
+#preferences label {
     display: none;
 }
